@@ -1,4 +1,8 @@
 {
     "account": "account",
-    "language": "language"
+    "language": "language",
+    "languages": {
+        "hebrew": "herbew",
+        "english": "english"
+    }
 }

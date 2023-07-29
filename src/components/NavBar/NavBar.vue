@@ -7,11 +7,10 @@
                 </button>
             </li>
             <li>
-                <button @click="onToggleLanguage">
-                    {{ t('language') }}
-                </button>
+                <VSelect variant="outlined" density="compact" item-title="text" item-value="code" :items="languages" v-model="locale" :label="t('language')" />
             </li>
-            <li></li>
+            <li>
+            </li>
             <li></li>
         </ul>
     </nav>
@@ -19,16 +18,18 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n';
 import type { MessageSchema, Locale } from "@/i18n"
+import { locales } from "@/i18n"
+import { computed } from 'vue';
 
 const { t, locale } = useI18n<MessageSchema, Locale>();
 
-function onToggleLanguage() {
-    if (locale.value == 'he-IL') {
-        locale.value = 'en-US'
-    } else {
-        locale.value = 'he-IL'
-    }
-}
+const languages = computed(() => {
+    return Object.entries(locales).map(([key, value]) => ({
+        code: value,
+        text: t(`languages.${key}`)
+    }))
+})
+
 </script>
 <style lang="scss" scoped>
 nav {
