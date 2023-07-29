@@ -7,7 +7,7 @@
                 </button>
             </li>
             <li>
-                <Dropdown :placeholder="t('language')" :items="languages" item-key="code" text-key="text"
+                <Dropdown v-model="locale" :placeholder="t('language')" :items="languages" item-key="code" text-key="text"
                     value-key="code" />
                 <!-- <button @click="onToggleLanguage">
                     {{ t('language') }}
@@ -26,14 +26,6 @@ import { computed } from 'vue';
 import Dropdown from "@/components/Dropdown/Dropdown.vue"
 
 const { t, locale } = useI18n<MessageSchema, Locale>();
-
-function onToggleLanguage() {
-    if (locale.value == 'he-IL') {
-        locale.value = 'en-US'
-    } else {
-        locale.value = 'he-IL'
-    }
-}
 
 const languages = computed(() => {
     return Object.entries(locales).map(([key, value]) => ({
@@ -54,9 +46,14 @@ nav {
 
 ul {
     margin-block: 0;
-    display: flex;
+    display: grid;
     padding: 0;
     list-style: none;
     gap: 0.5rem;
+    grid-template-columns: repeat(2, 60px);
+    width: max-content
+}
+li > button {
+    border: none;
 }
 </style>
