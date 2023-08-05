@@ -2,7 +2,9 @@
     <div class="products-page">
         <ul class="products-container">
             <li v-for="product in productStore.products" :key="product.ProductId" >
-                <Product :product="product" />
+                <a :href="`#/product/${product.ProductId}`">
+                    <Product :product="product" />
+                </a>
             </li>
         </ul>
     </div>
@@ -30,5 +32,8 @@ productStore.getProducts();
 ul {
     list-style: none;
     padding: 0;
+}
+a {
+    text-decoration: none;
 }
 </style>

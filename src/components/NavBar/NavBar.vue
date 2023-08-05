@@ -3,16 +3,20 @@
         <ul>
             <li>
                 <button>
-                    {{ authenticationText }}
+                    <VIcon>mdi-account</VIcon>
                 </button>
             </li>
             <li>
                 <VSelect variant="outlined" density="compact" item-title="text" item-value="code" :items="languages"
                     v-model="locale" :label="t('language')" hide-details />
             </li>
-            <li>
+            <li style="margin-left: auto;">
             </li>
-            <li></li>
+            <li>
+                <button @click="onHomeClick">
+                    <VIcon>mdi-home</VIcon>
+                </button>
+            </li>
         </ul>
     </nav>
 </template>
@@ -22,6 +26,7 @@ import type { MessageSchema, Locale } from "@/i18n"
 import { locales } from "@/i18n"
 import { computed } from 'vue';
 import { useAuthStore } from "@/store/Authentication";
+import { useRouter } from 'vue-router';
 
 const { t, locale } = useI18n<MessageSchema, Locale>();
 
@@ -34,10 +39,10 @@ const languages = computed(() => {
 
 const authStore = useAuthStore();
 
-const authenticationText = computed(() => {
-    const key = authStore.isLoggedIn ? 'logout' : 'login';
-    return t(`authentication.${key}`);
-});
+const router = useRouter();
+function onHomeClick() {
+    router.push('/')
+}
 
 </script>
 <style lang="scss" scoped>
@@ -65,4 +70,17 @@ li {
     * {
         height: 100%;
     }
-}</style>
+}
+button:has(i.mdi) {
+    border-radius: 50%;
+    background-color: gray;
+    width: 2rem;
+    height: 2rem;
+    &:hover {
+        filter: brightness(0.9);
+    }
+    &:active {
+        filter: brightness(0.8);
+    }
+}
+</style>

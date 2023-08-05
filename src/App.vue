@@ -19,6 +19,7 @@ import NavBar from "@/components/NavBar/NavBar.vue";
 #router-view {
   flex: 1 1 auto;
   overflow-y: auto;
+  position: relative;
 }
 
 ::-webkit-scrollbar {

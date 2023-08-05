@@ -1,6 +1,6 @@
 <template>
     <div class="product">
-        <img :src="product.Image" :alt="product.ProductName">
+        <img draggable="false" :src="product.Image" :alt="product.ProductName">
         <div class="details-container">
             <div class="name overflow-dots" :title="product.ProductName">{{ product.ProductName }}</div>
             <p class="description overflow-dots" :title="product.ProductDesc">{{ product.ProductDesc }}</p>
@@ -16,6 +16,7 @@ const props = defineProps<{
 </script>
 <style lang="scss" scoped>
 .product {
+    user-select: none;
     background-color: lightgray;
     aspect-ratio: 3 / 4;
 
