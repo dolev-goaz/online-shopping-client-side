@@ -1,9 +1,9 @@
 import {RouteRecordRaw, createRouter, createWebHashHistory} from "vue-router"
-import ItemsView from "@/views/Items.vue";
+import ProductsView from "@/views/Products.vue";
 
 const routes: RouteRecordRaw[] = [{
     path: '/',
-    component: ItemsView
+    component: ProductsView
 }];
 export const router = createRouter({
     history: createWebHashHistory(),
