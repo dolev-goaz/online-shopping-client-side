@@ -4,7 +4,11 @@ import NavBar from "@/components/NavBar/NavBar.vue";
 
 <template>
   <NavBar />
+  <router-view />
 </template>
 
-<style scoped>
+<style>
+#app {
+  height: 100vh;
+}
 </style>
