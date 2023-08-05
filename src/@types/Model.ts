@@ -35,7 +35,8 @@ export interface Deal {
 
 export const Roles = {
     User: 'USER',
-    Admin: 'ADMIN'
+    Admin: 'ADMIN',
+    NotLogged: 'NONE'
 } as const;
 
 export type TRole = typeof Roles[keyof typeof Roles];

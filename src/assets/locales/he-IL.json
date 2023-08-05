@@ -1,5 +1,9 @@
 {
     "account": "חשבון",
+    "authentication": {
+        "login": "התחבר",
+        "logout": "התנתק"
+    },
     "language": "שפה",
     "languages": {
         "hebrew": "עברית",

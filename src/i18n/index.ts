@@ -5,16 +5,16 @@ import { createI18n } from "vue-i18n";
 export type MessageSchema = [typeof heIL];
 export const locales = {
     hebrew: 'he-IL',
-    english: 'en-US'
+    // english: 'en-US'
 } as const;
 export type Locale = typeof locales[keyof typeof locales];
 
 const i18n = createI18n<MessageSchema, Locale>({
     legacy: false,
-    locale: 'en-US',
+    locale: 'he-IL',
     messages: {
         'he-IL': heIL,
-        'en-US': enUs
+        // 'en-US': enUs
     }
 });
 
