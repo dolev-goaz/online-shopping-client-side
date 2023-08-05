@@ -17,7 +17,7 @@ export interface Product {
     /**
      * How many copies of this product we have available
      */
-    Stock: string;
+    Stock: number;
     Image: string;
 }
 
