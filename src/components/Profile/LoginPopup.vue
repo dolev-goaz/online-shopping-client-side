@@ -3,7 +3,7 @@
         <div class="actions">
             <template v-if="!authStore.isLoggedIn">
                 <RouterLink class="login" to="/login">
-                {{ t('authentication.login') }}
+                    {{ t('authentication.login') }}
                 </RouterLink>
                 <!-- <a :href="router." class="login">
                     {{ t('authentication.login') }}
@@ -12,10 +12,13 @@
                     {{ t('authentication.registration') }}
                 </RouterLink>
             </template>
+            <template v-else>
+                <MyButton @click="onLogout">{{ t('authentication.logout') }}</MyButton>
+            </template>
         </div>
         <ul class="redirects">
             <li>
-                <a href="#/profile">{{ t('pageName.profile') }}</a>
+                <RouterLink to="/profile">{{ t('pageName.profile') }}</RouterLink>
             </li>
         </ul>
     </div>
@@ -24,11 +27,13 @@
 import { Locale, MessageSchema } from '@/i18n';
 import { useAuthStore } from '@/store/Authentication';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import MyButton from '../MyButton.vue';
 const authStore = useAuthStore();
-const router = useRouter();
 
 const { t } = useI18n<MessageSchema, Locale>();
+function onLogout() {
+    return authStore.logout();
+}
 </script>
 <style scoped lang="scss">
 .login-popup {
@@ -100,4 +105,5 @@ ul.redirects {
         width: 100%;
         color: #4d4f53;
     }
-}</style>
+}
+</style>

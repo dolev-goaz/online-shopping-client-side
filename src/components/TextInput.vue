@@ -1,8 +1,8 @@
 <template>
-    <div class="input-block" :class="{mandatory}">
+    <div class="input-block" :class="{required}">
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
-            <input v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
+            <input :required="required" v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
             <VIcon :class="{hidden: !props.password}" class="ml-2" @click="toggleShowPassword" size="20">{{ passwordVisibilityIcon }}</VIcon>
             <VIcon :class="{hidden: model == ''}" @click="onClear" size="20"> mdi-close </VIcon>
         </div>
@@ -14,15 +14,15 @@ const attrs = useAttrs();
 const props = defineProps<{
     password?: boolean;
     label?: string;
-    modelValue: string;
-    mandatory?: boolean;
+    modelValue?: string;
+    required?: boolean;
 }>();
 
 const emit = defineEmits<{
     (e: 'update:modelValue', payload: string): void
 }>();
 const model = computed({
-    get: () => props.modelValue,
+    get: () => props.modelValue || '',
     set(value: string) {
         emit('update:modelValue', value);
     }
@@ -36,7 +36,7 @@ const inputType = computed(() => props.password && !showPassword.value? 'passwor
 const passwordVisibilityIcon = computed(() => {
     if (!props.password) return ''
     return showPassword.value? 'mdi-eye': 'mdi-eye-off'
-})
+});
 function toggleShowPassword() {
     showPassword.value = !showPassword.value;
 }
@@ -78,7 +78,7 @@ i.v-icon {
         pointer-events: none;
     }
 }
-.input-block.mandatory {
+.input-block.required {
     p {
         &::before {
             content: '*';
