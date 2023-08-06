@@ -2,7 +2,8 @@
     "account": "חשבון",
     "authentication": {
         "login": "התחבר",
-        "logout": "התנתק"
+        "logout": "התנתק",
+        "registration": "הרשמה"
     },
     "language": "שפה",
     "languages": {
@@ -14,5 +15,10 @@
         "finalPrice": "מחיר סופי",
         "details": "פרטי מוצר",
         "quantity": "כמות"
+    },
+    "pageName": {
+        "profile": "פרופיל",
+        "product": "מוצר",
+        "products": "מוצרים"
     }
 }
