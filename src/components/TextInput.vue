@@ -3,7 +3,7 @@
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
             <input v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
-            <VIcon class="ml-2" @click="toggleShowPassword" size="20">{{ passwordVisibilityIcon }}</VIcon>
+            <VIcon :class="{hidden: !props.password}" class="ml-2" @click="toggleShowPassword" size="20">{{ passwordVisibilityIcon }}</VIcon>
             <VIcon :class="{hidden: model == ''}" @click="onClear" size="20"> mdi-close </VIcon>
         </div>
     </div>
@@ -75,6 +75,7 @@ i.v-icon {
     transition: opacity 100ms ease-in-out;
     &.hidden {
         opacity: 0;
+        pointer-events: none;
     }
 }
 .input-block.mandatory {
