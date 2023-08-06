@@ -29,6 +29,9 @@ export const useCartStore = defineStore("products-cart", {
                 });
             }
 
+            console.log(this.cartItems);
+            
+
             return true;
         }
     },

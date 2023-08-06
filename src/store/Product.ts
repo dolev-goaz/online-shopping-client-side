@@ -16,6 +16,7 @@ export const useProductStore = defineStore("products", {
     }),
     actions: {
         async getProducts() {
+            if (this.products.length > 0) return; // already fetched
             this.loadingProducts = true;
             const products = await DLService.getProducts();
             this.products.length = 0;
