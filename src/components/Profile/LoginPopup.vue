@@ -2,17 +2,23 @@
     <div class="login-popup">
         <div class="actions">
             <template v-if="!authStore.isLoggedIn">
-                <a href="#/login" class="login">
+                <RouterLink class="login" to="/login">
                     {{ t('authentication.login') }}
-                </a>
-                <a href="#/register" class="register">
+                </RouterLink>
+                <!-- <a :href="router." class="login">
+                    {{ t('authentication.login') }}
+                </a> -->
+                <RouterLink to="/register" class="register">
                     {{ t('authentication.registration') }}
-                </a>
+                </RouterLink>
+            </template>
+            <template v-else>
+                <MyButton @click="onLogout">{{ t('authentication.logout') }}</MyButton>
             </template>
         </div>
         <ul class="redirects">
             <li>
-                <a href="#/profile">{{ t('pageName.profile') }}</a>
+                <RouterLink to="/profile">{{ t('pageName.profile') }}</RouterLink>
             </li>
         </ul>
     </div>
@@ -21,15 +27,20 @@
 import { Locale, MessageSchema } from '@/i18n';
 import { useAuthStore } from '@/store/Authentication';
 import { useI18n } from 'vue-i18n';
+import MyButton from '../MyButton.vue';
 const authStore = useAuthStore();
 
 const { t } = useI18n<MessageSchema, Locale>();
+function onLogout() {
+    return authStore.logout();
+}
 </script>
 <style scoped lang="scss">
 .login-popup {
     background-color: white;
     border-radius: 0.5rem;
     width: 18.5rem;
+    overflow: hidden;
 }
 
 .actions {
@@ -94,4 +105,5 @@ ul.redirects {
         width: 100%;
         color: #4d4f53;
     }
-}</style>
+}
+</style>
