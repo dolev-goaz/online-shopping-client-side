@@ -29,13 +29,20 @@ export const useCartStore = defineStore("products-cart", {
                 });
             }
 
-            console.log(this.cartItems);
-            
-
             return true;
         }
     },
     getters: {
+        totalCost(state) {
+            const productStore = useProductStore();
+            let totalPrice = 0;
+            state.cartItems.forEach((cartProduct) => {
+                const product = productStore.findProductById(cartProduct.productId);
+                if (!product) return;
 
+                totalPrice += product.Price * cartProduct.count;
+            });
+            return totalPrice;
+        }
     }
 })
