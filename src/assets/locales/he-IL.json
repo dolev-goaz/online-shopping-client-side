@@ -1,4 +1,5 @@
 {
+    "hello": "שלום, {name}!",
     "account": "חשבון",
     "authentication": {
         "login": "התחבר",

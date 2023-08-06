@@ -1,5 +1,8 @@
 <template>
     <div class="login-popup">
+        <div class="greeting" v-if="authStore.isLoggedIn">
+            {{ t('hello', {name: currentUser!.UserId}) }}
+        </div>
         <div class="actions">
             <template v-if="!authStore.isLoggedIn">
                 <RouterLink @click="closePopup" class="login" to="/login">
@@ -25,9 +28,13 @@ import { Locale, MessageSchema } from '@/i18n';
 import { useAuthStore } from '@/store/Authentication';
 import { useI18n } from 'vue-i18n';
 import MyButton from '../MyButton.vue';
+import { computed } from 'vue';
 const authStore = useAuthStore();
 
 const { t } = useI18n<MessageSchema, Locale>();
+
+const currentUser = computed(() => authStore.user);
+
 function onLogout() {
     return authStore.logout().then(closePopup);
 }
@@ -41,10 +48,18 @@ function closePopup() {
 </script>
 <style scoped lang="scss">
 .login-popup {
+    direction: rtl;
     background-color: white;
     border-radius: 0.5rem;
     width: 18.5rem;
     overflow: hidden;
+}
+
+.greeting {
+    padding-block-start: 1rem;
+    text-align: center;
+    font-size: 1.25rem;
+    color: #4d4f53;
 }
 
 .actions {
@@ -105,7 +120,6 @@ ul.redirects {
         text-decoration: none;
         display: block;
         padding: 1rem;
-        text-align: right;
         width: 100%;
         color: #4d4f53;
     }
