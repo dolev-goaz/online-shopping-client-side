@@ -29,8 +29,7 @@
 import { useI18n } from 'vue-i18n';
 import type { MessageSchema, Locale } from "@/i18n"
 import { locales } from "@/i18n"
-import { computed, ref } from 'vue';
-import { useAuthStore } from "@/store/Authentication";
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import LoginPopupVue from "@/components/Profile/LoginPopup.vue"
 
@@ -42,8 +41,6 @@ const languages = computed(() =>
         text: t(`languages.${key}`)
     }))
 );
-
-const authStore = useAuthStore();
 
 const router = useRouter();
 function onHomeClick() {
