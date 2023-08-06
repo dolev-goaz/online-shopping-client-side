@@ -5,9 +5,6 @@
                 <RouterLink class="login" to="/login">
                     {{ t('authentication.login') }}
                 </RouterLink>
-                <!-- <a :href="router." class="login">
-                    {{ t('authentication.login') }}
-                </a> -->
                 <RouterLink to="/register" class="register">
                     {{ t('authentication.registration') }}
                 </RouterLink>

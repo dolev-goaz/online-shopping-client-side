@@ -2,7 +2,7 @@
     <nav>
         <ul>
             <li>
-                <VMenu :close-on-content-click="false" transition="slide-y-transition">
+                <VMenu transition="slide-y-transition">
                     <template #activator="{ props }">
                         <button v-bind="props">
                             <VIcon>mdi-account</VIcon>
