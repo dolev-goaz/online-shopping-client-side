@@ -23,13 +23,23 @@ export const useProductStore = defineStore("products", {
             this.loadingProducts = false;
         },
         async getProductById(id: string) {
-            this.currentProduct = this.products.find((product) => product.ProductId == id) ?? null;
+            this.currentProduct = this.findProductById(id);
             if (this.currentProduct) {
                 return this.currentProduct;
             }
             await this.getProducts();
-            this.currentProduct = this.products.find((product) => product.ProductId == id) ?? null;
+            this.currentProduct = this.findProductById(id);
             return this.currentProduct;
+        },
+        findProductById(productId: string) {
+            return this.products.find((product) => product.ProductId == productId) ?? null;
+        },
+        reduceStock(productId: string, reduceCount: number) {
+            const product = this.findProductById(productId);
+            if (!product) return false;
+            if (product.Stock < reduceCount) return false;
+            product.Stock -= reduceCount;
+            return true;
         }
     },
     getters: {
