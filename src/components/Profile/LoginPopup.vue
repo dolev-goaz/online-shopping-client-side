@@ -2,10 +2,10 @@
     <div class="login-popup">
         <div class="actions">
             <template v-if="!authStore.isLoggedIn">
-                <RouterLink class="login" to="/login">
+                <RouterLink @click="closePopup" class="login" to="/login">
                     {{ t('authentication.login') }}
                 </RouterLink>
-                <RouterLink to="/register" class="register">
+                <RouterLink @click="closePopup" to="/register" class="register">
                     {{ t('authentication.registration') }}
                 </RouterLink>
             </template>
@@ -15,7 +15,7 @@
         </div>
         <ul class="redirects">
             <li>
-                <RouterLink to="/profile">{{ t('pageName.profile') }}</RouterLink>
+                <RouterLink @click="closePopup" to="/profile">{{ t('pageName.profile') }}</RouterLink>
             </li>
         </ul>
     </div>
@@ -29,7 +29,14 @@ const authStore = useAuthStore();
 
 const { t } = useI18n<MessageSchema, Locale>();
 function onLogout() {
-    return authStore.logout();
+    return authStore.logout().then(closePopup);
+}
+
+const emit = defineEmits<{
+    (e: 'close'): void
+}>();
+function closePopup() {
+    emit('close');
 }
 </script>
 <style scoped lang="scss">

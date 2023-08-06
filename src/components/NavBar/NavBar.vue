@@ -2,13 +2,13 @@
     <nav>
         <ul>
             <li>
-                <VMenu transition="slide-y-transition">
+                <VMenu :close-on-content-click="false" v-model="openLoginPopup" transition="slide-y-transition">
                     <template #activator="{ props }">
                         <button v-bind="props">
                             <VIcon>mdi-account</VIcon>
                         </button>
                     </template>
-                    <LoginPopupVue />
+                    <LoginPopupVue @close="() => openLoginPopup = false" />
                 </VMenu>
             </li>
             <li>
@@ -32,6 +32,7 @@ import { locales } from "@/i18n"
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import LoginPopupVue from "@/components/Profile/LoginPopup.vue"
+import { ref } from 'vue';
 
 const { t, locale } = useI18n<MessageSchema, Locale>();
 
@@ -46,6 +47,7 @@ const router = useRouter();
 function onHomeClick() {
     router.push('/')
 }
+const openLoginPopup = ref(false);
 
 </script>
 <style lang="scss" scoped>
