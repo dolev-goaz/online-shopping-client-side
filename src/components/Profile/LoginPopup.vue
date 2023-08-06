@@ -2,12 +2,15 @@
     <div class="login-popup">
         <div class="actions">
             <template v-if="!authStore.isLoggedIn">
-                <a href="#/login" class="login">
+                <RouterLink class="login" to="/login">
+                {{ t('authentication.login') }}
+                </RouterLink>
+                <!-- <a :href="router." class="login">
                     {{ t('authentication.login') }}
-                </a>
-                <a href="#/register" class="register">
+                </a> -->
+                <RouterLink to="/register" class="register">
                     {{ t('authentication.registration') }}
-                </a>
+                </RouterLink>
             </template>
         </div>
         <ul class="redirects">
@@ -21,7 +24,9 @@
 import { Locale, MessageSchema } from '@/i18n';
 import { useAuthStore } from '@/store/Authentication';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 const authStore = useAuthStore();
+const router = useRouter();
 
 const { t } = useI18n<MessageSchema, Locale>();
 </script>
@@ -30,6 +35,7 @@ const { t } = useI18n<MessageSchema, Locale>();
     background-color: white;
     border-radius: 0.5rem;
     width: 18.5rem;
+    overflow: hidden;
 }
 
 .actions {
