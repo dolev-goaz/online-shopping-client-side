@@ -12,15 +12,20 @@
                 </VMenu>
             </li>
             <li>
+                <RouterLink to="/cart">
+                    <VIcon size="20">mdi-cart</VIcon>
+                </RouterLink>
+            </li>
+            <li>
                 <VSelect variant="outlined" density="compact" item-title="text" item-value="code" :items="languages"
                     v-model="locale" :label="t('language')" hide-details />
             </li>
             <li style="margin-left: auto;">
             </li>
             <li>
-                <button @click="onHomeClick">
-                    <VIcon>mdi-home</VIcon>
-                </button>
+                <RouterLink to="/">
+                    <VIcon size="20">mdi-home</VIcon>
+                </RouterLink>
             </li>
         </ul>
     </nav>
@@ -30,7 +35,6 @@ import { useI18n } from 'vue-i18n';
 import type { MessageSchema, Locale } from "@/i18n"
 import { locales } from "@/i18n"
 import { computed } from 'vue';
-import { useRouter } from 'vue-router';
 import LoginPopupVue from "@/components/Profile/LoginPopup.vue"
 import { ref } from 'vue';
 
@@ -42,11 +46,6 @@ const languages = computed(() =>
         text: t(`languages.${key}`)
     }))
 );
-
-const router = useRouter();
-function onHomeClick() {
-    router.push('/')
-}
 const openLoginPopup = ref(false);
 
 </script>
@@ -77,12 +76,17 @@ li {
     }
 }
 
-button:has(i.mdi) {
+:is(button, a):has(i.mdi) {
     border-radius: 50%;
     background-color: gray;
     width: 2rem;
     height: 2rem;
+    color: unset;
 
+    text-decoration: none;
+    
+    display: grid;
+    place-items: center;
     &:hover {
         filter: brightness(0.9);
     }
