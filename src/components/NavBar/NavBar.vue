@@ -2,9 +2,14 @@
     <nav>
         <ul>
             <li>
-                <button>
-                    <VIcon>mdi-account</VIcon>
-                </button>
+                <VMenu :close-on-content-click="false" v-model="openLoginPopup" transition="slide-y-transition">
+                    <template #activator="{ props }">
+                        <button v-bind="props">
+                            <VIcon>mdi-account</VIcon>
+                        </button>
+                    </template>
+                    <LoginPopupVue @close="() => openLoginPopup = false" />
+                </VMenu>
             </li>
             <li>
                 <VSelect variant="outlined" density="compact" item-title="text" item-value="code" :items="languages"
@@ -25,24 +30,24 @@ import { useI18n } from 'vue-i18n';
 import type { MessageSchema, Locale } from "@/i18n"
 import { locales } from "@/i18n"
 import { computed } from 'vue';
-import { useAuthStore } from "@/store/Authentication";
 import { useRouter } from 'vue-router';
+import LoginPopupVue from "@/components/Profile/LoginPopup.vue"
+import { ref } from 'vue';
 
 const { t, locale } = useI18n<MessageSchema, Locale>();
 
-const languages = computed(() => {
-    return Object.entries(locales).map(([key, value]) => ({
+const languages = computed(() =>
+    Object.entries(locales).map(([key, value]) => ({
         code: value,
         text: t(`languages.${key}`)
     }))
-})
-
-const authStore = useAuthStore();
+);
 
 const router = useRouter();
 function onHomeClick() {
     router.push('/')
 }
+const openLoginPopup = ref(false);
 
 </script>
 <style lang="scss" scoped>
@@ -71,14 +76,17 @@ li {
         height: 100%;
     }
 }
+
 button:has(i.mdi) {
     border-radius: 50%;
     background-color: gray;
     width: 2rem;
     height: 2rem;
+
     &:hover {
         filter: brightness(0.9);
     }
+
     &:active {
         filter: brightness(0.8);
     }

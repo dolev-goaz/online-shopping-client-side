@@ -1,8 +1,10 @@
 {
+    "hello": "שלום, {name}!",
     "account": "חשבון",
     "authentication": {
         "login": "התחבר",
-        "logout": "התנתק"
+        "logout": "התנתק",
+        "registration": "הרשמה"
     },
     "language": "שפה",
     "languages": {
@@ -13,6 +15,16 @@
         "price": "מחיר",
         "finalPrice": "מחיר סופי",
         "details": "פרטי מוצר",
-        "quantity": "כמות"
+        "quantity": "כמות",
+        "outOfStock": "אזל המלאי"
+    },
+    "pageName": {
+        "profile": "פרופיל",
+        "product": "מוצר",
+        "products": "מוצרים"
+    },
+    "actions": {
+        "purchase": "רכישה",
+        "addToCart": "הוספה לעגלה"
     }
 }

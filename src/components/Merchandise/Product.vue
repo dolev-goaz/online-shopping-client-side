@@ -6,16 +6,49 @@
             <p class="description overflow-dots" :title="product.ProductDesc">{{ product.ProductDesc }}</p>
             <div class="price">{{ product.Price }}₪</div>
         </div>
+        <div class="out-of-stock-overlay" v-if="product.Stock == 0">
+            <span>
+                {{ t('product.outOfStock') }}
+            </span>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
 import { Product } from "@/@types/Model"
+import { MessageSchema } from "@/i18n";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n<MessageSchema>();
+
 const props = defineProps<{
     product: Product;
 }>();
 </script>
 <style lang="scss" scoped>
+.out-of-stock-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    --overlay-color: #777777a1;
+    background-image: repeating-linear-gradient(-45deg,
+            var(--overlay-color),
+            var(--overlay-color) 10px,
+            transparent 10px,
+            transparent 45px);
+    display: grid;
+    place-items: center;
+
+    &>span {
+        color: #f73715;
+        font-weight: bold;
+        font-size: 2.5rem;
+        text-shadow: rgb(45, 0, 0) 1px 0 20px;
+        rotate: 22.5deg;
+    }
+}
+
 .product {
+    isolation: isolate;
+    position: relative;
     user-select: none;
     background-color: lightgray;
     aspect-ratio: 3 / 4;
@@ -27,6 +60,7 @@ const props = defineProps<{
     &:hover {
         scale: 1.125;
         box-shadow: 0px 0px 20px 1px black;
+        z-index: 2;
     }
 
 

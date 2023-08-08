@@ -33,6 +33,9 @@
                         <header>{{ t('product.finalPrice') }}</header>
                         <span>{{ price }}₪</span>
                     </div>
+                    <div class="actions">
+                        <MyButton :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase"> {{ t('actions.addToCart') }} </MyButton>
+                    </div>
                 </div>
                 <!-- <div class="shipping">
                     Ship to
@@ -49,12 +52,15 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Locale, MessageSchema } from '@/i18n';
 import ImagePreview from '@/components/ImagePreview.vue';
+import MyButton from '@/components/MyButton.vue';
+import { useCartStore } from '@/store/Cart';
 const { t } = useI18n<MessageSchema, Locale>();
 
 
 const router = useRoute();
 const productStore = useProductStore();
-productStore.getProductById(router.params.id as string);
+const productId = computed(() => router.params.id as string);
+productStore.getProductById(productId.value);
 const currentProduct = computed(() => productStore.currentProduct);
 
 const amount = ref(1);
@@ -66,6 +72,15 @@ function decreaseAmount() {
 }
 
 const price = computed(() => (amount.value * currentProduct.value!.Price).toFixed(2));
+
+const cartStore = useCartStore();
+function onPurchase() {
+    if (!cartStore.addItem(productId.value, amount.value)) {
+        alert("אירעה שגיאה. אנא נסה שוב..");
+        return;
+    }
+    amount.value = Math.min(1, currentProduct.value!.Stock);
+}
 </script>
 <style>
 .product-content img.image {
@@ -86,6 +101,10 @@ const price = computed(() => (amount.value * currentProduct.value!.Price).toFixe
     }
 
     height: 80vh;
+}
+.actions {
+    display: flex;
+    justify-content: center;
 }
 
 .product-content {
