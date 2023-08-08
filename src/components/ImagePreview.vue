@@ -1,7 +1,7 @@
 <template>
     <div style="position: relative;" :class="{ hover: !isOutside }">
         <img ref="image" :src="src" v-bind="attrs">
-        <div class="preview-container">
+        <div class="preview-container" v-if="!isOutside">
             <img :src="src" :style="{ transform }">
         </div>
     </div>
@@ -15,13 +15,18 @@ const props = defineProps<{
     src: string;
 }>();
 const image = ref<HTMLImageElement | null>();
-const { isOutside, x, y,elementPositionX,elementPositionY,elementX,elementY } = useMouseInElement(image)
+const { isOutside, elementX, elementY, elementWidth, elementHeight } = useMouseInElement(image)
 
-const transform = computed(() => `translate(${elementX.value}px, ${elementY.value}px)`);
+const transform = computed(() => {
+    const ratioX = elementX.value / elementWidth.value;
+    const ratioY = elementY.value / elementHeight.value;
+    return `translate(calc(${-ratioX * 100}% + 300px), calc(${-ratioY * 100}% + 400px))`;
+});
 </script>
 
 <style scoped lang="scss">
 .preview-container {
+    direction: ltr;
     position: absolute;
     top: 0;
     left: -100%;
@@ -34,15 +39,16 @@ const transform = computed(() => `translate(${elementX.value}px, ${elementY.valu
 
     img {
         width: 100%;
-        height: 100%;
+        // height: 100%;
         object-fit: cover;
     }
 }
 
 .hover {
     .preview-container>img {
-        width: auto;
-        height: auto;
+        width: 100vw;
+        // width: auto;
+        // height: auto;
     }
 }
 </style>
