@@ -18,9 +18,12 @@ const image = ref<HTMLImageElement | null>();
 const { isOutside, elementX, elementY, elementWidth, elementHeight } = useMouseInElement(image)
 
 const transform = computed(() => {
-    const ratioX = elementX.value / elementWidth.value;
-    const ratioY = elementY.value / elementHeight.value;
-    return `translate(calc(${-ratioX * 100}% + 300px), calc(${-ratioY * 100}% + 400px))`;
+    const ratioX = 100 * elementX.value / elementWidth.value;
+    const ratioY = 100 * elementY.value / elementHeight.value;
+    
+    const offsetX = elementWidth.value / 2;
+    const offsetY = elementHeight.value / 2;
+    return `translate(calc(${-ratioX}% + ${offsetX}px), calc(${-ratioY}% + ${offsetY}px))`;
 });
 </script>
 
