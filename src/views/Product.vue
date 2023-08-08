@@ -3,7 +3,7 @@
         <div class="product-page" v-if="currentProduct">
             <div class="product-content">
 
-                <img :src="currentProduct.Image" :alt="currentProduct.ProductName">
+                <ImagePreview class="image" :src="currentProduct.Image" :alt="currentProduct.ProductName"/>
                 <div class="data">
                     <h1>
                         {{ currentProduct.ProductName }}
@@ -51,6 +51,7 @@ import LoadWrapper from '@/components/LoadWrapper.vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Locale, MessageSchema } from '@/i18n';
+import ImagePreview from '@/components/ImagePreview.vue';
 import MyButton from '@/components/MyButton.vue';
 import { useCartStore } from '@/store/Cart';
 const { t } = useI18n<MessageSchema, Locale>();
@@ -81,6 +82,13 @@ function onPurchase() {
     amount.value = Math.min(1, currentProduct.value!.Stock);
 }
 </script>
+<style>
+.product-content img.image {
+    max-height: 80vh;
+    object-fit: cover;
+    border-radius: 0.375rem;
+}
+</style>
 <style scoped lang="scss">
 .product-page {
     direction: rtl;
@@ -105,14 +113,9 @@ function onPurchase() {
     gap: 1rem;
     height: 80vh;
 }
-
-img {
-    max-height: 80vh;
-    object-fit: cover;
-    border-radius: 0.375rem;
+.image {
     justify-self: center;
 }
-
 .data {
 
     h1 {
