@@ -1,13 +1,19 @@
+import { Product } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import { useProductStore } from './Product';
 
 
-type CartProduct = {
+type _cartProduct = {
     productId: string;
     count: number;
 }
+
+type CartProduct = {
+    product: Product;
+    count: number;
+}
 interface StoreState {
-    cartItems: CartProduct[]
+    cartItems: _cartProduct[]
 }
 
 export const useCartStore = defineStore("products-cart", {
@@ -43,6 +49,15 @@ export const useCartStore = defineStore("products-cart", {
                 totalPrice += product.Price * cartProduct.count;
             });
             return totalPrice;
+        },
+        products(state) {
+            const productStore = useProductStore();
+            return state.cartItems
+                .map(({ productId, count }) => ({
+                    product: productStore.findProductById(productId),
+                    count
+                }))
+                .filter((cartProduct) => cartProduct.product && cartProduct.count > 0) as CartProduct[];
         }
     }
 })

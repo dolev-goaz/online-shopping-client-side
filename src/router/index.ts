@@ -2,6 +2,7 @@ import {RouteRecordRaw, createRouter, createWebHashHistory} from "vue-router"
 import ProductsView from "@/views/Products.vue";
 import ProductView from "@/views/Product.vue";
 import LoginView from "@/views/Login.vue";
+import CartView from "@/views/Cart.vue";
 
 const routes: RouteRecordRaw[] = [{
     path: '/',
@@ -15,6 +16,10 @@ const routes: RouteRecordRaw[] = [{
     path: '/login',
     component: LoginView,
     name: "login"
+}, {
+    path: "/cart",
+    component: CartView,
+    name: "cart"
 }];
 export const router = createRouter({
     history: createWebHashHistory(),
