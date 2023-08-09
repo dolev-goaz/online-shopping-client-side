@@ -16,11 +16,10 @@
                     <VIcon size="20">mdi-cart</VIcon>
                 </RouterLink>
             </li>
-            <li>
-                <VSelect variant="outlined" density="compact" item-title="text" item-value="code" :items="languages"
-                    v-model="locale" :label="t('language')" hide-details />
-            </li>
             <li style="margin-left: auto;">
+                <button @click="() => toggleDark()">
+                    <VIcon> {{ isDark? 'mdi-weather-night': 'mdi-weather-sunny' }} </VIcon>
+                </button>
             </li>
             <li>
                 <RouterLink to="/">
@@ -31,21 +30,18 @@
     </nav>
 </template>
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n';
-import type { MessageSchema, Locale } from "@/i18n"
-import { locales } from "@/i18n"
-import { computed } from 'vue';
 import LoginPopupVue from "@/components/Profile/LoginPopup.vue"
 import { ref } from 'vue';
+import { useDark, useToggle } from '@vueuse/core'
 
-const { t, locale } = useI18n<MessageSchema, Locale>();
+const isDark = useDark({
+    selector: 'body',
+    // attribute: 'data-color-scheme',
+    valueDark: 'dark',
+    valueLight: 'light',
+})
+const toggleDark = useToggle(isDark)
 
-const languages = computed(() =>
-    Object.entries(locales).map(([key, value]) => ({
-        code: value,
-        text: t(`languages.${key}`)
-    }))
-);
 const openLoginPopup = ref(false);
 
 </script>
@@ -56,7 +52,7 @@ nav {
     top: 0;
     color: black;
     border-bottom: 1px solid lightgray;
-    padding-block: 0.5rem;
+    padding-block: 1rem;
     padding-inline: 5rem;
 }
 
@@ -86,9 +82,10 @@ li {
     border: 1px solid lightgray;
 
     text-decoration: none;
-    
+
     display: grid;
     place-items: center;
+
     &:hover {
         filter: brightness(0.9);
     }
