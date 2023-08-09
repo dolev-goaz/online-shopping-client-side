@@ -50,10 +50,12 @@ const props = defineProps<{
     isolation: isolate;
     position: relative;
     user-select: none;
-    background-color: lightgray;
+    background-color:  var(--clr-accent-light);
     aspect-ratio: 3 / 4;
 
     cursor: pointer;
+    box-shadow: 0px 0px 20px 1px rgba(black, 0.268);
+
     transition: scale 250ms ease-in-out,
         box-shadow 350ms ease-in-out;
 
@@ -82,22 +84,24 @@ const props = defineProps<{
         "n n n n"
         "d d d d"
         "_ _ _ p";
-    color: black;
 }
 
 .name {
     grid-area: n;
     font-weight: bold;
     font-size: 1.25rem;
+    color: var(--clr-fg);
 }
 
 .description {
     grid-area: d;
+    color: var(--clr-fg-light);
 }
 
 .price {
     text-align: center;
     grid-area: p;
+    color: var(--clr-fg);
 }
 
 img {

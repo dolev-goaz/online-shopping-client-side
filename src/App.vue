@@ -13,7 +13,7 @@ import NavBar from "@/components/NavBar/NavBar.vue";
 #app {
   display: flex;
   flex-direction: column;
-  color: white;
+  color: var(--clr-fg);
 }
 #nav {
   flex: 0 1 auto;

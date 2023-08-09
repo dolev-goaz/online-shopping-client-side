@@ -5,7 +5,7 @@
 </template>
 <style scoped lang="scss">
 button {
-    --clr: #008190;
+    --clr: var(--clr-accent);
     padding-block: 0.375em;
     padding-inline: 2.5em;
     border-radius: 0.25rem;
@@ -13,7 +13,7 @@ button {
     text-align: center;
     border: 1px solid var(--clr);
     background-color: var(--clr);
-    color: white;
+    color: var(--clr-fg-invert);
     cursor: pointer;
     &:disabled {
         --clr: lightgray;

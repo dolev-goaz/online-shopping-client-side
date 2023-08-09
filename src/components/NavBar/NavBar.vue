@@ -54,7 +54,8 @@ nav {
     position: sticky;
     inset-inline: 0;
     top: 0;
-    background-color: gray;
+    color: black;
+    border-bottom: 1px solid lightgray;
     padding-block: 0.5rem;
     padding-inline: 5rem;
 }
@@ -78,10 +79,11 @@ li {
 
 :is(button, a):has(i.mdi) {
     border-radius: 50%;
-    background-color: gray;
+    background-color: var(--bg-clr);
     width: 2rem;
     height: 2rem;
-    color: unset;
+    color: darkgray;
+    border: 1px solid lightgray;
 
     text-decoration: none;
     
