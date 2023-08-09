@@ -49,17 +49,18 @@ function closePopup() {
 <style scoped lang="scss">
 .login-popup {
     direction: rtl;
-    background-color: white;
+    background-color: var(--clr-bg-light);
     border-radius: 0.5rem;
     width: 18.5rem;
     overflow: hidden;
+    box-shadow: 1px 0px 20px rgba(0, 0, 0, 0.421);
 }
 
 .greeting {
     padding-block-start: 1rem;
     text-align: center;
     font-size: 1.25rem;
-    color: #4d4f53;
+    color: var(--clr-fg);
 }
 
 .actions {
@@ -75,18 +76,18 @@ function closePopup() {
     border-radius: 0.25rem;
     font-size: 1.125rem;
     text-align: center;
-    border: 1px solid #008190;
+    border: 1px solid var(--clr-accent);
     cursor: pointer;
     text-decoration: none;
 
     &.login {
-        background-color: #008190;
+        background-color: var(--clr-accent);
         color: white;
     }
 
     &.register {
-        color: #008190;
-        background-color: white;
+        color: white;
+        background-color: var(--clr-accent);
     }
 
     &:hover {
@@ -113,7 +114,7 @@ ul.redirects {
             filter: brightness(0.8);
         }
 
-        background-color: white;
+        background-color: var(--clr-bg-light);
     }
 
     li>a {
@@ -121,7 +122,7 @@ ul.redirects {
         display: block;
         padding: 1rem;
         width: 100%;
-        color: #4d4f53;
+        color: var(--clr-fg-light);
     }
 }
 </style>

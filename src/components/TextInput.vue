@@ -47,8 +47,8 @@ function onClear() {
 </script>
 <style scoped lang="scss">
 .input-container {
-    background-color: white;
-    color: black;
+    background-color: var(--clr-bg-light);
+    color: var(--clr-fg-light);
     font-size: 1.5rem;
     padding: 0.25em 0.5em;
     border-radius: 0.25rem;
@@ -57,9 +57,10 @@ function onClear() {
 }
 input {
     border-bottom: 1px solid transparent;
+    color: var(--clr-fg);
     &:focus-visible {
         outline: none;
-        border-bottom-color: gray;
+        border-bottom-color: var(--clr-fg-light);
     }
 }
 p {
