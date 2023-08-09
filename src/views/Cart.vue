@@ -25,5 +25,6 @@ const cart = useCartStore();
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    padding-block: 1rem;
 }
 </style>
