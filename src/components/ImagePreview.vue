@@ -1,7 +1,7 @@
 <template>
     <div style="position: relative;" :class="{ hover: !isOutside }">
-        <img ref="image" :src="src" v-bind="attrs">
-        <div class="preview-container" v-if="!isOutside">
+        <img class="original-image" ref="image" :src="src" v-bind="attrs">
+        <div class="preview-container" v-if="!isOutside" :style="{ width: elementWidth+'px', height: elementHeight+'px' }">
             <img :src="src" :style="{ transform }">
         </div>
     </div>
@@ -20,7 +20,7 @@ const { isOutside, elementX, elementY, elementWidth, elementHeight } = useMouseI
 const transform = computed(() => {
     const ratioX = 100 * elementX.value / elementWidth.value;
     const ratioY = 100 * elementY.value / elementHeight.value;
-    
+
     const offsetX = elementWidth.value / 2;
     const offsetY = elementHeight.value / 2;
     return `translate(calc(${-ratioX}% + ${offsetX}px), calc(${-ratioY}% + ${offsetY}px))`;
@@ -28,6 +28,9 @@ const transform = computed(() => {
 </script>
 
 <style scoped lang="scss">
+.original-image {
+    height: 100%;
+}
 .preview-container {
     direction: ltr;
     position: absolute;
@@ -42,7 +45,6 @@ const transform = computed(() => {
 
     img {
         width: 100%;
-        // height: 100%;
         object-fit: cover;
     }
 }
@@ -50,8 +52,6 @@ const transform = computed(() => {
 .hover {
     .preview-container>img {
         width: 100vw;
-        // width: auto;
-        // height: auto;
     }
 }
 </style>
