@@ -79,9 +79,9 @@ const props = defineProps<{
     flex-grow: 1;
     display: grid;
     grid-template-areas:
-        "n n n"
-        "d d d"
-        "_ _ p";
+        "n n n n"
+        "d d d d"
+        "_ _ _ p";
     color: black;
 }
 
@@ -96,6 +96,7 @@ const props = defineProps<{
 }
 
 .price {
+    text-align: center;
     grid-area: p;
 }
 
