@@ -4,7 +4,7 @@
         <div class="details-container">
             <div class="name overflow-dots" :title="product.ProductName">{{ product.ProductName }}</div>
             <p class="description overflow-dots" :title="product.ProductDesc">{{ product.ProductDesc }}</p>
-            <div class="price">{{ product.Price }}₪</div>
+            <div class="price">{{ t('currency', {value: product.Price}) }}</div>
         </div>
         <div class="out-of-stock-overlay" v-if="product.Stock == 0">
             <span>
@@ -14,7 +14,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Product } from "@/@types/Model"
+import { type Product } from "@/@types/Model";
 import { MessageSchema } from "@/i18n";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n<MessageSchema>();

@@ -1,4 +1,5 @@
 {
+    "currency": "{value}₪",
     "hello": "שלום, {name}!",
     "account": "חשבון",
     "authentication": {

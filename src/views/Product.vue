@@ -3,7 +3,7 @@
         <div class="product-page" v-if="currentProduct">
             <div class="product-content">
 
-                <ImagePreview class="image" :src="currentProduct.Image" :alt="currentProduct.ProductName"/>
+                <ImagePreview class="image" :src="currentProduct.Image" :alt="currentProduct.ProductName" />
                 <div class="data">
                     <h1>
                         {{ currentProduct.ProductName }}
@@ -15,7 +15,7 @@
                         </p>
                         <header>{{ t('product.price') }}</header>
                         <div class="price">
-                            {{ currentProduct.Price }}₪
+                            {{ t('currency', { value: currentProduct.Price }) }}
                         </div>
                     </div>
 
@@ -31,10 +31,11 @@
                     </div>
                     <div class="total-price">
                         <header>{{ t('product.finalPrice') }}</header>
-                        <span>{{ price }}₪</span>
+                        <span>{{ t('currency', { value: price }) }}</span>
                     </div>
                     <div class="actions">
-                        <MyButton :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase"> {{ t('actions.addToCart') }} </MyButton>
+                        <MyButton :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase"> {{
+                            t('actions.addToCart') }} </MyButton>
                     </div>
                 </div>
                 <!-- <div class="shipping">
@@ -102,6 +103,7 @@ function onPurchase() {
 
     height: 80vh;
 }
+
 .actions {
     display: flex;
     justify-content: center;
@@ -113,9 +115,11 @@ function onPurchase() {
     gap: 1rem;
     height: 80vh;
 }
+
 .image {
     justify-self: center;
 }
+
 .data {
 
     h1 {
@@ -175,13 +179,14 @@ function onPurchase() {
         }
     }
 }
+
 .total-price {
     display: flex;
     gap: 1rem;
+
     header {
         &::after {
             content: ':';
         }
     }
-}
-</style>
+}</style>

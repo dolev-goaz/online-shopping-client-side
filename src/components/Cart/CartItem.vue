@@ -27,7 +27,7 @@
                         </span>
                     </div>
                     <div class="price">
-                        {{ totalPrice }}
+                        {{ t('currency', { value: totalPrice }) }}
                     </div>
                 </div>
             </div>
@@ -85,6 +85,7 @@ article.cart-item {
     position: relative;
     cursor: pointer;
 }
+
 .cart-item>button.image-btn>i.mdi {
     position: absolute;
     top: 0;
@@ -92,6 +93,7 @@ article.cart-item {
     background-color: rgba(255, 255, 255, 0.557);
     border-bottom-left-radius: 50%;
 }
+
 .cart-item>button.image-btn>img {
     width: 7rem;
     aspect-ratio: 1;
@@ -120,19 +122,17 @@ section {
 
 .quantity {
     font-size: 0.875rem;
+
     span:first-child {
         color: var(--clr-fg);
+
         &::after {
             content: ': ';
         }
     }
+
     span:last-child {
         color: var(--clr-fg-light)
-    }
-}
-.price {
-    &::after {
-        content: '₪';
     }
 }
 
