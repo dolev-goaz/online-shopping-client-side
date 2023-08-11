@@ -1,12 +1,9 @@
 <template>
     <div class="register-page">
         <BaseForm @submit="onSubmit">
-            <TextInput type="text" v-model="formData.username" name="username" required label="שם משתמש" />
-            <TextInput type="password" v-model="formData.password" name="password" required label="סיסמא" />
-            <TextInput type="password" v-model="formData.repeatPassword" name="repeatPassword" required label="שוב סיסמא" />
-            <TextInput type="email" v-model="formData.mail" name="mail" required label="כתובת מייל" />
-            <TextInput type="text" v-model="formData.address" name="address" required label="כתובת" />
-            <template #submit-button>הרשמה</template>
+            <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required :type="field.type"
+                :name="field.name" :label="t(`form.register.${field.name}`)" />
+            <template #submit-button>{{ t('authentication.logout') }}</template>
         </BaseForm>
     </div>
 </template>
@@ -16,7 +13,10 @@ import TextInput from '@/components/TextInput.vue';
 import { ref } from 'vue';
 import { useAuthStore } from '@/store/Authentication';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { MessageSchema } from '@/i18n';
 
+const { t } = useI18n<MessageSchema>();
 const authStore = useAuthStore();
 const router = useRouter();
 
@@ -27,6 +27,29 @@ type RegisterForm = {
     mail: string;
     address: string;
 }
+
+const fields = [
+    {
+        name: "username",
+        type: "text"
+    },
+    {
+        name: "password",
+        type: "password"
+    },
+    {
+        name: "repeatPassword",
+        type: "password"
+    },
+    {
+        name: "mail",
+        type: "email"
+    },
+    {
+        name: "address",
+        type: "text"
+    },
+] as const;
 
 const formData = ref<RegisterForm>({
     username: '',

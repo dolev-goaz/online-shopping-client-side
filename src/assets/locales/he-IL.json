@@ -28,5 +28,18 @@
         "purchase": "רכישה",
         "addToCart": "הוספה לעגלה",
         "checkout": "לרכישה"
+    },
+    "form": {
+        "login": {
+            "username": "שם משתמש",
+            "password": "סיסמא"
+        },
+        "register": {
+            "username": "שם משתמש",
+            "password": "סיסמא",
+            "repeatPassword": "שוב סיסמא",
+            "mail": "כתובת מייל",
+            "address": "כתובת"
+        }
     }
 }
