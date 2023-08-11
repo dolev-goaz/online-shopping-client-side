@@ -3,6 +3,7 @@
 body.light {
   --clr-bg: #f1f2f4;
   --clr-bg-light: white;
+  --clr-bg-dark: #bababa;
 
   --clr-fg: #121416d8;
   --clr-fg-light: #838383;
@@ -17,6 +18,7 @@ body.light {
 body.dark {
   --clr-bg: #212a2e;
   --clr-bg-light: #161a1c;
+  --clr-bg-dark: #161a1c;
 
   --clr-fg: #636363;
   --clr-fg-light: #bfbfbf;

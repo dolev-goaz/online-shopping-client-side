@@ -162,14 +162,15 @@ function onPurchase() {
             width: 1rem;
             height: 1rem;
             padding: 0.75rem;
-            background-color: gray;
+            background-color: var(--clr-bg-dark);
+            color: var(--clr-fg-light);
 
             &:hover {
-                background-color: rgb(79, 79, 79);
+                filter: brightness(0.9);
             }
 
             &:active {
-                background-color: rgb(47, 47, 47);
+                filter: brightness(0.8);
             }
         }
     }
