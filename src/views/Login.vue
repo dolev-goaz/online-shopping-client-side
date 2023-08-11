@@ -2,7 +2,7 @@
     <div class="login-page">
         <BaseForm @submit="onSubmit">
             <TextInput v-model="username" name="username" required :label="t('form.login.username')" />
-            <TextInput v-model="password" name="password" required :label="t('form.login.username')" password />
+            <TextInput v-model="password" name="password" required :label="t('form.login.password')" password />
             <template #submit-button>{{ t('authentication.login') }}</template>
         </BaseForm>
     </div>
