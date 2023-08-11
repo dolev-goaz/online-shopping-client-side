@@ -33,6 +33,13 @@ export interface Deal {
     UserId: User['UserId'];
 }
 
+export interface RegisterPayload {
+    username: string;
+    password: User['password'];
+    mail: User['Mail'];
+    address: User['Address'];
+}
+
 export const Roles = {
     User: 'USER',
     Admin: 'ADMIN',

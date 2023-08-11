@@ -1,4 +1,4 @@
-import { TRole, User } from '@/@types/Model';
+import { RegisterPayload, TRole, User } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as DLService from "@/DL"
 
@@ -20,11 +20,22 @@ export const useAuthStore = defineStore("authentication", {
                 return;
             }
 
-            this.user =  res;
+            this.user = res;
             return this.user;
         },
         async logout() {
             this.user = null;
+        },
+        async register(payload: RegisterPayload) {
+            const res = await DLService.Register(payload);
+            if (typeof res === 'string') {
+                alert(res);
+                return;
+            }
+
+            this.user = res;
+            return this.user;
+
         }
     },
     getters: {

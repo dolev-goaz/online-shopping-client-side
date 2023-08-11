@@ -14,6 +14,11 @@
 import BaseForm from '@/components/BaseForm.vue';
 import TextInput from '@/components/TextInput.vue';
 import { ref } from 'vue';
+import { useAuthStore } from '@/store/Authentication';
+import { useRouter } from 'vue-router';
+
+const authStore = useAuthStore();
+const router = useRouter();
 
 type RegisterForm = {
     username: string;
@@ -31,8 +36,12 @@ const formData = ref<RegisterForm>({
     address: ''
 });
 
-function onSubmit(data: RegisterForm) {
+async function onSubmit(data: RegisterForm) {
     if (data.password != data.repeatPassword) return;
+    const success = await authStore.register(data);
+    if (!success) return;
+
+    router.push('/');
 }
 
 </script>
