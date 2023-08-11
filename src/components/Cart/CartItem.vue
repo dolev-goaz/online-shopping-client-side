@@ -1,12 +1,15 @@
 <template>
     <article class="cart-item">
-        <img :src="product.Image" :alt="product.ProductName">
+        <button class="image-btn">
+            <VIcon>mdi-arrow-u-right-top</VIcon>
+            <img :src="product.Image" :alt="product.ProductName">
+        </button>
         <section>
             <header>
                 <span>
                     {{ product.ProductName }}
                 </span>
-                <button class="delete">
+                <button class="delete" type="button" @click="onDelete">
                     <VIcon color="lightgrey">mdi-trash-can-outline</VIcon>
                 </button>
             </header>
@@ -40,8 +43,14 @@ const props = defineProps<{
     product: Product;
     count: number;
 }>();
+const emit = defineEmits<{
+    (event: 'delete'): void;
+}>();
 const { t } = useI18n<MessageSchema>();
 const totalPrice = computed(() => (props.product.Price * props.count).toFixed(2))
+function onDelete() {
+    emit('delete');
+}
 </script>
 <style lang="scss" scoped>
 header {
@@ -66,10 +75,23 @@ article.cart-item {
     box-shadow: 0 20px 24px -20px rgba(0, 0, 0, .1);
 }
 
-.cart-item>img {
+.cart-item>button.image-btn {
+    position: relative;
+    cursor: pointer;
+}
+.cart-item>button.image-btn>i.mdi {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.557);
+    border-bottom-left-radius: 50%;
+}
+.cart-item>button.image-btn>img {
     width: 7rem;
     aspect-ratio: 1;
     object-fit: cover;
+    border-radius: 0.25rem;
+    display: block;
 }
 
 section {

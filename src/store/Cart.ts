@@ -36,6 +36,15 @@ export const useCartStore = defineStore("products-cart", {
             }
 
             return true;
+        },
+        removeItem(productId: string) {
+            const productsStore = useProductStore();
+
+            const index = this.cartItems.findIndex((cartItem) => cartItem.productId == productId);
+            if (index == -1) return false;
+
+            const product = this.cartItems.splice(index, 1)[0];
+            return productsStore.increaseStock(product.productId, product.count)
         }
     },
     getters: {

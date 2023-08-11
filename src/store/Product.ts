@@ -41,6 +41,12 @@ export const useProductStore = defineStore("products", {
             if (product.Stock < reduceCount) return false;
             product.Stock -= reduceCount;
             return true;
+        },
+        increaseStock(productId: string, count: number) {
+            const product = this.findProductById(productId);
+            if (!product) return false;
+            product.Stock += count;
+            return true;
         }
     },
     getters: {
