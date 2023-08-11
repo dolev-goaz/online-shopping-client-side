@@ -1,16 +1,14 @@
 <template>
     <div class="login-page">
-        <form @submit.prevent="onSubmit">
-            <div class="inputs">
-                <TextInput v-model="username" name="username" required label="שם משתמש" />
-                <TextInput v-model="password" name="password" required label="סיסמא" password />
-            </div>
-            <MyButton type="submit">התחבר</MyButton>
-        </form>
+        <BaseForm @submit="onSubmit">
+            <TextInput v-model="username" name="username" required label="שם משתמש" />
+            <TextInput v-model="password" name="password" required label="סיסמא" password />
+            <template #submit-button>התחבר</template>
+        </BaseForm>
     </div>
 </template>
 <script lang="ts" setup>
-import MyButton from '@/components/MyButton.vue';
+import BaseForm from '@/components/BaseForm.vue';
 import TextInput from '@/components/TextInput.vue';
 import { useAuthStore } from '@/store/Authentication';
 import { ref } from 'vue';
@@ -22,13 +20,12 @@ const authStore = useAuthStore();
 const username = ref("");
 const password = ref("");
 
-async function onSubmit(payload: Event) {
-    const formData = new FormData(payload.target as HTMLFormElement);
-    const { username, password } = Object.fromEntries(formData) as Record<string, string>;
+async function onSubmit(payload: Record<string, any>) {
+    const { username, password } = payload;
     const user = await authStore.login(username, password);
     router.push({
         name: 'products'
-    })
+    });
 }
 </script>
 <style scoped lang="scss">
@@ -36,21 +33,5 @@ async function onSubmit(payload: Event) {
     height: 80%;
     display: grid;
     place-items: center;
-}
-
-.inputs {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-form>button[type=submit] {
-    margin-block-start: 1.5rem;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    width: max-content;
 }
 </style>
