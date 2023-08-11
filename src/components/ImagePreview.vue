@@ -35,7 +35,7 @@ const transform = computed(() => {
     direction: ltr; // align image to the top left
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: white;
@@ -51,7 +51,7 @@ const transform = computed(() => {
 
 .hover {
     .preview-container>img {
-        width: 100vw;
+        width: 80vw;
     }
 }
 </style>
