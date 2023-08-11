@@ -12,11 +12,11 @@
 import MyButton from './MyButton.vue';
 
 const emit = defineEmits<{
-    (event: 'submit', payload: Record<string, any>): void;
+    (event: 'submit', payload: any): void;
 }>();
 async function onSubmit(event: Event) {
     const formData = new FormData(event.target as HTMLFormElement);
-    const payload = Object.fromEntries(formData) as Record<string, string>;
+    const payload = Object.fromEntries(formData);
     emit('submit', payload);
 }
 

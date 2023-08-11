@@ -3,7 +3,7 @@
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
             <input :required="required" v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
-            <VIcon :class="{hidden: !props.password}" class="ml-2" @click="toggleShowPassword" size="20">{{ passwordVisibilityIcon }}</VIcon>
+            <VIcon :class="{hidden: !isPassword}" class="ml-2" @click="toggleShowPassword" size="20">{{ passwordVisibilityIcon }}</VIcon>
             <VIcon :class="{hidden: model == ''}" @click="onClear" size="20"> mdi-close </VIcon>
         </div>
     </div>
@@ -11,12 +11,14 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue';
 const attrs = useAttrs();
-const props = defineProps<{
-    password?: boolean;
+const props = withDefaults(defineProps<{
     label?: string;
     modelValue?: string;
     required?: boolean;
-}>();
+    type?: 'email' | 'text' | 'password';
+}>(), {
+    type: 'text'
+});
 
 const emit = defineEmits<{
     (e: 'update:modelValue', payload: string): void
@@ -31,10 +33,15 @@ const model = computed({
 const inputField = ref<HTMLInputElement>();
 
 const showPassword = ref(false);
-const inputType = computed(() => props.password && !showPassword.value? 'password': 'text');
+
+const isPassword  = computed(() => props.type === 'password');
+const inputType = computed(() => {
+    if (!isPassword.value) return props.type;
+    return showPassword.value? 'text': 'password';
+});
 
 const passwordVisibilityIcon = computed(() => {
-    if (!props.password) return ''
+    if (!isPassword.value) return ''
     return showPassword.value? 'mdi-eye': 'mdi-eye-off'
 });
 function toggleShowPassword() {
