@@ -72,7 +72,7 @@ function closePopup() {
 
 .actions>a {
     padding-block: 0.375em;
-    box-shadow: 0 2px 1px 0 #ccc;
+    box-shadow: 0 2px 1px 0 var(--clr-shadow-light);
     border-radius: 0.25rem;
     font-size: 1.125rem;
     text-align: center;
@@ -96,6 +96,9 @@ function closePopup() {
 
     &:active {
         filter: brightness(0.8);
+        box-shadow: none;
+
+        translate: 0 2px;
     }
 }
 

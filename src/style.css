@@ -3,24 +3,29 @@
 body.light {
   --clr-bg: #f1f2f4;
   --clr-bg-light: white;
+
   --clr-fg: #121416d8;
   --clr-fg-light: #838383;
   --clr-fg-invert: white;
+
   --clr-accent: #008190;
   --clr-accent-light: #d6e1e5;
+
+  --clr-shadow-light: #ccc;
 }
 
 body.dark {
   --clr-bg: #212a2e;
   --clr-bg-light: #161a1c;
+
   --clr-fg: #636363;
   --clr-fg-light: #bfbfbf;
-
-  --clr-fg-light: #838383;
   --clr-fg-invert: white;
+
   --clr-accent: #008190;
   --clr-accent-light: #d6e1e5;
 
+  --clr-shadow-light: #5d5d5d;
 }
 
 html {
