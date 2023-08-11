@@ -21,11 +21,11 @@ body.dark {
   --clr-bg-dark: #161a1c;
 
   --clr-fg: #636363;
-  --clr-fg-light: #bfbfbf;
+  --clr-fg-light: #777777;
   --clr-fg-invert: white;
 
   --clr-accent: #008190;
-  --clr-accent-light: #d6e1e5;
+  --clr-accent-light: #b2cbd5;
 
   --clr-shadow-light: #5d5d5d;
 }
