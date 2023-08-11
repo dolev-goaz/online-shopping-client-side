@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex; justify-content: center;">
+    <div class="login-page">
         <form @submit.prevent="onSubmit">
             <div class="inputs">
                 <TextInput v-model="username" name="username" required label="שם משתמש" />
@@ -32,6 +32,12 @@ async function onSubmit(payload: Event) {
 }
 </script>
 <style scoped lang="scss">
+.login-page {
+    height: 80%;
+    display: grid;
+    place-items: center;
+}
+
 .inputs {
     display: flex;
     flex-direction: column;
