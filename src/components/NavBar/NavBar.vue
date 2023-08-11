@@ -1,6 +1,21 @@
 <template>
     <nav>
         <ul>
+            <li style="margin-inline-end: auto;">
+                <RouterLink to="/">
+                    <VIcon size="20">mdi-home</VIcon>
+                </RouterLink>
+            </li>
+            <li>
+                <button @click="() => toggleDark()">
+                    <VIcon> {{ isDark ? 'mdi-weather-night' : 'mdi-weather-sunny' }} </VIcon>
+                </button>
+            </li>
+            <li>
+                <RouterLink to="/cart">
+                    <VIcon size="20">mdi-cart</VIcon>
+                </RouterLink>
+            </li>
             <li>
                 <VMenu :close-on-content-click="false" v-model="openLoginPopup" transition="slide-y-transition">
                     <template #activator="{ props }">
@@ -10,21 +25,6 @@
                     </template>
                     <LoginPopupVue @close="() => openLoginPopup = false" />
                 </VMenu>
-            </li>
-            <li>
-                <RouterLink to="/cart">
-                    <VIcon size="20">mdi-cart</VIcon>
-                </RouterLink>
-            </li>
-            <li style="margin-left: auto;">
-                <button @click="() => toggleDark()">
-                    <VIcon> {{ isDark? 'mdi-weather-night': 'mdi-weather-sunny' }} </VIcon>
-                </button>
-            </li>
-            <li>
-                <RouterLink to="/">
-                    <VIcon size="20">mdi-home</VIcon>
-                </RouterLink>
             </li>
         </ul>
     </nav>
