@@ -92,7 +92,6 @@ function onPurchase() {
 </style>
 <style scoped lang="scss">
 .product-page {
-    direction: rtl;
     display: flex;
     justify-content: center;
     padding-block: 1rem;

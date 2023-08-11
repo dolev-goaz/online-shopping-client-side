@@ -16,8 +16,13 @@ const vuetify = createVuetify({
         VIcon,
         VProgressCircular,
         VMenu
+    }, 
+    locale: {
+        rtl: {
+            'he-IL': true,
+            'en-US': false
+        }
     }
-    // directives,
 })
 
 const pinia = createPinia();

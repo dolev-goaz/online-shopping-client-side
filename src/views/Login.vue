@@ -1,6 +1,6 @@
 <template>
     <div style="display: flex; justify-content: center;">
-        <form dir="rtl" @submit.prevent="onSubmit">
+        <form @submit.prevent="onSubmit">
             <div class="inputs">
                 <TextInput v-model="username" name="username" required label="שם משתמש" />
                 <TextInput v-model="password" name="password" required label="סיסמא" password />

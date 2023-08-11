@@ -32,7 +32,7 @@ const transform = computed(() => {
     height: 100%;
 }
 .preview-container {
-    direction: ltr;
+    direction: ltr; // align image to the top left
     position: absolute;
     top: 0;
     left: -100%;

@@ -48,7 +48,6 @@ function closePopup() {
 </script>
 <style scoped lang="scss">
 .login-popup {
-    direction: rtl;
     background-color: var(--clr-bg-light);
     border-radius: 0.5rem;
     width: 18.5rem;

@@ -9,13 +9,13 @@
             <div class="checkout">
                 <div class="total">
                     <span class="text">
-                        Total
+                        {{ t('product.price') }}
                     </span>
                     <span class="value">
                         {{ t('currency', {value: cart.totalCost}) }}
                     </span>
                 </div>
-                <MyButton> Checkout </MyButton>
+                <MyButton> {{ t('actions.checkout') }} </MyButton>
             </div>
         </footer>
     </div>

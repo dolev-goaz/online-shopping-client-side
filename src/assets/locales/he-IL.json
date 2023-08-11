@@ -26,6 +26,7 @@
     },
     "actions": {
         "purchase": "רכישה",
-        "addToCart": "הוספה לעגלה"
+        "addToCart": "הוספה לעגלה",
+        "checkout": "לרכישה"
     }
 }

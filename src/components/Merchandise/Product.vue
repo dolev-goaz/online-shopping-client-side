@@ -75,7 +75,6 @@ const props = defineProps<{
 
 .details-container {
     padding: 0.5rem;
-    direction: rtl;
     text-align: right;
 
     flex-grow: 1;

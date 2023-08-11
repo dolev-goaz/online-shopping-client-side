@@ -71,7 +71,6 @@ header {
 }
 
 article.cart-item {
-    direction: rtl;
     border-radius: 0.5rem;
     display: flex;
     gap: 1rem;
