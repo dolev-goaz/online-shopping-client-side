@@ -1,6 +1,6 @@
 <template>
     <article class="cart-item">
-        <button class="image-btn">
+        <button class="image-btn" @click="onOpenProduct">
             <VIcon>mdi-arrow-u-right-top</VIcon>
             <img :src="product.Image" :alt="product.ProductName">
         </button>
@@ -39,6 +39,9 @@ import { type Product } from "@/@types/Model"
 import { MessageSchema } from "@/i18n";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import { useRouter } from "vue-router";
+const router = useRouter()
+
 const props = defineProps<{
     product: Product;
     count: number;
@@ -48,6 +51,9 @@ const emit = defineEmits<{
 }>();
 const { t } = useI18n<MessageSchema>();
 const totalPrice = computed(() => (props.product.Price * props.count).toFixed(2))
+function onOpenProduct() {
+    router.push(`/product/${props.product.ProductId}`)
+}
 function onDelete() {
     emit('delete');
 }
