@@ -1,10 +1,11 @@
 <template>
-    <div class="input-block" :class="{required}">
+    <div class="input-block" :class="{ required }">
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
             <input :required="required" v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
-            <VIcon :class="{hidden: !isPassword}" class="ml-2" @click="toggleShowPassword" size="20">{{ passwordVisibilityIcon }}</VIcon>
-            <VIcon :class="{hidden: model == ''}" @click="onClear" size="20"> mdi-close </VIcon>
+            <VIcon :class="{ hidden: !isPassword }" class="ml-2" @click="toggleShowPassword" size="20">{{
+                passwordVisibilityIcon }}</VIcon>
+            <VIcon :class="{ hidden: model == '' }" @click="onClear" size="20"> mdi-close </VIcon>
         </div>
     </div>
 </template>
@@ -34,15 +35,15 @@ const inputField = ref<HTMLInputElement>();
 
 const showPassword = ref(false);
 
-const isPassword  = computed(() => props.type === 'password');
+const isPassword = computed(() => props.type === 'password');
 const inputType = computed(() => {
     if (!isPassword.value) return props.type;
-    return showPassword.value? 'text': 'password';
+    return showPassword.value ? 'text' : 'password';
 });
 
 const passwordVisibilityIcon = computed(() => {
     if (!isPassword.value) return ''
-    return showPassword.value? 'mdi-eye': 'mdi-eye-off'
+    return showPassword.value ? 'mdi-eye' : 'mdi-eye-off'
 });
 function toggleShowPassword() {
     showPassword.value = !showPassword.value;
@@ -62,14 +63,24 @@ function onClear() {
     border: 1px solid darkgray;
     width: max-content
 }
+
 input {
     border-bottom: 1px solid transparent;
     color: var(--clr-fg);
+
     &:focus-visible {
         outline: none;
         border-bottom-color: var(--clr-fg-light);
     }
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--clr-fg);
+    box-shadow: 0 0 0 1000px var(--clr-bg-light) inset;
+}
+
 p {
     cursor: pointer;
     font-weight: bold;
@@ -81,11 +92,13 @@ p {
 i.v-icon {
     opacity: 1;
     transition: opacity 100ms ease-in-out;
+
     &.hidden {
         opacity: 0;
         pointer-events: none;
     }
 }
+
 .input-block.required {
     p {
         &::before {
