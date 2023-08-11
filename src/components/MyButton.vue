@@ -19,5 +19,12 @@ button {
         --clr: lightgray;
         cursor: default;
     }
+
+    &:hover {
+        filter: brightness(0.9);
+    }
+    &:active {
+        filter: brightness(0.8);
+    }
 }
 </style>
