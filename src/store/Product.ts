@@ -1,6 +1,6 @@
 import { Product } from '@/@types/Model';
 import { defineStore } from 'pinia';
-import * as DLService from "@/DL"
+import * as ProductsService from "@/DL/Products"
 
 interface StoreState {
     products: Product[];
@@ -18,7 +18,7 @@ export const useProductStore = defineStore("products", {
         async getProducts() {
             if (this.products.length > 0) return; // already fetched
             this.loadingProducts = true;
-            const products = await DLService.getProducts();
+            const products = await ProductsService.getProducts();
             this.products.length = 0;
             this.products.push(...products);
             this.loadingProducts = false;
