@@ -1,7 +1,7 @@
 <template>
     <div class="login-popup">
         <div class="greeting" v-if="authStore.isLoggedIn">
-            {{ t('hello', {name: currentUser!.UserId}) }}
+            {{ t('hello', { name: fullName }) }}
         </div>
         <div class="actions">
             <template v-if="!authStore.isLoggedIn">
@@ -45,6 +45,9 @@ const emit = defineEmits<{
 function closePopup() {
     emit('close');
 }
+
+const fullName = computed(() => `${authStore.user?.firstname} ${authStore.user?.lastname}`);
+
 </script>
 <style scoped lang="scss">
 .login-popup {

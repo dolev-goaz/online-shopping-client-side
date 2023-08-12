@@ -1,9 +1,13 @@
-import { RegisterPayload, TRole, User } from '@/@types/Model';
+import { RegisterPayload, Roles, TRole, User } from '@/@types/Model';
 import { defineStore } from 'pinia';
-import * as DLService from "@/DL"
+import * as AuthenticationService from "@/DL/Authentication"
 
 
-type UserInner = Omit<User, 'password'>;
+type UserInner = {
+    firstname: string;
+    lastname: string;
+    role: TRole;
+}
 interface StoreState {
     user: UserInner | null;
 }
@@ -13,8 +17,8 @@ export const useAuthStore = defineStore("authentication", {
         user: null
     }),
     actions: {
-        async login(username: string, password: string) {
-            const res = await DLService.SignIn(username, password);
+        async login(email: string, password: string) {
+            const res = await AuthenticationService.SignIn(email, password);
             if (typeof res === 'string') {
                 alert(res);
                 return;
@@ -27,7 +31,7 @@ export const useAuthStore = defineStore("authentication", {
             this.user = null;
         },
         async register(payload: RegisterPayload) {
-            const res = await DLService.Register(payload);
+            const res = await AuthenticationService.Register(payload);
             if (typeof res === 'string') {
                 alert(res);
                 return;
@@ -43,8 +47,8 @@ export const useAuthStore = defineStore("authentication", {
             return Boolean(this.user);
         },
         getAuthorization(): TRole {
-            if (!this.isLoggedIn) return 'NONE';
-            return this.user!.Auth;
+            if (!this.isLoggedIn) return Roles.NotLogged;
+            return this.user!.role;
         }
     }
 })

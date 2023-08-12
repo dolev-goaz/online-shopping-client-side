@@ -1,7 +1,7 @@
 <template>
     <div class="login-page">
         <BaseForm @submit="onSubmit">
-            <TextInput type="text" v-model="username" name="username" required :label="t('form.login.username')" />
+            <TextInput type="text" v-model="mail" name="mail" required :label="t('form.login.mail')" />
             <TextInput type="password" v-model="password" name="password" required :label="t('form.login.password')" />
             <template #submit-button>{{ t('authentication.login') }}</template>
         </BaseForm>
@@ -20,12 +20,15 @@ const { t } = useI18n<MessageSchema>();
 const router = useRouter();
 const authStore = useAuthStore();
 
-const username = ref("");
+const mail = ref("");
 const password = ref("");
 
 async function onSubmit(payload: Record<string, any>) {
-    const { username, password } = payload;
-    const user = await authStore.login(username, password);
+    const { mail, password } = payload;
+    const user = await authStore.login(mail, password);
+    if (!user) {
+        return;
+    }
     router.push({
         name: 'products'
     });

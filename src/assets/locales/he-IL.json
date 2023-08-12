@@ -31,14 +31,15 @@
     },
     "form": {
         "login": {
-            "username": "שם משתמש",
+            "mail": "כתובת מייל",
             "password": "סיסמא"
         },
         "register": {
-            "username": "שם משתמש",
+            "firstname": "שם פרטי",
+            "lastname": "שם משפחה",
             "password": "סיסמא",
             "repeatPassword": "שוב סיסמא",
-            "mail": "כתובת מייל",
+            "email": "כתובת מייל",
             "address": "כתובת"
         }
     }

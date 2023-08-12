@@ -1,27 +1,9 @@
 import axios from "axios";
 import { Product, RegisterPayload, User } from "../@types/Model";
 
-const axiosInstance = axios.create({
-    baseURL: ''
+export const axiosInstance = axios.create({
+    baseURL: 'http://localhost:8080/'
 });
-
-export async function SignIn(username: string, password: string): Promise<User | string> {
-    return {
-        Address: 'Hakoona Matata',
-        Auth: 'ADMIN',
-        Mail: 'woobadoobadubdub@gmail.com',
-        UserId: username
-    } as User
-}
-
-export async function Register(formData: RegisterPayload): Promise<User | string> {
-    return {
-        Address: 'Hakoona Matata',
-        Auth: 'ADMIN',
-        Mail: 'woobadoobadubdub@gmail.com',
-        UserId: formData.username
-    } as User
-}
 
 export async function getProducts(): Promise<Product[]> {
     // test items

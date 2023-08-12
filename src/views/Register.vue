@@ -3,7 +3,7 @@
         <BaseForm @submit="onSubmit">
             <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required :type="field.type"
                 :name="field.name" :label="t(`form.register.${field.name}`)" />
-            <template #submit-button>{{ t('authentication.logout') }}</template>
+            <template #submit-button>{{ t('authentication.registration') }}</template>
         </BaseForm>
     </div>
 </template>
@@ -21,17 +21,33 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 type RegisterForm = {
-    username: string;
+    firstname: string;
+    lastname: string;
+    email: string;
     password: string;
     repeatPassword: string;
-    mail: string;
     address: string;
 }
 
-const fields = [
+type RegisterFormField = {
+    [TKey in keyof RegisterForm]: {
+        name: TKey,
+        type: "text" | "password" | "email"
+    }
+}[keyof RegisterForm]
+
+const fields: readonly RegisterFormField[] = [
     {
-        name: "username",
+        name: "firstname",
         type: "text"
+    },
+    {
+        name: "lastname",
+        type: "text"
+    },
+    {
+        name: "email",
+        type: "email"
     },
     {
         name: "password",
@@ -42,20 +58,17 @@ const fields = [
         type: "password"
     },
     {
-        name: "mail",
-        type: "email"
-    },
-    {
         name: "address",
         type: "text"
     },
 ] as const;
 
 const formData = ref<RegisterForm>({
-    username: '',
+    firstname: '',
+    lastname: '',
     password: '',
     repeatPassword: '',
-    mail: '',
+    email: '',
     address: ''
 });
 

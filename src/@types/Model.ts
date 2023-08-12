@@ -1,8 +1,7 @@
 export interface User {
-    /**
-     * Username
-     */
     UserId: string;
+    FirstName: string;
+    LastName: string;
     Address: string;
     Auth: TRole;
     Mail: string;
@@ -34,9 +33,10 @@ export interface Deal {
 }
 
 export interface RegisterPayload {
-    username: string;
+    firstname: User['FirstName'],
+    lastname: User['LastName'],
     password: User['password'];
-    mail: User['Mail'];
+    email: User['Mail'];
     address: User['Address'];
 }
 
