@@ -18,7 +18,13 @@
                         <button @click="increaseAmount">
                             <VIcon>mdi-plus</VIcon>
                         </button>
-                        <span>{{ amount }}/{{ editedProduct.Stock }}</span>
+                        <span>
+                            <span>
+                                {{ amount }}
+                            </span>
+                            <span>/</span>
+                            <EditableField tag="span" class="price" v-model="stockProxy" />
+                        </span>
                         <button @click="decreaseAmount">
                             <VIcon>mdi-minus</VIcon>
                         </button>
@@ -120,6 +126,13 @@ const priceProxy = computed({
     }
 });
 
+const stockProxy = computed({
+    get: () => editedProduct.value!.Stock.toString(),
+    set(newValue: string) {
+        editedProduct.value!.Stock = parseInt(newValue);
+    }
+})
+
 const authStore = useAuthStore();
 const productChanged = computed(() => {
     if (!editedProduct.value) return false;
@@ -134,7 +147,7 @@ const productChanged = computed(() => {
 })
 async function onSaveChanges() {
     if (!editedProduct.value) return;
-    const saveMethod = isCreateNew.value? productStore.createProduct: productStore.updateProduct;
+    const saveMethod = isCreateNew.value ? productStore.createProduct : productStore.updateProduct;
     const success = await saveMethod(editedProduct.value);
     if (!success) {
         // TODO: error message

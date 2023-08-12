@@ -1,16 +1,11 @@
 <template>
-    <div style="position: relative;">
-        <template v-if="!editMode">
-            <component :is="tag">{{ model }}</component>
-            <button class="edit-button" v-if="canEdit" @click="openEditMode">
-                <VIcon>mdi-pencil-outline</VIcon>
-            </button>
-        </template>
-        <template v-else>
-            <TextInput ref="inputField" v-model="innerValue" @submit="onSubmitInput" @blur="closeEditMode"
-                @keypress.escape="closeEditMode" />
-        </template>
-    </div>
+    <template v-if="!editMode">
+        <component class="editable" @click="openEditMode" :is="tag">{{ model }}</component>
+    </template>
+    <template v-else>
+        <TextInput ref="inputField" v-model="innerValue" @submit="onSubmitInput" @blur="closeEditMode"
+            @keypress.escape="closeEditMode" />
+    </template>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from '@/store/Authentication';
@@ -70,5 +65,18 @@ function onSubmitInput() {
     border-radius: 50%;
     padding: 0.25rem;
     background-color: lightgray;
+}
+
+.editable {
+    position: relative;
+
+    &::after {
+        position: absolute;
+        inset-inline-end: 1.125rem;
+        top: -0.5rem;
+        content: '\270E';
+
+        scale: -1 1;
+    }
 }
 </style>
