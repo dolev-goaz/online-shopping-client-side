@@ -41,10 +41,10 @@
     </LoadWrapper>
 </template>
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useProductStore } from '@/store/Product';
 import LoadWrapper from '@/components/LoadWrapper.vue';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Locale, MessageSchema } from '@/i18n';
 import ImagePreview from '@/components/ImagePreview.vue';
@@ -55,19 +55,40 @@ import { Product } from '@/@types/Model';
 import { useAuthStore } from '@/store/Authentication';
 const { t } = useI18n<MessageSchema, Locale>();
 
-const router = useRoute();
-const productId = computed(() => router.params.id as string);
+const router = useRouter();
+const route = useRoute();
+
+const isCreateNew = computed(() => route.query['new-product'] == 'true');
+const productId = computed(() => parseInt(route.params.id as string));
 
 const productStore = useProductStore();
 productStore.getProductById(productId.value);
 const currentProduct = computed(() => productStore.currentProduct);
 const editedProduct = ref<Product>();
 
-watch(currentProduct, () => {
+onMounted(() => {
+    if (isCreateNew.value) {
+        if (!authStore.isAdmin) {
+            router.push('/')
+            return;
+        }
+        editedProduct.value = {
+            // Id: 21,
+            Title: t('placeholder.product.title'),
+            Description: t('placeholder.product.description'),
+            Image: 'https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png',
+            Price: 0,
+            Stock: 0,
+        } as Product
+        return;
+    }
     editedProduct.value = { ...currentProduct.value! };
-}, {
-    immediate: true
-});
+}),
+    watch(currentProduct, () => {
+        editedProduct.value = { ...currentProduct.value! };
+    }, {
+        immediate: true
+    });
 
 const amount = ref(1);
 function increaseAmount() {
@@ -101,13 +122,20 @@ const priceProxy = computed({
 
 const authStore = useAuthStore();
 const productChanged = computed(() => {
+    if (!editedProduct.value) return false;
+    if (isCreateNew.value) {
+        return editedProduct.value.Price != 0 &&
+            editedProduct.value.Title != t('placeholder.product.title') &&
+            editedProduct.value.Description != t('placeholder.product.description');
+    }
     if (!currentProduct.value) return;
     const keys = Object.keys(currentProduct.value) as Array<keyof Product>;
     return !keys.every((key) => currentProduct.value![key] === editedProduct.value![key]);
 })
 async function onSaveChanges() {
     if (!editedProduct.value) return;
-    const success = await productStore.updateProduct(editedProduct.value!);
+    const saveMethod = isCreateNew.value? productStore.createProduct: productStore.updateProduct;
+    const success = await saveMethod(editedProduct.value);
     if (!success) {
         // TODO: error message
         return;

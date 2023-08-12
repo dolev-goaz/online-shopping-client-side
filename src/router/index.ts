@@ -10,7 +10,7 @@ const routes: RouteRecordRaw[] = [{
     component: ProductsView,
     name: "products",
 }, {
-    path: '/product/:id',
+    path: '/product/:id?',
     component: ProductView,
     name: "product",
 }, {

@@ -2,7 +2,12 @@
     <LoadWrapper :loading="productStore.loadingProducts">
         <ul class="products-container">
             <li class="add-product" v-if="authStore.isAdmin">
-                <RouterLink to="/add-product">
+                <RouterLink :to="{
+                    path: 'product',
+                    query: {
+                        'new-product': 'true'
+                    }
+                }">
                     <VIcon>mdi-plus</VIcon>
                 </RouterLink>
             </li>

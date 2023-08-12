@@ -4,7 +4,7 @@ import { useProductStore } from './Product';
 
 
 type _cartProduct = {
-    productId: string;
+    productId: number;
     count: number;
 }
 
@@ -21,7 +21,7 @@ export const useCartStore = defineStore("products-cart", {
         cartItems: [],
     }),
     actions: {
-        addItem(productId: string, count: number) {
+        addItem(productId: number, count: number) {
             const productsStore = useProductStore();
             if (!productsStore.reduceStock(productId, count)) return false; // stock reduction failed
 
@@ -37,7 +37,7 @@ export const useCartStore = defineStore("products-cart", {
 
             return true;
         },
-        removeItem(productId: string) {
+        removeItem(productId: number) {
             const productsStore = useProductStore();
 
             const index = this.cartItems.findIndex((cartItem) => cartItem.productId == productId);

@@ -23,7 +23,7 @@ export const useProductStore = defineStore("products", {
             this.products.push(...products);
             this.loadingProducts = false;
         },
-        async getProductById(id: string) {
+        async getProductById(id: number) {
             this.currentProduct = this.findProductById(id);
             if (this.currentProduct) {
                 return this.currentProduct;
@@ -50,24 +50,23 @@ export const useProductStore = defineStore("products", {
             return success;
         },
         async createProduct(product: Product) {
-            if (product.Id) return false;
-
+            // if (product.Id) return false;
             return ProductsService
                 .createProduct(product)
                 .then(() => true)
                 .catch(() => false)
         },
-        findProductById(productId: string) {
+        findProductById(productId: number) {
             return this.products.find((product) => product.Id == productId) ?? null;
         },
-        reduceStock(productId: string, reduceCount: number) {
+        reduceStock(productId: number, reduceCount: number) {
             const product = this.findProductById(productId);
             if (!product) return false;
             if (product.Stock < reduceCount) return false;
             product.Stock -= reduceCount;
             return true;
         },
-        increaseStock(productId: string, count: number) {
+        increaseStock(productId: number, count: number) {
             const product = this.findProductById(productId);
             if (!product) return false;
             product.Stock += count;

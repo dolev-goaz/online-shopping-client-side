@@ -44,5 +44,11 @@
             "email": "כתובת מייל",
             "address": "כתובת"
         }
+    },
+    "placeholder": {
+        "product": {
+            "title": "שם המוצר",
+            "description": "תיאור המוצר"
+        }
     }
 }
