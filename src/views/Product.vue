@@ -10,7 +10,6 @@
                         <header>{{ t('product.details') }}</header>
                         <EditableField tag="p" v-model="currentProduct.Description" />
                         <header>{{ t('product.price') }}</header>
-                        <!-- TODO: this is buggy -->
                         <EditableField tag="div" class="price" v-model="priceProxy" />
                     </div>
 
@@ -29,8 +28,9 @@
                         <span>{{ t('currency', { value: price }) }}</span>
                     </div>
                     <div class="actions">
-                        <MyButton :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase"> {{
-                            t('actions.addToCart') }} </MyButton>
+                        <MyButton :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase">
+                            {{ t('actions.addToCart') }}
+                        </MyButton>
                     </div>
                 </div>
             </div>
@@ -78,8 +78,8 @@ function onPurchase() {
 const priceProxy = computed({
     get: () => t('currency', { value: price.value }),
     set(value: string) {
-        const innerValue = value.endsWith(t('currencySymbol')) ? value.substring(0, value.length - 2) : value;
-        currentProduct.value!.Price = parseInt(innerValue);
+        const innerValue = value.endsWith(t('currencySymbol')) ? value.substring(0, value.length - 1) : value;
+        currentProduct.value!.Price = parseFloat(innerValue);
     }
 });
 
