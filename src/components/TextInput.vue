@@ -2,9 +2,11 @@
     <div class="input-block" :class="{ required }">
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
-            <input @keypress.enter="onSubmit" :required="required" v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
-            <VIcon :class="{ hidden: !isPassword }" class="ml-2" @click="toggleShowPassword" size="20">{{
-                passwordVisibilityIcon }}</VIcon>
+            <input @keypress.enter="onSubmit" :required="required" v-model="model" ref="inputField" v-bind="attrs"
+                :type="inputType" />
+            <VIcon :class="{ hidden: !isPassword }" class="ml-2" @click="toggleShowPassword" size="20">
+                {{ passwordVisibilityIcon }}
+            </VIcon>
             <VIcon :class="{ hidden: model == '' }" @click="onClear" size="20"> mdi-close </VIcon>
         </div>
     </div>
@@ -51,11 +53,19 @@ function toggleShowPassword() {
 }
 function onClear() {
     model.value = "";
-    inputField.value?.focus();
+    focusInputField();
 }
 function onSubmit() {
     emit('submit', model.value);
 }
+
+function focusInputField() {
+    inputField.value?.focus();
+}
+
+defineExpose({
+    focus: focusInputField
+})
 </script>
 <style scoped lang="scss">
 .input-container {

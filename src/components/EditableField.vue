@@ -7,15 +7,15 @@
             </button>
         </template>
         <template v-else>
-            <TextInput v-model="innerValue" @submit="onSubmitInput" @blur="closeEditMode" />
+            <TextInput ref="inputField" v-model="innerValue" @submit="onSubmitInput" @blur="closeEditMode"
+                @keypress.escape="closeEditMode" />
         </template>
     </div>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from '@/store/Authentication';
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick, watch } from 'vue';
 import TextInput from './TextInput.vue';
-import { watch } from 'vue';
 
 const props = defineProps<{
     tag: string;
@@ -35,14 +35,17 @@ const authStore = useAuthStore();
 const canEdit = computed(() => authStore.isAdmin || true);
 const editMode = ref(false);
 
+const inputField = ref<InstanceType<typeof TextInput>>();
+
 function openEditMode() {
-    console.log(1);
-    
     editMode.value = true;
+    nextTick(() => {
+        inputField.value?.focus();
+    });
 }
 
 function closeEditMode() {
-    innerValue.value = model.value;    
+    innerValue.value = model.value;
     editMode.value = false;
 }
 
@@ -62,7 +65,7 @@ function onSubmitInput() {
 .edit-button {
     position: absolute;
     top: 0;
-    inset-inline-end: 0;
+    inset-inline-end: -1.125rem;
     font-size: 0.875rem;
     border-radius: 50%;
     padding: 0.25rem;
