@@ -1,6 +1,11 @@
 <template>
     <LoadWrapper :loading="productStore.loadingProducts">
         <ul class="products-container">
+            <li class="add-product" v-if="authStore.isAdmin">
+                <RouterLink to="/add-product">
+                    <VIcon>mdi-plus</VIcon>
+                </RouterLink>
+            </li>
             <li v-for="product in productStore.products" :key="product.ProductId">
                 <a :href="`#/product/${product.ProductId}`">
                     <Product :product="product" />
@@ -13,8 +18,10 @@
 import LoadWrapper from '@/components/LoadWrapper.vue';
 import Product from '@/components/Merchandise/Product.vue';
 import { useProductStore } from '@/store/Product';
+import { useAuthStore } from '@/store/Authentication';
 
 const productStore = useProductStore();
+const authStore = useAuthStore();
 productStore.getProducts();
 
 
@@ -47,5 +54,42 @@ ul {
 
 a {
     text-decoration: none;
+}
+
+.add-product {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    --_clr: var(--clr-fg-light);
+    --_clr-bg: var(--clr-bg);
+    --_transition-duration: 250ms;
+    border: 1px solid var(--_clr);
+    transition: border var(--_transition-duration) ease;
+
+    &>a {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+        position: relative;
+
+        &>i.mdi {
+            color: var(--_clr);
+            font-size: 7rem;
+            border-radius: 50%;
+            width: 10rem;
+            height: 10rem;
+            border: 1px solid var(--_clr);
+            display: grid;
+            background-color: var(--_clr-bg);
+            transition: background-color var(--_transition-duration) ease,
+                border-color var(--_transition-duration) ease,
+                color var(--_transition-duration) ease;
+        }
+    }
+
+    &:hover {
+        --_clr-bg: var(--clr-bg-light);
+        --_clr: var(--clr-fg);
+    }
 }
 </style>
