@@ -1,14 +1,14 @@
 <template>
     <LoadWrapper :loading="productStore.loadingProducts">
-        <div class="product-page" v-if="currentProduct">
+        <div class="product-page" v-if="editedProduct">
             <div class="product-content">
 
-                <ImagePreview class="image" :src="currentProduct.Image" :alt="currentProduct.Title" />
+                <ImagePreview class="image" :src="editedProduct.Image" :alt="editedProduct.Title" />
                 <div class="data">
-                    <EditableField tag="h1" v-model="currentProduct.Title" />
+                    <EditableField tag="h1" v-model="editedProduct.Title" />
                     <div class="product-details">
                         <header>{{ t('product.details') }}</header>
-                        <EditableField tag="p" v-model="currentProduct.Description" />
+                        <EditableField tag="p" v-model="editedProduct.Description" />
                         <header>{{ t('product.price') }}</header>
                         <EditableField tag="div" class="price" v-model="priceProxy" />
                     </div>
@@ -18,7 +18,7 @@
                         <button @click="increaseAmount">
                             <VIcon>mdi-plus</VIcon>
                         </button>
-                        <span>{{ amount }}/{{ currentProduct.Stock }}</span>
+                        <span>{{ amount }}/{{ editedProduct.Stock }}</span>
                         <button @click="decreaseAmount">
                             <VIcon>mdi-minus</VIcon>
                         </button>
@@ -28,7 +28,10 @@
                         <span>{{ t('currency', { value: price }) }}</span>
                     </div>
                     <div class="actions">
-                        <MyButton :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase">
+                        <MyButton v-if="authStore.isAdmin" :disabled="!productChanged" @click="onSaveChanges">
+                            {{ t('actions.saveChanges') }}
+                        </MyButton>
+                        <MyButton v-else :disabled="!editedProduct || !editedProduct.Stock" @click="onPurchase">
                             {{ t('actions.addToCart') }}
                         </MyButton>
                     </div>
@@ -41,13 +44,15 @@
 import { useRoute } from 'vue-router';
 import { useProductStore } from '@/store/Product';
 import LoadWrapper from '@/components/LoadWrapper.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Locale, MessageSchema } from '@/i18n';
 import ImagePreview from '@/components/ImagePreview.vue';
 import MyButton from '@/components/MyButton.vue';
 import { useCartStore } from '@/store/Cart';
 import EditableField from '@/components/EditableField.vue';
+import { Product } from '@/@types/Model';
+import { useAuthStore } from '@/store/Authentication';
 const { t } = useI18n<MessageSchema, Locale>();
 
 const router = useRoute();
@@ -56,10 +61,17 @@ const productId = computed(() => router.params.id as string);
 const productStore = useProductStore();
 productStore.getProductById(productId.value);
 const currentProduct = computed(() => productStore.currentProduct);
+const editedProduct = ref<Product>();
+
+watch(currentProduct, () => {
+    editedProduct.value = { ...currentProduct.value! };
+}, {
+    immediate: true
+});
 
 const amount = ref(1);
 function increaseAmount() {
-    amount.value = Math.min(currentProduct.value!.Stock, amount.value + 1);
+    amount.value = Math.min(editedProduct.value!.Stock, amount.value + 1);
 }
 function decreaseAmount() {
     amount.value = Math.max(1, amount.value - 1);
@@ -71,17 +83,32 @@ function onPurchase() {
         alert("אירעה שגיאה. אנא נסה שוב..");
         return;
     }
-    amount.value = Math.min(1, currentProduct.value!.Stock);
+    amount.value = Math.min(1, editedProduct.value!.Stock);
 }
 
-const price = computed(() => (amount.value * currentProduct.value!.Price).toFixed(2));
+const price = computed(() => (amount.value * editedProduct.value!.Price).toFixed(2));
 const priceProxy = computed({
     get: () => t('currency', { value: price.value }),
     set(value: string) {
         const innerValue = value.endsWith(t('currencySymbol')) ? value.substring(0, value.length - 1) : value;
-        currentProduct.value!.Price = parseFloat(innerValue);
+        editedProduct.value!.Price = parseFloat(innerValue);
     }
 });
+
+const authStore = useAuthStore();
+const productChanged = computed(() => {
+    if (!currentProduct.value) return;
+    const keys = Object.keys(currentProduct.value) as Array<keyof Product>;
+    return !keys.every((key) => currentProduct.value![key] === editedProduct.value![key]);
+})
+async function onSaveChanges() {
+    if (!editedProduct.value) return;
+    const success = await productStore.updateProduct(editedProduct.value!);
+    if (!success) {
+        // TODO: error message
+        return;
+    }
+}
 
 </script>
 <style lang="scss">

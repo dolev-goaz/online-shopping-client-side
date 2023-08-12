@@ -32,7 +32,7 @@ const model = computed({
 });
 
 const authStore = useAuthStore();
-const canEdit = computed(() => authStore.isAdmin || true);
+const canEdit = computed(() => authStore.isAdmin);
 const editMode = ref(false);
 
 const inputField = ref<InstanceType<typeof TextInput>>();

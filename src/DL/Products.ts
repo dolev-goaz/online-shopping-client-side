@@ -17,3 +17,17 @@ export async function getProducts(): Promise<Product[]> {
             return products;
         });
 }
+
+export async function updateProduct(newProduct: Product) {
+    const path = `${productModule}/product`;
+    return axiosInstance
+        .put(path, newProduct)
+        .then((res) => res.data);
+}
+
+export async function createProduct(newProduct: Product) {
+    const path = `${productModule}/product`;
+    return axiosInstance
+        .post(path, newProduct)
+        .then((res) => res.data);
+}

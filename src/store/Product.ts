@@ -32,6 +32,31 @@ export const useProductStore = defineStore("products", {
             this.currentProduct = this.findProductById(id);
             return this.currentProduct;
         },
+        async updateProduct(updatedProduct: Product) {
+            if (!updatedProduct.Id) return false;
+
+            const success = await ProductsService
+                .updateProduct(updatedProduct)
+                .then(() => true)
+                .catch(() => false)
+
+            if (success) {
+                const existing = this.findProductById(updatedProduct.Id);
+                if (existing) {
+                    Object.assign(existing, updatedProduct);
+                }
+            }
+
+            return success;
+        },
+        async createProduct(product: Product) {
+            if (product.Id) return false;
+
+            return ProductsService
+                .createProduct(product)
+                .then(() => true)
+                .catch(() => false)
+        },
         findProductById(productId: string) {
             return this.products.find((product) => product.Id == productId) ?? null;
         },

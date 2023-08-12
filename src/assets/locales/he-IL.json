@@ -28,7 +28,8 @@
     "actions": {
         "purchase": "רכישה",
         "addToCart": "הוספה לעגלה",
-        "checkout": "לרכישה"
+        "checkout": "לרכישה",
+        "saveChanges": "שמור שינויים"
     },
     "form": {
         "login": {
