@@ -51,8 +51,9 @@ import EditableField from '@/components/EditableField.vue';
 const { t } = useI18n<MessageSchema, Locale>();
 
 const router = useRoute();
-const productStore = useProductStore();
 const productId = computed(() => router.params.id as string);
+
+const productStore = useProductStore();
 productStore.getProductById(productId.value);
 const currentProduct = computed(() => productStore.currentProduct);
 
@@ -64,8 +65,6 @@ function decreaseAmount() {
     amount.value = Math.max(1, amount.value - 1);
 }
 
-const price = computed(() => (amount.value * currentProduct.value!.Price).toFixed(2));
-
 const cartStore = useCartStore();
 function onPurchase() {
     if (!cartStore.addItem(productId.value, amount.value)) {
@@ -75,6 +74,7 @@ function onPurchase() {
     amount.value = Math.min(1, currentProduct.value!.Stock);
 }
 
+const price = computed(() => (amount.value * currentProduct.value!.Price).toFixed(2));
 const priceProxy = computed({
     get: () => t('currency', { value: price.value }),
     set(value: string) {
