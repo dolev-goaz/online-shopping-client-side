@@ -91,6 +91,10 @@ const priceProxy = computed({
     get: () => t('currency', { value: price.value }),
     set(value: string) {
         const innerValue = value.endsWith(t('currencySymbol')) ? value.substring(0, value.length - 1) : value;
+        const parsed = parseFloat(innerValue);
+        if (isNaN(parsed)) {
+            return;
+        }
         editedProduct.value!.Price = parseFloat(innerValue);
     }
 });
