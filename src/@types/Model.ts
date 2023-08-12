@@ -9,9 +9,9 @@ export interface User {
 }
 
 export interface Product {
-    ProductId: string;
-    ProductName: string;
-    ProductDesc: string;
+    Id: string;
+    Title: string;
+    Description: string;
     Price: number;
     /**
      * How many copies of this product we have available
@@ -22,7 +22,7 @@ export interface Product {
 
 export interface Purchase {
     DealId: Deal['DealId'];
-    ProductId: Product['ProductId'];
+    ProductId: Product['Id'];
     Price: number;
     Amount: number;
 }

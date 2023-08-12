@@ -33,7 +33,7 @@ export const useProductStore = defineStore("products", {
             return this.currentProduct;
         },
         findProductById(productId: string) {
-            return this.products.find((product) => product.ProductId == productId) ?? null;
+            return this.products.find((product) => product.Id == productId) ?? null;
         },
         reduceStock(productId: string, reduceCount: number) {
             const product = this.findProductById(productId);

@@ -3,12 +3,12 @@
         <div class="product-page" v-if="currentProduct">
             <div class="product-content">
 
-                <ImagePreview class="image" :src="currentProduct.Image" :alt="currentProduct.ProductName" />
+                <ImagePreview class="image" :src="currentProduct.Image" :alt="currentProduct.Title" />
                 <div class="data">
-                    <EditableField tag="h1" v-model="currentProduct.ProductName" />
+                    <EditableField tag="h1" v-model="currentProduct.Title" />
                     <div class="product-details">
                         <header>{{ t('product.details') }}</header>
-                        <EditableField tag="p" v-model="currentProduct.ProductDesc" />
+                        <EditableField tag="p" v-model="currentProduct.Description" />
                         <header>{{ t('product.price') }}</header>
                         <!-- TODO: this is buggy -->
                         <EditableField tag="div" class="price" v-model="priceProxy" />

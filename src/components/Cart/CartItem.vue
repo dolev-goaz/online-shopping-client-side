@@ -2,12 +2,12 @@
     <article class="cart-item">
         <button class="image-btn" @click="onOpenProduct">
             <VIcon>mdi-arrow-u-right-top</VIcon>
-            <img :src="product.Image" :alt="product.ProductName">
+            <img :src="product.Image" :alt="product.Title">
         </button>
         <section>
             <header>
                 <span>
-                    {{ product.ProductName }}
+                    {{ product.Title }}
                 </span>
                 <button class="delete" type="button" @click="onDelete">
                     <VIcon color="lightgrey">mdi-trash-can-outline</VIcon>
@@ -15,7 +15,7 @@
             </header>
             <div class="item-details">
                 <p>
-                    {{ product.ProductDesc }}
+                    {{ product.Description }}
                 </p>
                 <div class="purchase-details">
                     <div class="quantity">
@@ -52,7 +52,7 @@ const emit = defineEmits<{
 const { t } = useI18n<MessageSchema>();
 const totalPrice = computed(() => (props.product.Price * props.count).toFixed(2))
 function onOpenProduct() {
-    router.push(`/product/${props.product.ProductId}`)
+    router.push(`/product/${props.product.Id}`)
 }
 function onDelete() {
     emit('delete');

@@ -1,9 +1,9 @@
 <template>
     <div class="product">
-        <img draggable="false" :src="product.Image" :alt="product.ProductName">
+        <img draggable="false" :src="product.Image" :alt="product.Title">
         <div class="details-container">
-            <div class="name overflow-dots" :title="product.ProductName">{{ product.ProductName }}</div>
-            <p class="description overflow-dots" :title="product.ProductDesc">{{ product.ProductDesc }}</p>
+            <div class="name overflow-dots" :title="product.Title">{{ product.Title }}</div>
+            <p class="description overflow-dots" :title="product.Description">{{ product.Description }}</p>
             <div class="price">{{ t('currency', {value: product.Price}) }}</div>
         </div>
         <div class="out-of-stock-overlay" v-if="product.Stock == 0">
