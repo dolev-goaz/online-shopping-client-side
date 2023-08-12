@@ -70,7 +70,7 @@ const productId = computed(() => parseInt(route.params.id as string));
 const productStore = useProductStore();
 productStore.getProductById(productId.value);
 const currentProduct = computed(() => productStore.currentProduct);
-const editedProduct = ref<Product>();
+const editedProduct = ref<Product | null>(null);
 
 onMounted(() => {
     if (isCreateNew.value) {
@@ -79,13 +79,13 @@ onMounted(() => {
             return;
         }
         editedProduct.value = {
-            // Id: 21,
+            Id: -1,
             Title: t('placeholder.product.title'),
             Description: t('placeholder.product.description'),
             Image: 'https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png',
             Price: 0,
             Stock: 0,
-        } as Product
+        }
         return;
     }
     editedProduct.value = { ...currentProduct.value! };
@@ -111,6 +111,7 @@ function onPurchase() {
         return;
     }
     amount.value = Math.min(1, editedProduct.value!.Stock);
+    editedProduct.value!.Stock = currentProduct.value!.Stock;
 }
 
 const price = computed(() => (amount.value * editedProduct.value!.Price).toFixed(2));
@@ -127,7 +128,7 @@ const priceProxy = computed({
 });
 
 const stockProxy = computed({
-    get: () => editedProduct.value!.Stock.toString(),
+    get: () => (editedProduct.value?.Stock ?? 0).toString(),
     set(newValue: string) {
         editedProduct.value!.Stock = parseInt(newValue);
     }
@@ -139,7 +140,8 @@ const productChanged = computed(() => {
     if (isCreateNew.value) {
         return editedProduct.value.Price != 0 &&
             editedProduct.value.Title != t('placeholder.product.title') &&
-            editedProduct.value.Description != t('placeholder.product.description');
+            editedProduct.value.Description != t('placeholder.product.description') &&
+            editedProduct.value.Stock != 0;
     }
     if (!currentProduct.value) return;
     const keys = Object.keys(currentProduct.value) as Array<keyof Product>;
