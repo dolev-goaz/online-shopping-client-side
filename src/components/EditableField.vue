@@ -1,6 +1,6 @@
 <template>
     <template v-if="!editMode">
-        <component class="editable" @click="openEditMode" :is="tag">{{ model }}</component>
+        <component :class="{editable: canEdit}" @click="openEditMode" :is="tag">{{ model }}</component>
     </template>
     <template v-else>
         <TextInput ref="inputField" v-model="innerValue" @submit="onSubmitInput" @blur="closeEditMode"
@@ -33,6 +33,7 @@ const editMode = ref(false);
 const inputField = ref<InstanceType<typeof TextInput>>();
 
 function openEditMode() {
+    if (!canEdit.value) return;
     editMode.value = true;
     nextTick(() => {
         inputField.value?.focus();
