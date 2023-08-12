@@ -2,7 +2,7 @@
     <div class="input-block" :class="{ required }">
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
-            <input :required="required" v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
+            <input @keypress.enter="onSubmit" :required="required" v-model="model" ref="inputField" v-bind="attrs" :type="inputType" />
             <VIcon :class="{ hidden: !isPassword }" class="ml-2" @click="toggleShowPassword" size="20">{{
                 passwordVisibilityIcon }}</VIcon>
             <VIcon :class="{ hidden: model == '' }" @click="onClear" size="20"> mdi-close </VIcon>
@@ -22,7 +22,8 @@ const props = withDefaults(defineProps<{
 });
 
 const emit = defineEmits<{
-    (e: 'update:modelValue', payload: string): void
+    (e: 'update:modelValue', payload: string): void;
+    (e: 'submit', payload: string): void;
 }>();
 const model = computed({
     get: () => props.modelValue || '',
@@ -52,6 +53,9 @@ function onClear() {
     model.value = "";
     inputField.value?.focus();
 }
+function onSubmit() {
+    emit('submit', model.value);
+}
 </script>
 <style scoped lang="scss">
 .input-container {
@@ -61,12 +65,14 @@ function onClear() {
     padding: 0.25em 0.5em;
     border-radius: 0.25rem;
     border: 1px solid darkgray;
-    width: max-content
+    display: flex;
+    align-items: center;
 }
 
 input {
     border-bottom: 1px solid transparent;
     color: var(--clr-fg);
+    flex-grow: 1;
 
     &:focus-visible {
         outline: none;

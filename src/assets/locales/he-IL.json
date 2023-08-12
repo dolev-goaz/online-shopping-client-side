@@ -1,5 +1,6 @@
 {
-    "currency": "{value}₪",
+    "currencySymbol": "₪",
+    "currency": "{value}@:currencySymbol",
     "hello": "שלום, {name}!",
     "account": "חשבון",
     "authentication": {

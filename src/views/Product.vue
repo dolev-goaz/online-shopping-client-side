@@ -5,18 +5,13 @@
 
                 <ImagePreview class="image" :src="currentProduct.Image" :alt="currentProduct.ProductName" />
                 <div class="data">
-                    <h1>
-                        {{ currentProduct.ProductName }}
-                    </h1>
+                    <EditableField tag="h1" v-model="currentProduct.ProductName" />
                     <div class="product-details">
                         <header>{{ t('product.details') }}</header>
-                        <p>
-                            {{ currentProduct.ProductDesc }}
-                        </p>
+                        <EditableField tag="p" v-model="currentProduct.ProductDesc" />
                         <header>{{ t('product.price') }}</header>
-                        <div class="price">
-                            {{ t('currency', { value: currentProduct.Price }) }}
-                        </div>
+                        <!-- TODO: this is buggy -->
+                        <EditableField tag="div" class="price" v-model="priceProxy" />
                     </div>
 
                     <div class="quantity">
@@ -38,9 +33,6 @@
                             t('actions.addToCart') }} </MyButton>
                     </div>
                 </div>
-                <!-- <div class="shipping">
-                    Ship to
-                </div> -->
             </div>
         </div>
     </LoadWrapper>
@@ -55,8 +47,8 @@ import { Locale, MessageSchema } from '@/i18n';
 import ImagePreview from '@/components/ImagePreview.vue';
 import MyButton from '@/components/MyButton.vue';
 import { useCartStore } from '@/store/Cart';
+import EditableField from '@/components/EditableField.vue';
 const { t } = useI18n<MessageSchema, Locale>();
-
 
 const router = useRoute();
 const productStore = useProductStore();
@@ -82,12 +74,36 @@ function onPurchase() {
     }
     amount.value = Math.min(1, currentProduct.value!.Stock);
 }
+
+const priceProxy = computed({
+    get: () => t('currency', { value: price.value }),
+    set(value: string) {
+        const innerValue = value.endsWith(t('currencySymbol')) ? value.substring(0, value.length - 2) : value;
+        currentProduct.value!.Price = parseInt(innerValue);
+    }
+});
+
 </script>
-<style>
+<style lang="scss">
 .product-content img.image {
     max-height: 80vh;
     object-fit: cover;
     border-radius: 0.375rem;
+}
+
+.product-page .data {
+
+    h1 {
+        font-weight: bold;
+        font-size: 2.5rem;
+        line-height: 1.25;
+        margin-bottom: 1.5rem;
+    }
+
+    p {
+        font-size: 1.125rem;
+        margin-bottom: 1em;
+    }
 }
 </style>
 <style scoped lang="scss">
@@ -120,14 +136,6 @@ function onPurchase() {
 }
 
 .data {
-
-    h1 {
-        font-weight: bold;
-        font-size: 2.5rem;
-        line-height: 1.25;
-        margin-bottom: 1.5rem;
-    }
-
     .product-details {
         border-top: 1px solid lightgray;
         border-bottom: 1px solid lightgray;
@@ -147,11 +155,6 @@ function onPurchase() {
                 content: ':';
             }
         }
-    }
-
-    p {
-        font-size: 1.125rem;
-        margin-bottom: 1em;
     }
 
     .quantity {
@@ -188,4 +191,5 @@ function onPurchase() {
             content: ':';
         }
     }
-}</style>
+}
+</style>
