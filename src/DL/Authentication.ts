@@ -29,10 +29,7 @@ export async function Register(formData: RegisterPayload): Promise<Authenticatio
     const path = `${authenticationModule}/register`;
 
     return axiosInstance
-        .post<AuthenticationResponse>(path, {
-            ...formData,
-            role: "USER" // TODO: handle this server-side
-        })
+        .post<AuthenticationResponse>(path, formData)
         .then((res) => res.data)
         .catch((err: AxiosError) => err.message);
 }
