@@ -1,5 +1,5 @@
 import { axiosInstance } from ".."
-import { AuthenticationResponse, authenticationModule } from ".";
+import { AuthenticationResponse } from ".";
 
 type TokenCookieKeys = "access_token" | "refresh_token";
 
@@ -20,10 +20,17 @@ function setCookie(name: TokenCookieKeys, value: string, expiration?: Date | str
     document.cookie = `${cookieValue} ${expirationValue}`;
 }
 
+function deleteAuthorization() {
+    axiosInstance.interceptors.request.clear();
+    clearCookie('access_token');
+    clearCookie('refresh_token');
+}
+
 function loadAuthorization() {
     const existingAccessToken = getCookie("access_token");
-    if (!existingAccessToken) return;
+    if (!existingAccessToken) return false;
     setAuthorizationHeader(existingAccessToken);
+    return true;
 }
 
 function setAuthorizationHeader(accessToken: string) {
@@ -51,5 +58,6 @@ function setAuthorization(response: AuthenticationResponse) {
 
 export default {
     setAuthorization,
-    loadAuthorization
+    loadAuthorization,
+    deleteAuthorization
 }

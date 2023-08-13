@@ -41,3 +41,16 @@ export async function Register(formData: RegisterPayload): Promise<Authenticatio
         })
         .catch((err: AxiosError) => err.message);
 }
+
+export async function SignInToken(): Promise<AuthenticationResponse | string> {
+    const path = `${authenticationModule}/authenticate`;
+    return axiosInstance
+        .get<AuthenticationResponse>(path)
+        .then((res) => res.data)
+        .catch((err: AxiosError) => err.message);
+
+}
+
+export async function SignOut() {
+    TokenService.deleteAuthorization()
+}

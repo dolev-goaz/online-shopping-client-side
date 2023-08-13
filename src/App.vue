@@ -4,8 +4,11 @@ import { useI18n } from "vue-i18n";
 import { locales } from "./i18n";
 import { watch } from "vue";
 import { useLocale } from "vuetify";
+import { useAuthStore } from "./store/Authentication";
+import { onMounted } from "vue";
 const { locale } = useI18n();
 const { current } = useLocale();
+const authStore = useAuthStore();
 
 watch(locale, () => {
   const dir = (locale.value === locales.hebrew) ? 'rtl' : 'ltr';
@@ -14,6 +17,10 @@ watch(locale, () => {
   current.value = locale.value;
 }, {
   immediate: true
+});
+
+onMounted(() => {
+  authStore.loadAuthorization();
 });
 </script>
 

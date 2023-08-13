@@ -18,8 +18,19 @@ export const useAuthStore = defineStore("authentication", {
         user: null
     }),
     actions: {
-        loadAuthorization() {
-            TokenService.loadAuthorization();
+        async loadAuthorization() {
+            if (this.user) return;
+            const existingAuth = TokenService.loadAuthorization();
+            if (!existingAuth) return;
+
+            const res = await AuthenticationService.SignInToken();
+            if (typeof res === 'string') {
+                alert(res);
+                return;
+            }
+
+            this.user = res;
+            return this.user;
         },
         async login(email: string, password: string) {
             const res = await AuthenticationService.SignIn(email, password);
@@ -32,6 +43,7 @@ export const useAuthStore = defineStore("authentication", {
             return this.user;
         },
         async logout() {
+            await AuthenticationService.SignOut();
             this.user = null;
         },
         async register(payload: RegisterPayload) {
@@ -58,4 +70,4 @@ export const useAuthStore = defineStore("authentication", {
             return this.getAuthorization === 'ADMIN';
         }
     }
-})
+});
