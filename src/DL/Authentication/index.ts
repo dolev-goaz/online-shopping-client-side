@@ -69,6 +69,10 @@ export async function LoadAuthorization() {
             .then((res) => res.data));
 }
 
+export function DeleteLocalAuthorizations() {
+    tokenManager.deleteAuthorization(); 
+}
+
 export async function SignOut() {
-    tokenManager.deleteAuthorization()
+    DeleteLocalAuthorizations();
 }

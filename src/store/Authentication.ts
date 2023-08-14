@@ -23,7 +23,7 @@ export const useAuthStore = defineStore("authentication", {
 
             const res = await AuthenticationService.SignInToken();
             if (typeof res === 'string') {
-                alert(res);
+                AuthenticationService.DeleteLocalAuthorizations();
                 return;
             }
 
