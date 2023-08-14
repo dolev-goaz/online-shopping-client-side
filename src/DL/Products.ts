@@ -28,6 +28,6 @@ export async function updateProduct(newProduct: Product) {
 export async function createProduct(newProduct: Product) {
     const path = `${productModule}/product`;
     return axiosInstance
-        .post(path, newProduct)
+        .post<Product>(path, newProduct)
         .then((res) => res.data);
 }

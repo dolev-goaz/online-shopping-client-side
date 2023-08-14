@@ -53,7 +53,12 @@ export const useProductStore = defineStore("products", {
             // if (product.Id) return false;
             return ProductsService
                 .createProduct(product)
-                .then(() => true)
+                .then((product) => {
+                    product.Image = `https://picsum.photos/id/${product.Id}/500/700`
+                    this.products.push(product)
+                    this.currentProduct = product;
+                    return true;
+                })
                 .catch(() => false)
         },
         findProductById(productId: number) {

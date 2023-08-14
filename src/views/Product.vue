@@ -91,8 +91,9 @@ onMounted(() => {
     editedProduct.value = { ...currentProduct.value! };
 })
 watch(productId, () => {
+    if (isCreateNew.value || isNaN(productId.value)) return; // when redirecting
     productStore.getProductById(productId.value);
-    if (!isCreateNew.value && !currentProduct.value) {
+    if (!currentProduct.value) {
         router.push('/');
         return;
     }
@@ -163,6 +164,11 @@ async function onSaveChanges() {
         // TODO: error message
         return;
     }
+    router.push({
+        params: {
+            id: currentProduct.value!.Id
+        }
+    });
 }
 
 </script>
