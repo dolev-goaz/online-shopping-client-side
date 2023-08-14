@@ -69,7 +69,6 @@ const isCreateNew = computed(() => route.query['new-product'] == 'true');
 const productId = computed(() => parseInt(route.params.id as string));
 
 const productStore = useProductStore();
-productStore.getProductById(productId.value);
 const currentProduct = computed(() => productStore.currentProduct);
 const editedProduct = ref<Product | null>(null);
 
@@ -90,12 +89,17 @@ onMounted(() => {
         return;
     }
     editedProduct.value = { ...currentProduct.value! };
-}),
-    watch(currentProduct, () => {
-        editedProduct.value = { ...currentProduct.value! };
-    }, {
-        immediate: true
-    });
+})
+watch(productId, () => {
+    productStore.getProductById(productId.value);
+    if (!isCreateNew.value && !currentProduct.value) {
+        router.push('/');
+        return;
+    }
+    editedProduct.value = { ...currentProduct.value! };
+}, {
+    immediate: true
+});
 
 const amount = ref(1);
 function increaseAmount() {
