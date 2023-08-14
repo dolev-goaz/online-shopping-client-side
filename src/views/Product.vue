@@ -34,10 +34,11 @@
                         <span>{{ t('currency', { value: price }) }}</span>
                     </div>
                     <div class="actions">
-                        <MyButton v-if="authStore.isAdmin" :disabled="!productChanged" @click="onSaveChanges">
+                        <MyButton :loading="loadingSave" v-if="authStore.isAdmin" :disabled="!productChanged || loadingSave"
+                            @click="onSaveChanges">
                             {{ t('actions.saveChanges') }}
                         </MyButton>
-                        <MyButton v-else :disabled="!editedProduct || !editedProduct.Stock" @click="onPurchase">
+                        <MyButton v-else :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase">
                             {{ t('actions.addToCart') }}
                         </MyButton>
                     </div>
@@ -135,6 +136,7 @@ const stockProxy = computed({
 })
 
 const authStore = useAuthStore();
+const loadingSave = ref(false);
 const productChanged = computed(() => {
     if (!editedProduct.value) return false;
     if (isCreateNew.value) {
@@ -150,7 +152,9 @@ const productChanged = computed(() => {
 async function onSaveChanges() {
     if (!editedProduct.value) return;
     const saveMethod = isCreateNew.value ? productStore.createProduct : productStore.updateProduct;
+    loadingSave.value = true;
     const success = await saveMethod(editedProduct.value);
+    loadingSave.value = false;
     if (!success) {
         // TODO: error message
         return;
