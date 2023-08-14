@@ -53,5 +53,8 @@
     },
     "message": {
         "emptyCart": "נראה שעוד לא קנית משהו.."
+    },
+    "admin": {
+        "navbarHeader": "תצוגת מנהל"
     }
 }

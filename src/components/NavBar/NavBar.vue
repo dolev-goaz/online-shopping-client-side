@@ -1,5 +1,6 @@
 <template>
     <nav>
+        <header v-if="authStore.isAdmin" class="admin-header">{{ t('admin.navbarHeader') }}</header>
         <ul>
             <li style="margin-inline-end: auto;">
                 <RouterLink to="/">
@@ -11,7 +12,7 @@
                     <VIcon> {{ isDark ? 'mdi-weather-night' : 'mdi-weather-sunny' }} </VIcon>
                 </button>
             </li>
-            <li>
+            <li v-if="!authStore.isAdmin">
                 <RouterLink to="/cart">
                     <VIcon size="20">mdi-cart</VIcon>
                 </RouterLink>
@@ -33,6 +34,12 @@
 import LoginPopupVue from "@/components/Profile/LoginPopup.vue"
 import { ref } from 'vue';
 import { useDark, useToggle } from '@vueuse/core'
+import { useAuthStore } from "@/store/Authentication";
+import { useI18n } from "vue-i18n";
+import { MessageSchema } from "@/i18n";
+
+const { t } = useI18n<MessageSchema>();
+const authStore = useAuthStore();
 
 const isDark = useDark({
     selector: 'body',
@@ -46,6 +53,14 @@ const openLoginPopup = ref(false);
 
 </script>
 <style lang="scss" scoped>
+.admin-header {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    font-size: 1.5rem;
+    color: var(--clr-fg-light);
+}
 nav {
     position: sticky;
     inset-inline: 0;
