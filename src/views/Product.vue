@@ -112,7 +112,7 @@ watch(amount, () => {
 
 const cartStore = useCartStore();
 function onPurchase() {
-    if (!cartStore.addItem(productId.value, amount.value)) {
+    if (!cartStore.addItemCount(productId.value, amount.value)) {
         alert("אירעה שגיאה. אנא נסה שוב..");
         return;
     }

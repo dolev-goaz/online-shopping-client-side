@@ -21,7 +21,7 @@ export const useCartStore = defineStore("products-cart", {
         cartItems: [],
     }),
     actions: {
-        addItem(productId: number, count: number) {
+        addItemCount(productId: number, count: number) {
             const productsStore = useProductStore();
             if (!productsStore.reduceStock(productId, count)) return false; // stock reduction failed
 
@@ -45,6 +45,20 @@ export const useCartStore = defineStore("products-cart", {
 
             const product = this.cartItems.splice(index, 1)[0];
             return productsStore.increaseStock(product.productId, product.count)
+        },
+        removeItemCount(productId: number, count: number) {
+            const productsStore = useProductStore();
+            if (!productsStore.increaseStock(productId, count)) return false; // stock increase failed
+
+            const existing = this.cartItems.find((cartItem) => cartItem.productId == productId);
+            if (!existing) return false;
+
+            existing.count -= count;
+            if (existing.count < 0) {
+                this.removeItem(productId)
+            }
+
+            return true;
         }
     },
     getters: {

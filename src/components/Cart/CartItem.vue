@@ -22,9 +22,7 @@
                         <span>
                             {{ t('product.quantity') }}
                         </span>
-                        <span>
-                            {{ count }}
-                        </span>
+                        <NumberInput v-model="countProxy" />
                     </div>
                     <div class="price">
                         {{ t('currency', { value: totalPrice }) }}
@@ -40,7 +38,10 @@ import { MessageSchema } from "@/i18n";
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
-const router = useRouter()
+import NumberInput from "../NumberInput.vue";
+import { useCartStore } from "@/store/Cart";
+const router = useRouter();
+const cartStore = useCartStore()
 
 const props = defineProps<{
     product: Product;
@@ -57,6 +58,23 @@ function onOpenProduct() {
 function onDelete() {
     emit('delete');
 }
+
+const countProxy = computed({
+    get() {
+        return props.count
+    },
+    set(newCount: number) {
+        const delta = newCount - props.count;
+        if (delta == 0) return;
+        const deltaAbs = Math.abs(delta);
+        if (delta > 0) {
+            cartStore.addItemCount(props.product.Id, deltaAbs);
+        } else {
+            cartStore.removeItemCount(props.product.Id, deltaAbs);
+        }
+    }
+})
+
 </script>
 <style lang="scss" scoped>
 header {
