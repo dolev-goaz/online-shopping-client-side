@@ -1,23 +1,28 @@
 <template>
     <div class="cart-page">
-        <TransitionGroup tag="ul" class="cart-list" name="cart-list">
-            <li v-for="{product, count} in cart.products" :key="product.Id">
-                <CartItem :product="product" :count="count" @delete="() => onDeleteProduct(product.Id)" />
-            </li>
-        </TransitionGroup>
-        <footer>
-            <div class="checkout">
-                <div class="total">
-                    <span class="text">
-                        {{ t('product.price') }}
-                    </span>
-                    <span class="value">
-                        {{ t('currency', {value: cart.totalCost}) }}
-                    </span>
+        <strong class="is-empty" v-if="isEmpty">
+            {{ t('message.emptyCart') }}
+        </strong>
+        <template v-else>
+            <TransitionGroup tag="ul" class="cart-list" name="cart-list">
+                <li v-for="{ product, count } in cart.products" :key="product.Id">
+                    <CartItem :product="product" :count="count" @delete="() => onDeleteProduct(product.Id)" />
+                </li>
+            </TransitionGroup>
+            <footer>
+                <div class="checkout">
+                    <div class="total">
+                        <span class="text">
+                            {{ t('product.price') }}
+                        </span>
+                        <span class="value">
+                            {{ t('currency', { value: cart.totalCost }) }}
+                        </span>
+                    </div>
+                    <MyButton> {{ t('actions.checkout') }} </MyButton>
                 </div>
-                <MyButton> {{ t('actions.checkout') }} </MyButton>
-            </div>
-        </footer>
+            </footer>
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -25,6 +30,7 @@ import CartItem from '@/components/Cart/CartItem.vue';
 import MyButton from '@/components/MyButton.vue';
 import { MessageSchema } from '@/i18n';
 import { useCartStore } from '@/store/Cart';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n<MessageSchema>();
 
@@ -33,24 +39,41 @@ const cart = useCartStore();
 function onDeleteProduct(productId: number) {
     cart.removeItem(productId);
 }
+const isEmpty = computed(() => cart.products.length == 0);
+
 </script>
 <style lang="scss" scoped>
+.cart-page:has(strong.is-empty) {
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+strong.is-empty {
+    font-size: 5rem;
+    text-align: center;
+    margin-bottom: 2em;
+}
+
 footer {
     display: flex;
     justify-content: center;
 
     .checkout {
         width: 20rem;
+
         .total {
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.5rem;
         }
+
         button {
             width: 100%;
         }
     }
 }
+
 .cart-page {
     display: flex;
     flex-direction: column;
@@ -62,6 +85,7 @@ footer {
     margin-inline: auto;
     padding-block: 2rem;
 }
+
 .cart-list {
     overflow-y: auto;
     overflow-x: hidden;
@@ -77,12 +101,12 @@ footer {
 
 .cart-list-enter-active,
 .cart-list-leave-active {
-  transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 .cart-list-enter-from,
 .cart-list-leave-to {
-  opacity: 0;
-  transform: translateX(30px);
+    opacity: 0;
+    transform: translateX(30px);
 }
 </style>
