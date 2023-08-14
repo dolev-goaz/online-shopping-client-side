@@ -3,13 +3,18 @@
         <div class="inputs">
             <slot />
         </div>
-        <MyButton type="submit">
+        <MyButton :loading="loading" :disabled="disabled" type="submit">
             <slot name="submit-button" />
         </MyButton>
     </form>
 </template>
 <script lang="ts" setup>
 import MyButton from './MyButton.vue';
+
+const props = defineProps<{
+    loading?: boolean;
+    disabled?: boolean;
+}>();
 
 const emit = defineEmits<{
     (event: 'submit', payload: any): void;

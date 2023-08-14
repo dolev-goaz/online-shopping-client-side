@@ -1,6 +1,6 @@
 <template>
     <div class="register-page">
-        <BaseForm @submit="onSubmit">
+        <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
             <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required :type="field.type"
                 :name="field.name" :label="t(`form.register.${field.name}`)" />
             <template #submit-button>{{ t('authentication.registration') }}</template>
@@ -71,10 +71,13 @@ const formData = ref<RegisterForm>({
     email: '',
     address: ''
 });
+const loading = ref(false);
 
 async function onSubmit(data: RegisterForm) {
     if (data.password != data.repeatPassword) return;
+    loading.value = true;
     const success = await authStore.register(data);
+    loading.value = false;
     if (!success) return;
 
     router.push('/');

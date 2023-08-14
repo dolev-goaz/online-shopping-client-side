@@ -1,6 +1,6 @@
 <template>
     <div class="login-page">
-        <BaseForm @submit="onSubmit">
+        <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
             <TextInput type="text" v-model="mail" name="mail" required :label="t('form.login.mail')" />
             <TextInput type="password" v-model="password" name="password" required :label="t('form.login.password')" />
             <template #submit-button>{{ t('authentication.login') }}</template>
@@ -23,9 +23,13 @@ const authStore = useAuthStore();
 const mail = ref("");
 const password = ref("");
 
+const loading = ref(false);
+
 async function onSubmit(payload: Record<string, any>) {
     const { mail, password } = payload;
+    loading.value = true;
     const user = await authStore.login(mail, password);
+    loading.value = false;
     if (!user) {
         return;
     }
