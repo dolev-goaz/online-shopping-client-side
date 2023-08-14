@@ -15,19 +15,15 @@
 
                     <div class="quantity">
                         <header>{{ t('product.quantity') }}:</header>
-                        <button @click="increaseAmount">
-                            <VIcon>mdi-plus</VIcon>
-                        </button>
-                        <span>
+                        <NumberInput :min="0" :max="editedProduct.Stock" v-model="amount">
                             <span>
-                                {{ amount }}
+                                <span>
+                                    {{ amount }}
+                                </span>
+                                <span>/</span>
+                                <EditableField tag="span" class="price" v-model="stockProxy" />
                             </span>
-                            <span>/</span>
-                            <EditableField tag="span" class="price" v-model="stockProxy" />
-                        </span>
-                        <button @click="decreaseAmount">
-                            <VIcon>mdi-minus</VIcon>
-                        </button>
+                        </NumberInput>
                     </div>
                     <div class="total-price">
                         <header>{{ t('product.finalPrice') }}</header>
@@ -60,6 +56,7 @@ import { useCartStore } from '@/store/Cart';
 import EditableField from '@/components/EditableField.vue';
 import { Product } from '@/@types/Model';
 import { useAuthStore } from '@/store/Authentication';
+import NumberInput from '@/components/NumberInput.vue';
 const { t } = useI18n<MessageSchema, Locale>();
 
 const router = useRouter();
@@ -103,12 +100,15 @@ watch(productId, () => {
 });
 
 const amount = ref(1);
-function increaseAmount() {
-    amount.value = Math.min(editedProduct.value!.Stock, amount.value + 1);
+function clampCount(desired: number) {
+    const maxStock = editedProduct.value?.Stock ?? Infinity;
+    return Math.min(Math.max(desired, 0), maxStock);
 }
-function decreaseAmount() {
-    amount.value = Math.max(1, amount.value - 1);
-}
+watch(amount, () => {
+    amount.value = clampCount(amount.value);
+}, {
+    immediate: true
+});
 
 const cartStore = useCartStore();
 function onPurchase() {
@@ -116,8 +116,8 @@ function onPurchase() {
         alert("אירעה שגיאה. אנא נסה שוב..");
         return;
     }
-    amount.value = Math.min(1, editedProduct.value!.Stock);
     editedProduct.value!.Stock = currentProduct.value!.Stock;
+    amount.value = clampCount(1);
 }
 
 const price = computed(() => (amount.value * editedProduct.value!.Price).toFixed(2));
