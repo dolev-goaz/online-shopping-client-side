@@ -61,6 +61,7 @@ i.mdi {
     padding: 0.75rem;
     background-color: var(--clr-bg-dark);
     color: var(--clr-fg-light);
+    border: 1px solid var(--clr-fg-light);
 
     &:hover {
         filter: brightness(0.9);
