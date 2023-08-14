@@ -1,8 +1,6 @@
 import { RegisterPayload, Roles, TRole, User } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as AuthenticationService from "@/DL/Authentication"
-import TokenService from "@/DL/Authentication/Token";
-
 
 type UserInner = {
     firstname: string;
@@ -20,12 +18,12 @@ export const useAuthStore = defineStore("authentication", {
     actions: {
         async loadAuthorization() {
             if (this.user) return;
-            const existingAuth = TokenService.loadAuthorization();
+            const existingAuth = await AuthenticationService.LoadAuthorization();
             if (!existingAuth) return;
 
             const res = await AuthenticationService.SignInToken();
             if (typeof res === 'string') {
-                TokenService.deleteAuthorization();
+                alert(res);
                 return;
             }
 
