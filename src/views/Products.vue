@@ -61,6 +61,14 @@ a {
     text-decoration: none;
 }
 
+ul > li {
+    aspect-ratio: 3 / 4;
+    &>a, &>a>.product {
+        display: block;
+        height: 100%;
+    }
+}
+
 .add-product {
     border-radius: 0.5rem;
     overflow: hidden;

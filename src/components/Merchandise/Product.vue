@@ -51,7 +51,6 @@ const props = defineProps<{
     position: relative;
     user-select: none;
     background-color:  var(--clr-accent-light);
-    aspect-ratio: 3 / 4;
 
     cursor: pointer;
     box-shadow: 0px 0px 20px 1px rgba(black, 0.268);
