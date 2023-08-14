@@ -1,8 +1,8 @@
 <template>
     <div class="cart-page">
         <TransitionGroup tag="ul" class="cart-list" name="cart-list">
-            <li v-for="{product, count} in cart.products" :key="product.ProductId">
-                <CartItem :product="product" :count="count" @delete="() => onDeleteProduct(product.ProductId)" />
+            <li v-for="{product, count} in cart.products" :key="product.Id">
+                <CartItem :product="product" :count="count" @delete="() => onDeleteProduct(product.Id)" />
             </li>
         </TransitionGroup>
         <footer>
@@ -30,7 +30,7 @@ const { t } = useI18n<MessageSchema>();
 
 const cart = useCartStore();
 
-function onDeleteProduct(productId: string) {
+function onDeleteProduct(productId: number) {
     cart.removeItem(productId);
 }
 </script>
