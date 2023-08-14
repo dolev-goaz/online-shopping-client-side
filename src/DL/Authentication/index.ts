@@ -9,10 +9,7 @@ export interface TokenResponse {
     refreshToken: string;
 }
 
-export interface AuthenticationResponse {
-    accessToken: string;
-    refreshToken: string;
-
+export interface AuthenticationResponse extends TokenResponse {
     firstname: string;
     lastname: string;
     role: TRole;
