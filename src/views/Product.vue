@@ -87,9 +87,9 @@ onMounted(() => {
     }
     editedProduct.value = { ...currentProduct.value! };
 })
-watch(productId, () => {
+watch(productId, async () => {
     if (isCreateNew.value || isNaN(productId.value)) return; // when redirecting
-    productStore.getProductById(productId.value);
+    await productStore.getProductById(productId.value);
     if (!currentProduct.value) {
         router.push('/');
         return;
