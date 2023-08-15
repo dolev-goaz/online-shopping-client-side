@@ -28,7 +28,7 @@
                             </span>
                         </NumberInput>
                     </div>
-                    <div class="total-price">
+                    <div class="total-price" v-if="!authStore.isAdmin">
                         <header>{{ t('product.finalPrice') }}</header>
                         <span>{{ t('currency', { value: price }) }}</span>
                     </div>
