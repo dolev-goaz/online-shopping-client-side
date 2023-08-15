@@ -14,13 +14,16 @@
                     </div>
 
                     <div class="quantity">
-                        <header>{{ t('product.quantity') }}:</header>
-                        <NumberInput :min="0" :max="editedProduct.Stock" v-model="amount">
+                        <header>{{ authStore.isAdmin ? t('product.stock') : t('product.quantity') }}:</header>
+                        <NumberInput :hide-controls="authStore.isAdmin" :min="0" :max="editedProduct.Stock"
+                            v-model="amount">
                             <span>
-                                <span>
-                                    {{ amount }}
-                                </span>
-                                <span>/</span>
+                                <template v-if="!authStore.isAdmin">
+                                    <span>
+                                        {{ amount }}
+                                    </span>
+                                    <span>/</span>
+                                </template>
                                 <EditableField tag="span" class="price" v-model="stockProxy" />
                             </span>
                         </NumberInput>

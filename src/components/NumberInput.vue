@@ -1,6 +1,6 @@
 <template>
     <div class="number-input">
-        <button @click="increaseAmount">
+        <button @click="increaseAmount" v-if="!hideControls">
             <VIcon>mdi-plus</VIcon>
         </button>
         <slot>
@@ -8,7 +8,7 @@
                 {{ model }}
             </span>
         </slot>
-        <button @click="decreaseAmount">
+        <button @click="decreaseAmount" v-if="!hideControls">
             <VIcon>mdi-minus</VIcon>
         </button>
     </div>
@@ -21,9 +21,11 @@ const props = withDefaults(defineProps<{
     modelValue: number;
     min?: number;
     max?: number;
+    hideControls?: boolean;
 }>(), {
     min: -Infinity,
-    max: Infinity
+    max: Infinity,
+    hideControls: false
 });
 const emit = defineEmits<{
     (event: "update:modelValue", value: number): void;
