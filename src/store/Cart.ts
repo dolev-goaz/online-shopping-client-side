@@ -53,10 +53,10 @@ export const useCartStore = defineStore("products-cart", {
             const existing = this.cartItems.find((cartItem) => cartItem.productId == productId);
             if (!existing) return false;
 
-            existing.count -= count;
-            if (existing.count < 0) {
+            if (existing.count < count) {
                 this.removeItem(productId)
             }
+            existing.count -= count;
 
             return true;
         }
