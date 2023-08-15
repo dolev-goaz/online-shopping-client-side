@@ -62,17 +62,6 @@ export const useCartStore = defineStore("products-cart", {
         }
     },
     getters: {
-        totalCost(state) {
-            const productStore = useProductStore();
-            let totalPrice = 0;
-            state.cartItems.forEach((cartProduct) => {
-                const product = productStore.findProductById(cartProduct.productId);
-                if (!product) return;
-
-                totalPrice += product.Price * cartProduct.count;
-            });
-            return totalPrice;
-        },
         products(state) {
             const productStore = useProductStore();
             return state.cartItems
@@ -81,6 +70,11 @@ export const useCartStore = defineStore("products-cart", {
                     count
                 }))
                 .filter((cartProduct) => cartProduct.product && cartProduct.count > 0) as CartProduct[];
-        }
+        },
+        totalCost(): number {
+            return this.products.reduce((sum, current) => {
+                return sum + current.count * current.product.Price
+            }, 0);
+        },
     }
 })
