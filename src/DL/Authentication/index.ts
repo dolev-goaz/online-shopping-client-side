@@ -70,6 +70,12 @@ export function DeleteLocalAuthorizations() {
     tokenManager.deleteAuthorization(); 
 }
 
+async function _SignOut() {
+    const path = `${authenticationModule}/logout`;
+    return axiosInstance.get(path);
+}
+
 export async function SignOut() {
+    await _SignOut();
     DeleteLocalAuthorizations();
 }
