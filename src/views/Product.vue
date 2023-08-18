@@ -211,6 +211,7 @@ async function onSaveChanges() {
 }
 
 .actions {
+    margin-top: 1rem;
     display: flex;
     justify-content: center;
 }
