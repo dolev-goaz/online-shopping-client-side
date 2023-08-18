@@ -19,7 +19,7 @@
                             {{ t('currency', { value: cart.totalCost }) }}
                         </span>
                     </div>
-                    <MyButton> {{ t('actions.checkout') }} </MyButton>
+                    <MyButton @click="onCheckout" :loading="loading" :disabled="loading"> {{ t('actions.checkout') }} </MyButton>
                 </div>
             </footer>
         </template>
@@ -30,6 +30,7 @@ import CartItem from '@/components/Cart/CartItem.vue';
 import MyButton from '@/components/MyButton.vue';
 import { MessageSchema } from '@/i18n';
 import { useCartStore } from '@/store/Cart';
+import { ref } from 'vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n<MessageSchema>();
@@ -40,6 +41,16 @@ function onDeleteProduct(productId: number) {
     cart.removeItem(productId);
 }
 const isEmpty = computed(() => cart.products.length == 0);
+const loading = ref(false);
+
+async function onCheckout() {
+    loading.value = true;
+    try {
+        await cart.checkout();
+    } finally {
+        loading.value = false;
+    }
+}
 
 </script>
 <style lang="scss" scoped>

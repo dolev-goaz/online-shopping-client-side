@@ -1,19 +1,19 @@
 import { Product } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import { useProductStore } from './Product';
+import * as CheckoutService from "@/DL/Checkout";
 
-
-type _cartProduct = {
+export type CartProduct = {
     productId: number;
     count: number;
 }
 
-type CartProduct = {
+type CartProductExpanded = {
     product: Product;
     count: number;
 }
 interface StoreState {
-    cartItems: _cartProduct[]
+    cartItems: CartProduct[]
 }
 
 export const useCartStore = defineStore("products-cart", {
@@ -21,6 +21,10 @@ export const useCartStore = defineStore("products-cart", {
         cartItems: [],
     }),
     actions: {
+        async checkout() {
+            await CheckoutService.createDeal(this.cartItems);
+            this.cartItems.length = 0;
+        },
         addItemCount(productId: number, count: number) {
             const productsStore = useProductStore();
             if (!productsStore.reduceStock(productId, count)) return false; // stock reduction failed
@@ -69,7 +73,7 @@ export const useCartStore = defineStore("products-cart", {
                     product: productStore.findProductById(productId),
                     count
                 }))
-                .filter((cartProduct) => cartProduct.product && cartProduct.count > 0) as CartProduct[];
+                .filter((cartProduct) => cartProduct.product && cartProduct.count > 0) as CartProductExpanded[];
         },
         totalCost(): number {
             return this.products.reduce((sum, current) => {
