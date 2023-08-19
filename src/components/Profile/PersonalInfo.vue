@@ -12,9 +12,6 @@
             </MyButton>
         </div>
     </article>
-    <div v-else>
-        sadface
-    </div>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from '@/store/Authentication';

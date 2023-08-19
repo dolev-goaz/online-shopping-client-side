@@ -54,7 +54,8 @@
         }
     },
     "message": {
-        "emptyCart": "נראה שעוד לא קנית משהו.."
+        "emptyCart": "נראה שעוד לא קנית משהו..",
+        "notLoggedIn": "נראה שאינך מחובר.."
     },
     "admin": {
         "navbarHeader": "תצוגת מנהל"
