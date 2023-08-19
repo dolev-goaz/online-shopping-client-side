@@ -2,11 +2,10 @@ import { RegisterPayload, Roles, TRole, User } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as AuthenticationService from "@/DL/Authentication"
 
-type UserInner = {
-    firstname: string;
-    lastname: string;
-    role: TRole;
-}
+type UserInner = Omit<
+    AuthenticationService.AuthenticationResponse,
+    'accessToken' | 'refreshToken'
+>;
 interface StoreState {
     user: UserInner | null;
 }

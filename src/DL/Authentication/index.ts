@@ -10,9 +10,11 @@ export interface TokenResponse {
 }
 
 export interface AuthenticationResponse extends TokenResponse {
+    role: TRole;
     firstname: string;
     lastname: string;
-    role: TRole;
+    address: string;
+    email: string;
 }
 
 const tokenManager = new TokenService.TokenManager();
