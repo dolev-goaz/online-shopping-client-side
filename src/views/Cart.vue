@@ -19,7 +19,9 @@
                             {{ t('currency', { value: cart.totalCost }) }}
                         </span>
                     </div>
-                    <MyButton @click="onCheckout" :loading="loading" :disabled="loading"> {{ t('actions.checkout') }} </MyButton>
+                    <MyButton @click="onCheckout" :disabled="loading" :loading="loading">
+                        {{ t('actions.checkout') }}
+                    </MyButton>
                 </div>
             </footer>
         </template>
@@ -29,13 +31,17 @@
 import CartItem from '@/components/Cart/CartItem.vue';
 import MyButton from '@/components/MyButton.vue';
 import { MessageSchema } from '@/i18n';
+import { useAuthStore } from '@/store/Authentication';
 import { useCartStore } from '@/store/Cart';
 import { ref } from 'vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 const { t } = useI18n<MessageSchema>();
+const router = useRouter();
 
 const cart = useCartStore();
+const authStore = useAuthStore();
 
 function onDeleteProduct(productId: number) {
     cart.removeItem(productId);
@@ -44,6 +50,10 @@ const isEmpty = computed(() => cart.products.length == 0);
 const loading = ref(false);
 
 async function onCheckout() {
+    if (!authStore.isLoggedIn) {
+        router.push({ name: 'login' });
+        return;
+    }
     loading.value = true;
     try {
         await cart.checkout();
