@@ -15,6 +15,15 @@ const i18n = createI18n<MessageSchema, Locale>({
     messages: {
         'he-IL': heIL,
         // 'en-US': enUs
+    },
+    datetimeFormats: {
+        'he-IL': {
+            long: {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }
+        }
     }
 });
 

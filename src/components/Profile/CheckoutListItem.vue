@@ -11,20 +11,19 @@
                 <VIcon>mdi-arrow-left</VIcon>
             </div>
         </header>
-        <ul class="purchase-container" v-for="purchase in deal.purchases" :key="purchase.product.Id">
-            <li>
-                <section class="purchase">
-                    <ul class="product-images">
-                        <li v-for="product in products" :key="product.Id">
-                            <button class="image-btn" @click="() => onOpenProduct(product.Id)">
-                                <VIcon>mdi-arrow-u-right-top</VIcon>
-                                <img :src="product.Image" :alt="product.Title">
-                            </button>
-                        </li>
-                    </ul>
-                </section>
-            </li>
-        </ul>
+        <div class="deal-date">
+            {{ d(deal.commitDate, 'long') }}
+        </div>
+        <section class="purchase">
+            <ul class="product-images">
+                <li v-for="product in products" :key="product.Id">
+                    <button class="image-btn" @click="() => onOpenProduct(product.Id)">
+                        <VIcon>mdi-arrow-u-right-top</VIcon>
+                        <img :src="product.Image" :alt="product.Title">
+                    </button>
+                </li>
+            </ul>
+        </section>
     </article>
 </template>
 <script setup lang="ts">
@@ -34,7 +33,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 
-const { t } = useI18n<MessageSchema>();
+const { d, t } = useI18n<MessageSchema>();
 const router = useRouter();
 
 const props = defineProps<{
@@ -67,23 +66,24 @@ header.checkout-header {
     flex-direction: column;
     justify-content: center;
 }
-header.checkout-header > .deal-id {
+
+header.checkout-header>.deal-id {
     font-size: 2rem;
     line-height: 1;
 }
 
-header.checkout-header > .view-order {
+header.checkout-header>.view-order {
     color: var(--clr-accent);
 
     font-size: 1rem;
 
-    & > i.mdi {
+    &>i.mdi {
         font-size: 0.9375rem;
     }
 }
 
-.purchase-container {
-    list-style: none;
+.deal-date {
+    margin-block: auto;
 }
 
 article.checkout {

@@ -10,6 +10,10 @@ interface CheckoutItem {
     count: number;
 }
 
+type DealInner = Omit<Deal, 'commitDate'> & {
+    commitDate: string;
+}
+
 export async function createDeal(products: CartProduct[]) {
     const path = `${productModule}/`;
 
@@ -24,10 +28,16 @@ export async function createDeal(products: CartProduct[]) {
 export async function getCheckouts() {
     const path = `${productModule}/`;
     return axiosInstance
-        .get<Deal[]>(path)
+        .get<DealInner[]>(path)
         .then((res) => res.data)
         .then((deals) => {
-            deals.forEach((deal) => {
+            return deals.map((deal) => ({
+                ...deal,
+                commitDate: new Date(deal.commitDate)
+            }))
+        })
+        .then((deals) => {
+            deals.forEach((deal)=> {
                 deal.purchases.forEach((purchase) => {
                     purchase.product.Image = `https://picsum.photos/id/${purchase.product.Id}/500/700`;
                 });
