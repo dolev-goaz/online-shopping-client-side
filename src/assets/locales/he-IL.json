@@ -19,7 +19,8 @@
         "details": "פרטי מוצר",
         "quantity": "כמות",
         "stock": "מלאי",
-        "outOfStock": "אזל ה@:product.stock"
+        "outOfStock": "אזל ה@:product.stock",
+        "countFormat": "{count} מוצרים"
     },
     "pageName": {
         "profile": "פרופיל",
@@ -57,5 +58,11 @@
     },
     "admin": {
         "navbarHeader": "תצוגת מנהל"
+    },
+    "order": {
+        "order": "הזמנה",
+        "orders": "הזמנות",
+        "countFormat":"{count} @:order.orders",
+        "idFormat": "@:order.order {id}"
     }
 }

@@ -3,7 +3,9 @@
         <header>
             <PersonalInfo />
         </header>
-        <CheckoutList :deals="dealStore.deals" />
+        <div class="content">
+            <CheckoutList :deals="dealStore.deals" />
+        </div>
     </div>
 </template>
 <script setup lang="ts">
@@ -19,5 +21,11 @@ onMounted(async () => {
 <style lang="scss" scoped>
 .profile-page {
     height: 100%;
+}
+header {
+    margin-bottom: 2rem;
+}
+.content {
+    padding-inline: 2rem;
 }
 </style>
