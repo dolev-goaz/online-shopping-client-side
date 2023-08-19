@@ -14,6 +14,9 @@ export const useDealStore = defineStore("checkout-store", {
         async getAllDeals() {
             this.deals = await CheckoutService.getCheckouts();
             return this.deals
+        },
+        clear() {
+            this.deals.length = 0;
         }
     },
     getters: {

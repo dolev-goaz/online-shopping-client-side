@@ -1,6 +1,7 @@
 import { RegisterPayload, Roles, TRole, User } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as AuthenticationService from "@/DL/Authentication"
+import { useDealStore } from './Deal';
 
 type UserInner = Omit<
     AuthenticationService.AuthenticationResponse,
@@ -41,6 +42,8 @@ export const useAuthStore = defineStore("authentication", {
         },
         async logout() {
             await AuthenticationService.SignOut();
+            const dealStore = useDealStore();
+            dealStore.clear();
             this.user = null;
         },
         async register(payload: RegisterPayload) {
