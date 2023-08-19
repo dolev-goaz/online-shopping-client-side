@@ -15,22 +15,7 @@
         </header>
         <ul class="checkouts-container">
             <li v-for="deal in deals" :key="deal.dealId">
-                <article class="checkout">
-                    <header>{{ t('order.idFormat', { id: deal.dealId }) }}</header>
-                    <ul class="purchase-container" v-for="purchase in deal.purchases" :key="purchase.product.Id">
-                        <li>
-                            <section class="purchase">
-                                <header>
-                                    {{ purchase.product.Title }}
-                                </header>
-                                <div>
-                                    {{ purchase.amount }}
-                                    {{ purchase.price }}
-                                </div>
-                            </section>
-                        </li>
-                    </ul>
-                </article>
+                <CheckoutListItem :deal="deal" />
             </li>
         </ul>
     </div>
@@ -40,6 +25,7 @@ import { Deal } from '@/@types/Model';
 import { useI18n } from 'vue-i18n';
 import { MessageSchema } from '@/i18n';
 import { computed } from 'vue';
+import CheckoutListItem from './CheckoutListItem.vue';
 const { t } = useI18n<MessageSchema>();
 
 const props = defineProps<{
@@ -74,17 +60,5 @@ header.list-header {
     flex-direction: column;
     gap: 1rem;
     list-style: none;
-}
-
-.purchase-container {
-    list-style: none;
-}
-
-.checkout {
-    border: 2px solid var(--clr-bg-dark);
-}
-
-article.checkout {
-    display: flex;
 }
 </style>
