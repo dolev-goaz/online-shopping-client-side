@@ -1,6 +1,8 @@
 <template>
-    <div>
-        <PersonalInfo />
+    <div class="profile-page">
+        <header>
+            <PersonalInfo />
+        </header>
         <CheckoutList :deals="dealStore.deals" />
     </div>
 </template>
@@ -14,4 +16,8 @@ onMounted(async () => {
     await dealStore.getAllDeals();
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.profile-page {
+    height: 100%;
+}
+</style>

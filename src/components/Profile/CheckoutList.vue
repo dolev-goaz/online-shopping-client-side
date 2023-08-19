@@ -36,6 +36,6 @@ const props = defineProps<{
 }
 
 .checkout {
-    background-color: var(--clr-bg-dark);
+    border: 2px solid var(--clr-bg-dark);
 }
 </style>
