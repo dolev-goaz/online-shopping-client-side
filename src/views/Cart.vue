@@ -49,11 +49,14 @@ function onDeleteProduct(productId: number) {
 const isEmpty = computed(() => cart.products.length == 0);
 const loading = ref(false);
 
+const canPurchase = computed(() => authStore.user?.role === "USER");
+
 async function onCheckout() {
     if (!authStore.isLoggedIn) {
         router.push({ name: 'login' });
         return;
     }
+    if (!canPurchase.value) return;
     loading.value = true;
     try {
         await cart.checkout();
