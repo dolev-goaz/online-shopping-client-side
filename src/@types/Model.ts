@@ -21,15 +21,15 @@ export interface Product {
 }
 
 export interface Purchase {
-    DealId: Deal['DealId'];
-    ProductId: Product['Id'];
-    Price: number;
-    Amount: number;
+    amount: number;
+    price: number;
+    product: Product;
 }
 
+
 export interface Deal {
-    DealId: string;
-    UserId: User['UserId'];
+    dealId: number;
+    purchases: Purchase[];
 }
 
 export interface RegisterPayload {

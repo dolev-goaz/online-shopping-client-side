@@ -4,6 +4,7 @@ import ProductView from "@/views/Product.vue";
 import LoginView from "@/views/Login.vue";
 import RegisterView from "@/views/Register.vue";
 import CartView from "@/views/Cart.vue";
+import ProfileView from "@/views/Profile.vue";
 
 const routes: RouteRecordRaw[] = [{
     path: '/',
@@ -25,6 +26,10 @@ const routes: RouteRecordRaw[] = [{
     path: "/cart",
     component: CartView,
     name: "cart"
+}, {
+    path: "/profile",
+    component: ProfileView,
+    name: "profile"
 }];
 export const router = createRouter({
     history: createWebHashHistory(),

@@ -18,7 +18,9 @@
         </div>
         <ul class="redirects">
             <li>
-                <RouterLink @click="closePopup" to="/profile">{{ t('pageName.profile') }}</RouterLink>
+                <RouterLink v-if="authStore.isLoggedIn" @click="closePopup" to="/profile">
+                    {{ t('pageName.profile') }}
+                </RouterLink>
             </li>
         </ul>
     </div>
