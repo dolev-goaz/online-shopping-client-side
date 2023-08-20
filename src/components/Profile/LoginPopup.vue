@@ -35,8 +35,6 @@ const authStore = useAuthStore();
 
 const { t } = useI18n<MessageSchema, Locale>();
 
-const currentUser = computed(() => authStore.user);
-
 function onLogout() {
     return authStore.logout().then(closePopup);
 }
@@ -48,7 +46,7 @@ function closePopup() {
     emit('close');
 }
 
-const fullName = computed(() => `${authStore.user?.firstname} ${authStore.user?.lastname}`);
+const fullName = computed(() => `${authStore.user?.firstName} ${authStore.user?.lastName}`);
 
 </script>
 <style scoped lang="scss">

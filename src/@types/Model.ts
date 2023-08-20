@@ -1,21 +1,20 @@
 export interface User {
-    userId: string;
+    id: number;
     firstName: string;
     lastName: string;
     address: string;
-    auth: TRole;
-    mail: string;
+    email: string;
+    role: TRole;
     password: string;
 }
+
+export type UserReduced = Omit<User, 'password' | 'id'>;
 
 export interface Product {
     id: number;
     title: string;
     description: string;
     price: number;
-    /**
-     * How many copies of this product we have available
-     */
     stock: number;
     image: string;
 }
@@ -33,13 +32,8 @@ export interface Deal {
     purchases: Purchase[];
 }
 
-export interface RegisterPayload {
-    firstname: User['firstName'],
-    lastname: User['lastName'],
-    password: User['password'];
-    email: User['mail'];
-    address: User['address'];
-}
+
+export type RegisterPayload = Pick<User, 'firstName' | 'lastName' | 'password' | 'email' | 'address'>;
 
 export const Roles = {
     User: 'USER',

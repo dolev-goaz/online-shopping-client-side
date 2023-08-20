@@ -4,7 +4,12 @@
             <PersonalInfo />
         </header>
         <div class="content">
-            <CheckoutList />
+            <template v-if="!authStore.isAdmin">
+                <CheckoutList />
+            </template>
+            <template v-else>
+                <AdminUserList />
+            </template>
         </div>
     </div>
 </template>
@@ -16,6 +21,7 @@ import { useI18n } from 'vue-i18n';
 import { MessageSchema } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { watch } from 'vue';
+import AdminUserList from '@/components/Profile/AdminUserList.vue';
 const { t } = useI18n<MessageSchema>();
 const router = useRouter();
 

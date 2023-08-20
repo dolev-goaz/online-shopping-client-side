@@ -1,14 +1,10 @@
-import { RegisterPayload, Roles, TRole, User } from '@/@types/Model';
+import { RegisterPayload, Roles, TRole, UserReduced } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as AuthenticationService from "@/DL/Authentication"
 import { useDealStore } from './Deal';
 
-type UserInner = Omit<
-    AuthenticationService.AuthenticationResponse,
-    'accessToken' | 'refreshToken'
->;
 interface StoreState {
-    user: UserInner | null;
+    user: UserReduced | null;
 }
 
 export const useAuthStore = defineStore("authentication", {

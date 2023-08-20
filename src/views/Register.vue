@@ -21,8 +21,8 @@ const authStore = useAuthStore();
 const router = useRouter();
 
 type RegisterForm = {
-    firstname: string;
-    lastname: string;
+    firstName: string;
+    lastName: string;
     email: string;
     password: string;
     repeatPassword: string;
@@ -38,11 +38,11 @@ type RegisterFormField = {
 
 const fields: readonly RegisterFormField[] = [
     {
-        name: "firstname",
+        name: "firstName",
         type: "text"
     },
     {
-        name: "lastname",
+        name: "lastName",
         type: "text"
     },
     {
@@ -64,8 +64,8 @@ const fields: readonly RegisterFormField[] = [
 ] as const;
 
 const formData = ref<RegisterForm>({
-    firstname: '',
-    lastname: '',
+    firstName: '',
+    lastName: '',
     password: '',
     repeatPassword: '',
     email: '',

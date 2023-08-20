@@ -1,7 +1,7 @@
 <template>
     <article v-if="user">
         <header class="name">
-            {{ user.firstname }} {{ user.lastname }}
+            {{ user.firstName }} {{ user.lastName }}
         </header>
         <section class="details">
             {{ user.address }} {{ user.email }}

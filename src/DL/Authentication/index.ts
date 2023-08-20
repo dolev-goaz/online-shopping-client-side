@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { axiosInstance } from ".."
-import { RegisterPayload, TRole } from "@/@types/Model";
+import { RegisterPayload, UserReduced } from "@/@types/Model";
 import TokenService from "./Token";
 export const authenticationModule = 'auth';
 
@@ -9,13 +9,7 @@ export interface TokenResponse {
     refreshToken: string;
 }
 
-export interface AuthenticationResponse extends TokenResponse {
-    role: TRole;
-    firstname: string;
-    lastname: string;
-    address: string;
-    email: string;
-}
+export type AuthenticationResponse = TokenResponse & UserReduced;
 
 const tokenManager = new TokenService.TokenManager();
 
