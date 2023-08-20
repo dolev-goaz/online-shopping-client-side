@@ -70,6 +70,7 @@
         "fullname": "שם מלא",
         "email": "אימייל",
         "address": "כתובת",
-        "permission": "הרשאה"
+        "permission": "הרשאה",
+        "list": "רשימת משתמשים"
     }
 }

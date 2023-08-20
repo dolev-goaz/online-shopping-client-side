@@ -1,5 +1,5 @@
 <template>
-    <header> רשימת משתמשים </header>
+    <header> {{ t('user.list') }} </header>
     <ul>
         <li v-for="user in users" :key="user.id">
             <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email" @save="(updated) => saveUser(user, updated)" />
@@ -12,6 +12,10 @@ import { computed } from "vue";
 import AdminUserListItem from "./AdminUserListItem.vue";
 import { useAuthStore } from "@/store/Authentication";
 import { UserResult } from "@/DL/User";
+import { useI18n } from "vue-i18n";
+import { MessageSchema } from "@/i18n";
+const { t } = useI18n<MessageSchema>();
+
 const userStore = useUserStore();
 const authStore = useAuthStore();
 userStore.fetchUsers();
