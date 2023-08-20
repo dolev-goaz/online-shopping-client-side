@@ -35,6 +35,7 @@ async function saveUser(previous: UserResult, updated: UserResult) {
 header {
     font-size: 2.5rem;
     color: var(--clr-fg-light);
+    margin-bottom: 0.5rem;
 }
 
 ul {
