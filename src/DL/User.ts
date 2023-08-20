@@ -11,3 +11,9 @@ export async function getUsers() {
     return axiosInstance.get<UserResult[]>(path)
         .then((res) => res.data);
 }
+
+export async function updateUser(user: UserResult) {
+    const path = `${productModule}/`;
+    return axiosInstance.put<UserResult>(path, user)
+        .then((res) => res.data);
+}

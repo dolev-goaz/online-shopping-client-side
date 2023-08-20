@@ -60,13 +60,16 @@ const infoBlocks = computed(() => {
 
 const possibleRoles = computed(() => Object.values(Roles));
 
+const emit = defineEmits<{
+    (event: 'save', user: UserResult): void;
+}>();
 const userEdited = ref<UserResult>({ ...props.user });
 watch(props.user, () => {
     userEdited.value = { ...props.user };
 });
 const wasUpdated = computed(() => userEdited.value.role !== props.user.role);
 function onSave() {
-
+    emit('save', userEdited.value);
 }
 
 </script>
@@ -125,6 +128,19 @@ article>* {
         height: 100%;
         display: grid;
         place-items: center;
+    }
+}
+
+.save i.mdi {
+    border-radius: 50%;
+    padding: 0.25rem;
+    background-color: var(--clr-bg);
+    transition: filter 200ms ease;
+    &:hover {
+        filter: brightness(0.9);
+    }
+    &:active {
+        filter: brightness(0.8);
     }
 }
 

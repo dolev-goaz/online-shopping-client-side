@@ -2,7 +2,7 @@
     <header> רשימת משתמשים </header>
     <ul>
         <li v-for="user in users" :key="user.id">
-            <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email" />
+            <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email" @save="(updated) => saveUser(user, updated)" />
         </li>
     </ul>
 </template>
@@ -11,6 +11,7 @@ import { useUserStore } from "@/store/User";
 import { computed } from "vue";
 import AdminUserListItem from "./AdminUserListItem.vue";
 import { useAuthStore } from "@/store/Authentication";
+import { UserResult } from "@/DL/User";
 const userStore = useUserStore();
 const authStore = useAuthStore();
 userStore.fetchUsers();
@@ -25,6 +26,10 @@ const users = computed(() =>
             return 0;
         })
 );
+
+async function saveUser(previous: UserResult, updated: UserResult) {
+    await userStore.updateUser(updated);
+}
 </script>
 <style lang="scss" scoped>
 header {
