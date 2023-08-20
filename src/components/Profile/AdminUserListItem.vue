@@ -48,8 +48,8 @@ const fullName = computed(() => `${props.user.firstName} ${props.user.lastName}`
 const infoBlocks = computed(() => {
     const pairs = [
         ['user.fullname', fullName.value],
-        ['user.address', props.user.address],
         ['user.email', props.user.email],
+        ['user.address', props.user.address],
     ]
 
     return pairs.map(([translateKey, value]) => ({
