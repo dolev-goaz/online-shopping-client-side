@@ -5,31 +5,45 @@ import { locales } from "./i18n";
 import { watch } from "vue";
 import { useLocale } from "vuetify";
 import { useAuthStore } from "./store/Authentication";
+import { useLoadingStore } from "./store/Loading";
 import { onMounted } from "vue";
 const { locale } = useI18n();
 const { current } = useLocale();
 const authStore = useAuthStore();
+const loadingStore = useLoadingStore();
 
 watch(locale, () => {
   const dir = (locale.value === locales.hebrew) ? 'rtl' : 'ltr';
   document.dir = dir;
-  
+
   current.value = locale.value;
 }, {
   immediate: true
 });
 
-onMounted(() => {
-  authStore.loadAuthorization();
+onMounted(async () => {
+  loadingStore.startLoading('authentication');
+  await authStore.loadAuthorization();
+  loadingStore.finishLoading('authentication');
 });
 </script>
 
 <template>
   <NavBar id="nav" />
   <div id="router-view">
-    <router-view />
+    <VProgressCircular v-if="loadingStore.loading['authentication']" class="loader" size="150" width="10" indeterminate />
+    <router-view v-else />
   </div>
 </template>
+
+<style scoped>
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+</style>
 
 <style>
 #app {

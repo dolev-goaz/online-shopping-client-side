@@ -1,16 +1,11 @@
 <template>
     <div class="profile-page">
-        <template v-if="authStore.isLoggedIn">
-            <header>
-                <PersonalInfo />
-            </header>
-            <div class="content">
-                <CheckoutList />
-            </div>
-        </template>
-        <strong class="not-logged-in" v-else>
-            {{ t('message.notLoggedIn') }}
-        </strong>
+        <header>
+            <PersonalInfo />
+        </header>
+        <div class="content">
+            <CheckoutList />
+        </div>
     </div>
 </template>
 <script setup lang="ts">
@@ -19,21 +14,35 @@ import PersonalInfo from '@/components/Profile/PersonalInfo.vue';
 import { useAuthStore } from '@/store/Authentication';
 import { useI18n } from 'vue-i18n';
 import { MessageSchema } from '@/i18n';
+import { useRouter } from 'vue-router';
+import { watch } from 'vue';
 const { t } = useI18n<MessageSchema>();
+const router = useRouter();
 
 const authStore = useAuthStore();
+
+
+watch(() => authStore.isLoggedIn, () => {
+    if (!authStore.isLoggedIn) {
+        router.push('/');
+    }
+}, {
+    immediate: true
+});
+
 </script>
 <style lang="scss" scoped>
-
 .profile-page:has(strong.not-logged-in) {
     height: 100%;
     display: grid;
     place-items: center;
 }
+
 .profile-page>strong:only-child {
     font-size: 5rem;
     margin-bottom: 2em;
 }
+
 .profile-page {
     height: 100%;
 }
