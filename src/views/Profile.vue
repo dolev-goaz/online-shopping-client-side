@@ -1,11 +1,11 @@
 <template>
     <div class="profile-page">
-        <template v-if="authStore.user">
+        <template v-if="authStore.isLoggedIn">
             <header>
                 <PersonalInfo />
             </header>
             <div class="content">
-                <CheckoutList :deals="dealStore.deals" />
+                <CheckoutList />
             </div>
         </template>
         <strong class="not-logged-in" v-else>
@@ -14,8 +14,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useDealStore } from "@/store/Deal"
 import CheckoutList from '@/components/Profile/CheckoutList.vue';
 import PersonalInfo from '@/components/Profile/PersonalInfo.vue';
 import { useAuthStore } from '@/store/Authentication';
@@ -23,11 +21,7 @@ import { useI18n } from 'vue-i18n';
 import { MessageSchema } from '@/i18n';
 const { t } = useI18n<MessageSchema>();
 
-const dealStore = useDealStore();
 const authStore = useAuthStore();
-onMounted(async () => {
-    await dealStore.getAllDeals();
-});
 </script>
 <style lang="scss" scoped>
 

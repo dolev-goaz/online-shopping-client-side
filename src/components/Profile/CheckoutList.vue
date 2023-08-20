@@ -21,19 +21,20 @@
     </div>
 </template>
 <script setup lang="ts">
-import { Deal } from '@/@types/Model';
 import { useI18n } from 'vue-i18n';
 import { MessageSchema } from '@/i18n';
 import { computed } from 'vue';
 import CheckoutListItem from './CheckoutListItem.vue';
+import { useDealStore } from '@/store/Deal';
 const { t } = useI18n<MessageSchema>();
 
-const props = defineProps<{
-    deals: Deal[];
-}>();
+const dealStore = useDealStore();
+dealStore.getAllDeals();
+
+const deals = computed(() => dealStore.deals);
 
 const productCount = computed(() =>
-    props.deals
+    deals.value
         .map((deal) => deal.purchases)
         .flat()
         .map((purchase) => purchase.amount)
