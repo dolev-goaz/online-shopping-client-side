@@ -1,10 +1,9 @@
-import { User } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as UserService from "@/DL/User"
 import { useAuthStore } from './Authentication';
 
 interface StoreState {
-    users: User[]
+    users: UserService.UserResult[]
 }
 
 export const useUserStore = defineStore("user-store", {

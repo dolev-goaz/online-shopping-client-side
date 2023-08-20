@@ -38,7 +38,6 @@ export type RegisterPayload = Pick<User, 'firstName' | 'lastName' | 'password' |
 export const Roles = {
     User: 'USER',
     Admin: 'ADMIN',
-    NotLogged: 'NONE'
 } as const;
 
 export type TRole = typeof Roles[keyof typeof Roles];

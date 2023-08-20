@@ -65,5 +65,11 @@
         "orders": "הזמנות",
         "countFormat":"{count} @:order.orders",
         "idFormat": "@:order.order {id}"
+    },
+    "user": {
+        "fullname": "שם מלא",
+        "email": "אימייל",
+        "address": "כתובת",
+        "permission": "הרשאה"
     }
 }

@@ -58,8 +58,8 @@ export const useAuthStore = defineStore("authentication", {
         isLoggedIn(): boolean {
             return Boolean(this.user);
         },
-        getAuthorization(): TRole {
-            if (!this.isLoggedIn) return Roles.NotLogged;
+        getAuthorization(): TRole | false {
+            if (!this.isLoggedIn) return false;
             return this.user!.role;
         },
         isAdmin(): boolean {
