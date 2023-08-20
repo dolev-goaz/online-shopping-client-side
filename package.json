@@ -6,7 +6,8 @@
   "scripts": {
     "start": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "tsc && vue-tsc"
   },
   "dependencies": {
     "@mdi/font": "^7.2.96",

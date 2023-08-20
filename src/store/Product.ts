@@ -33,7 +33,7 @@ export const useProductStore = defineStore("products", {
             return this.currentProduct;
         },
         async updateProduct(updatedProduct: Product) {
-            if (!updatedProduct.Id) return false;
+            if (!updatedProduct.id) return false;
 
             const success = await ProductsService
                 .updateProduct(updatedProduct)
@@ -41,7 +41,7 @@ export const useProductStore = defineStore("products", {
                 .catch(() => false)
 
             if (success) {
-                const existing = this.findProductById(updatedProduct.Id);
+                const existing = this.findProductById(updatedProduct.id);
                 if (existing) {
                     Object.assign(existing, updatedProduct);
                 }
@@ -54,7 +54,7 @@ export const useProductStore = defineStore("products", {
             return ProductsService
                 .createProduct(product)
                 .then((product) => {
-                    product.Image = `https://picsum.photos/id/${product.Id}/500/700`
+                    product.image = `https://picsum.photos/id/${product.id}/500/700`
                     this.products.push(product)
                     this.currentProduct = product;
                     return true;
@@ -62,19 +62,19 @@ export const useProductStore = defineStore("products", {
                 .catch(() => false)
         },
         findProductById(productId: number) {
-            return this.products.find((product) => product.Id == productId) ?? null;
+            return this.products.find((product) => product.id == productId) ?? null;
         },
         reduceStock(productId: number, reduceCount: number) {
             const product = this.findProductById(productId);
             if (!product) return false;
-            if (product.Stock < reduceCount) return false;
-            product.Stock -= reduceCount;
+            if (product.stock < reduceCount) return false;
+            product.stock -= reduceCount;
             return true;
         },
         increaseStock(productId: number, count: number) {
             const product = this.findProductById(productId);
             if (!product) return false;
-            product.Stock += count;
+            product.stock += count;
             return true;
         }
     },

@@ -5,8 +5,8 @@
         </strong>
         <template v-else>
             <TransitionGroup tag="ul" class="cart-list" name="cart-list">
-                <li v-for="{ product, count } in cart.products" :key="product.Id">
-                    <CartItem :product="product" :count="count" @delete="() => onDeleteProduct(product.Id)" />
+                <li v-for="{ product, count } in cart.products" :key="product.id">
+                    <CartItem :product="product" :count="count" @delete="() => onDeleteProduct(product.id)" />
                 </li>
             </TransitionGroup>
             <footer>

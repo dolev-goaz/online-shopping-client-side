@@ -77,7 +77,7 @@ export const useCartStore = defineStore("products-cart", {
         },
         totalCost(): number {
             return this.products.reduce((sum, current) => {
-                return sum + current.count * current.product.Price
+                return sum + current.count * current.product.price
             }, 0);
         },
     }

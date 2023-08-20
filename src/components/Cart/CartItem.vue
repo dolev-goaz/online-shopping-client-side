@@ -2,12 +2,12 @@
     <article class="cart-item">
         <button class="image-btn" @click="onOpenProduct">
             <VIcon>mdi-arrow-u-right-top</VIcon>
-            <img :src="product.Image" :alt="product.Title">
+            <img :src="product.image" :alt="product.title">
         </button>
         <section>
             <header>
                 <span>
-                    {{ product.Title }}
+                    {{ product.title }}
                 </span>
                 <button class="delete" type="button" @click="onDelete">
                     <VIcon color="lightgrey">mdi-trash-can-outline</VIcon>
@@ -15,7 +15,7 @@
             </header>
             <div class="item-details">
                 <p>
-                    {{ product.Description }}
+                    {{ product.description }}
                 </p>
                 <div class="purchase-details">
                     <div class="quantity">
@@ -51,9 +51,9 @@ const emit = defineEmits<{
     (event: 'delete'): void;
 }>();
 const { t } = useI18n<MessageSchema>();
-const totalPrice = computed(() => (props.product.Price * props.count).toFixed(2))
+const totalPrice = computed(() => (props.product.price * props.count).toFixed(2))
 function onOpenProduct() {
-    router.push(`/product/${props.product.Id}`)
+    router.push(`/product/${props.product.id}`)
 }
 function onDelete() {
     emit('delete');
@@ -68,9 +68,9 @@ const countProxy = computed({
         if (delta == 0) return;
         const deltaAbs = Math.abs(delta);
         if (delta > 0) {
-            cartStore.addItemCount(props.product.Id, deltaAbs);
+            cartStore.addItemCount(props.product.id, deltaAbs);
         } else {
-            cartStore.removeItemCount(props.product.Id, deltaAbs);
+            cartStore.removeItemCount(props.product.id, deltaAbs);
         }
     }
 })

@@ -3,19 +3,19 @@
         <div class="product-page" v-if="editedProduct">
             <div class="product-content">
 
-                <ImagePreview class="image" :src="editedProduct.Image" :alt="editedProduct.Title" />
+                <ImagePreview class="image" :src="editedProduct.image" :alt="editedProduct.title" />
                 <div class="data">
-                    <EditableField tag="h1" v-model="editedProduct.Title" />
+                    <EditableField tag="h1" v-model="editedProduct.title" />
                     <div class="product-details">
                         <header>{{ t('product.details') }}</header>
-                        <EditableField tag="p" v-model="editedProduct.Description" />
+                        <EditableField tag="p" v-model="editedProduct.description" />
                         <header>{{ t('product.price') }}</header>
                         <EditableField tag="div" class="price" v-model="priceProxy" />
                     </div>
 
                     <div class="quantity">
                         <header>{{ authStore.isAdmin ? t('product.stock') : t('product.quantity') }}:</header>
-                        <NumberInput :hide-controls="authStore.isAdmin" :min="0" :max="editedProduct.Stock"
+                        <NumberInput :hide-controls="authStore.isAdmin" :min="0" :max="editedProduct.stock"
                             v-model="amount">
                             <span>
                                 <template v-if="!authStore.isAdmin">
@@ -37,7 +37,7 @@
                             @click="onSaveChanges">
                             {{ t('actions.saveChanges') }}
                         </MyButton>
-                        <MyButton v-else :disabled="!currentProduct || !currentProduct.Stock" @click="onPurchase">
+                        <MyButton v-else :disabled="!currentProduct || !currentProduct.stock" @click="onPurchase">
                             {{ t('actions.addToCart') }}
                         </MyButton>
                     </div>
@@ -79,12 +79,12 @@ onMounted(() => {
             return;
         }
         editedProduct.value = {
-            Id: -1,
-            Title: t('placeholder.product.title'),
-            Description: t('placeholder.product.description'),
-            Image: 'https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png',
-            Price: 0,
-            Stock: 0,
+            id: -1,
+            title: t('placeholder.product.title'),
+            description: t('placeholder.product.description'),
+            image: 'https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png',
+            price: 0,
+            stock: 0,
         }
         return;
     }
@@ -104,7 +104,7 @@ watch(productId, async () => {
 
 const amount = ref(1);
 function clampCount(desired: number) {
-    const maxStock = editedProduct.value?.Stock ?? Infinity;
+    const maxStock = editedProduct.value?.stock ?? Infinity;
     return Math.min(Math.max(desired, 0), maxStock);
 }
 watch(amount, () => {
@@ -119,11 +119,11 @@ function onPurchase() {
         alert("אירעה שגיאה. אנא נסה שוב..");
         return;
     }
-    editedProduct.value!.Stock = currentProduct.value!.Stock;
+    editedProduct.value!.stock = currentProduct.value!.stock;
     amount.value = clampCount(1);
 }
 
-const price = computed(() => (amount.value * editedProduct.value!.Price).toFixed(2));
+const price = computed(() => (amount.value * editedProduct.value!.price).toFixed(2));
 const priceProxy = computed({
     get: () => t('currency', { value: price.value }),
     set(value: string) {
@@ -132,14 +132,14 @@ const priceProxy = computed({
         if (isNaN(parsed)) {
             return;
         }
-        editedProduct.value!.Price = parseFloat(innerValue);
+        editedProduct.value!.price = parseFloat(innerValue);
     }
 });
 
 const stockProxy = computed({
-    get: () => (editedProduct.value?.Stock ?? 0).toString(),
+    get: () => (editedProduct.value?.stock ?? 0).toString(),
     set(newValue: string) {
-        editedProduct.value!.Stock = parseInt(newValue);
+        editedProduct.value!.stock = parseInt(newValue);
     }
 })
 
@@ -148,10 +148,10 @@ const loadingSave = ref(false);
 const productChanged = computed(() => {
     if (!editedProduct.value) return false;
     if (isCreateNew.value) {
-        return editedProduct.value.Price != 0 &&
-            editedProduct.value.Title != t('placeholder.product.title') &&
-            editedProduct.value.Description != t('placeholder.product.description') &&
-            editedProduct.value.Stock != 0;
+        return editedProduct.value.price != 0 &&
+            editedProduct.value.title != t('placeholder.product.title') &&
+            editedProduct.value.description != t('placeholder.product.description') &&
+            editedProduct.value.stock != 0;
     }
     if (!currentProduct.value) return;
     const keys = Object.keys(currentProduct.value) as Array<keyof Product>;
@@ -169,7 +169,7 @@ async function onSaveChanges() {
     }
     router.push({
         params: {
-            id: currentProduct.value!.Id
+            id: currentProduct.value!.id
         }
     });
 }

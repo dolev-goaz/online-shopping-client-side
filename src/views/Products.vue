@@ -11,8 +11,8 @@
                     <VIcon>mdi-plus</VIcon>
                 </RouterLink>
             </li>
-            <li v-for="product in productStore.products" :key="product.Id">
-                <a :href="`#/product/${product.Id}`">
+            <li v-for="product in productStore.products" :key="product.id">
+                <a :href="`#/product/${product.id}`">
                     <Product :product="product" />
                 </a>
             </li>

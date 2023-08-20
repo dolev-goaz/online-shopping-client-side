@@ -1,12 +1,12 @@
 <template>
     <div class="product">
-        <img draggable="false" :src="product.Image" :alt="product.Title">
+        <img draggable="false" :src="product.image" :alt="product.title">
         <div class="details-container">
-            <div class="name overflow-dots" :title="product.Title">{{ product.Title }}</div>
-            <p class="description overflow-dots" :title="product.Description">{{ product.Description }}</p>
-            <div class="price">{{ t('currency', {value: product.Price}) }}</div>
+            <div class="name overflow-dots" :title="product.title">{{ product.title }}</div>
+            <p class="description overflow-dots" :title="product.description">{{ product.description }}</p>
+            <div class="price">{{ t('currency', {value: product.price}) }}</div>
         </div>
-        <div class="out-of-stock-overlay" v-if="product.Stock == 0">
+        <div class="out-of-stock-overlay" v-if="product.stock == 0">
             <span>
                 {{ t('product.outOfStock') }}
             </span>

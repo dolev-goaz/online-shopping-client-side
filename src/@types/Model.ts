@@ -1,23 +1,23 @@
 export interface User {
-    UserId: string;
-    FirstName: string;
-    LastName: string;
-    Address: string;
-    Auth: TRole;
-    Mail: string;
+    userId: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    auth: TRole;
+    mail: string;
     password: string;
 }
 
 export interface Product {
-    Id: number;
-    Title: string;
-    Description: string;
-    Price: number;
+    id: number;
+    title: string;
+    description: string;
+    price: number;
     /**
      * How many copies of this product we have available
      */
-    Stock: number;
-    Image: string;
+    stock: number;
+    image: string;
 }
 
 export interface Purchase {
@@ -34,11 +34,11 @@ export interface Deal {
 }
 
 export interface RegisterPayload {
-    firstname: User['FirstName'],
-    lastname: User['LastName'],
+    firstname: User['firstName'],
+    lastname: User['lastName'],
     password: User['password'];
-    email: User['Mail'];
-    address: User['Address'];
+    email: User['mail'];
+    address: User['address'];
 }
 
 export const Roles = {

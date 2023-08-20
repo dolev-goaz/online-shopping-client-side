@@ -12,7 +12,7 @@ export async function getProducts(): Promise<Product[]> {
         .catch(() => [])
         .then((products) => {
             products.forEach((product) => {
-                product.Image = `https://picsum.photos/id/${product.Id}/500/700`
+                product.image = `https://picsum.photos/id/${product.id}/500/700`
             });
             return products;
         });

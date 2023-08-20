@@ -39,7 +39,7 @@ export async function getCheckouts() {
         .then((deals) => {
             deals.forEach((deal)=> {
                 deal.purchases.forEach((purchase) => {
-                    purchase.product.Image = `https://picsum.photos/id/${purchase.product.Id}/500/700`;
+                    purchase.product.image = `https://picsum.photos/id/${purchase.product.id}/500/700`;
                 });
             })
             return deals;

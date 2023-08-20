@@ -16,10 +16,10 @@
         </div>
         <section class="purchase">
             <ul class="product-images">
-                <li v-for="product in products" :key="product.Id">
-                    <button class="image-btn" @click="() => onOpenProduct(product.Id)">
+                <li v-for="product in products" :key="product.id">
+                    <button class="image-btn" @click="() => onOpenProduct(product.id)">
                         <VIcon>mdi-arrow-u-right-top</VIcon>
-                        <img :src="product.Image" :alt="product.Title">
+                        <img :src="product.image" :alt="product.title">
                     </button>
                 </li>
             </ul>
