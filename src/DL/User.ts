@@ -15,5 +15,9 @@ export async function getUsers() {
 export async function updateUser(user: Partial<UserResult>) {
     const path = `${productModule}/`;
     return axiosInstance.put<UserResult>(path, user)
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .catch((err) => {
+            console.log(err);
+            return err;
+        });
 }

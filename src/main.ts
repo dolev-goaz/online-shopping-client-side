@@ -19,12 +19,12 @@ const vuetify = createVuetify({
         VMenu
     },
     locale: {
-        locale: 'he',
-        fallback: 'he',
-        messages: { he },
+        locale: 'he-IL',
+        fallback: 'he-IL',
+        messages: { 'he-IL': he },
         rtl: {
             'he-IL': true,
-            'en-US': false
+            'en-US': false,
         }
     }
 })
