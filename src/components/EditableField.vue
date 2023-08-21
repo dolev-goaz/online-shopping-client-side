@@ -15,6 +15,7 @@ import TextInput from './TextInput.vue';
 const props = defineProps<{
     tag: string;
     modelValue: string;
+    disabled?: boolean;
 }>();
 const emit = defineEmits<{
     (e: 'update:modelValue', payload: string): void
@@ -27,7 +28,7 @@ const model = computed({
 });
 
 const authStore = useAuthStore();
-const canEdit = computed(() => authStore.isAdmin);
+const canEdit = computed(() => authStore.isAdmin && !props.disabled);
 const editMode = ref(false);
 
 const inputField = ref<InstanceType<typeof TextInput>>();

@@ -2,7 +2,8 @@
     <header> {{ t('user.list') }} </header>
     <ul>
         <li v-for="user in users" :key="user.id">
-            <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email" @save="saveUser" />
+            <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email"
+            @save="(updated) => saveUser(user.id, updated)" />
         </li>
     </ul>
 </template>
@@ -14,6 +15,7 @@ import { useAuthStore } from "@/store/Authentication";
 import { UserResult } from "@/DL/User";
 import { useI18n } from "vue-i18n";
 import { MessageSchema } from "@/i18n";
+import { UserReduced } from "@/@types/Model";
 const { t } = useI18n<MessageSchema>();
 
 const userStore = useUserStore();
@@ -31,8 +33,12 @@ const users = computed(() =>
         })
 );
 
-async function saveUser(updated: Partial<UserResult>) {
-    await userStore.updateUser(updated);
+async function saveUser(userId: number, updated: Partial<UserReduced>) {
+    const payload: Partial<UserResult> = {
+        id: userId,
+        ...updated
+    }
+    await userStore.updateUser(payload);
 }
 </script>
 <style lang="scss" scoped>

@@ -63,10 +63,12 @@
     "order": {
         "order": "הזמנה",
         "orders": "הזמנות",
-        "countFormat":"{count} @:order.orders",
+        "countFormat": "{count} @:order.orders",
         "idFormat": "@:order.order {id}"
     },
     "user": {
+        "firstname": "שם פרטי",
+        "lastname": "שם משפחה",
         "fullname": "שם מלא",
         "email": "אימייל",
         "address": "כתובת",

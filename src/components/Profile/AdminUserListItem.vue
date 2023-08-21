@@ -2,20 +2,18 @@
     <article>
         <img src="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg"
             :alt="fullName">
-        <div v-for="infoBlock in infoBlocks" :key="infoBlock.header">
+        <div v-for="{ header, key } in infoBlocks" :key="header">
             <header>
-                {{ infoBlock.header }}
+                {{ header }}
             </header>
-            <div class="content">
-                {{ infoBlock.value }}
-            </div>
+            <EditableField :disabled="disabled" tag="div" class="content" v-model="userProxy[key].value" />
         </div>
         <div class="permission-block">
             <header>
                 {{ t('user.permission') }}
             </header>
             <div class="content">
-                <VSelect :disabled="disabled" :placeholder="t('user.permission')" v-model="userEdited.role"
+                <VSelect :disabled="disabled" :placeholder="t('user.permission')" v-model="userProxy.role.value"
                     :items="possibleRoles" density="compact" hide-details />
             </div>
         </div>
@@ -29,52 +27,79 @@
     </article>
 </template>
 <script setup lang="ts">
-import { Roles } from '@/@types/Model';
-import { type UserResult } from '@/DL/User';
+import { Roles, UserReduced } from '@/@types/Model';
 import { MessageSchema } from '@/i18n';
+import { WritableComputedRef } from 'vue';
 import { ref } from 'vue';
 import { watch } from 'vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import EditableField from '../EditableField.vue';
 const { t } = useI18n<MessageSchema>();
 
 const props = defineProps<{
-    user: UserResult;
+    user: UserReduced;
     disabled?: boolean;
 }>();
 
-const fullName = computed(() => `${props.user.firstName} ${props.user.lastName}`);
+const fullName = computed(() => formatFullName(userProxy.firstName.value, userProxy.lastName.value));
+function formatFullName(firstName: string, lastName: string) {
+    return `${firstName} ${lastName}`;
+}
 
 const infoBlocks = computed(() => {
-    const pairs = [
-        ['user.fullname', fullName.value],
-        ['user.email', props.user.email],
-        ['user.address', props.user.address],
-    ]
+    const pairs: Array<[string, keyof UserReduced]> = [
+        ['user.firstname', 'firstName'],
+        ['user.lastname', 'lastName'],
+        ['user.email', 'email'],
+        ['user.address', 'address'],
+    ];
 
     return pairs.map(([translateKey, value]) => ({
         header: t(translateKey),
-        value
+        key: value
     }));
 });
 
 const possibleRoles = computed(() => Object.values(Roles));
 
-const emit = defineEmits<{
-    (event: 'save', user: Partial<UserResult>): void;
-}>();
 
-const userEdited = ref<UserResult>({ ...props.user });
+const userEdited = ref<Partial<UserReduced>>({});
 watch(props.user, () => {
-    userEdited.value = { ...props.user };
+    userEdited.value = {};
+}, {
+    immediate: true
 });
-const wasUpdated = computed(() => userEdited.value.role !== props.user.role);
+function setValue<TKey extends keyof UserReduced>(key: TKey, value: UserReduced[TKey]) {
+    userEdited.value[key] = value;
+}
+function getValue<TKey extends keyof UserReduced>(key: TKey) {
+    return userEdited.value[key] ?? props.user[key];
+}
+const userProxy = {} as Record<keyof UserReduced, WritableComputedRef<any>>;
+const keys: Array<keyof UserReduced> = ['address', 'email', 'firstName', 'lastName', 'role'];
+keys.forEach((key) => {
+    userProxy[key] = computed({
+        get() {
+            return getValue(key)
+        },
+        set(value: UserReduced[typeof key]) {
+            setValue(key, value);
+        }
+    })
+});
+
+
+const wasUpdated = computed(() => {
+    const entries = Object.keys(userEdited.value) as Array<keyof UserReduced>;
+    return entries.some((key) => props.user[key] != userEdited.value[key]);
+});
+const emit = defineEmits<{
+    (event: 'save', user: Partial<UserReduced>): void;
+}>();
 function onSave() {
-    const user: Partial<UserResult> = {
-        id: props.user.id,
-        role: userEdited.value.role
-    }
-    emit('save', user);
+    if (!wasUpdated.value) return;
+    emit('save', userEdited.value);
 }
 
 </script>
@@ -98,7 +123,7 @@ article {
 
     display: grid;
     grid-template-rows: var(--height);
-    grid-template-columns: var(--height) repeat(4, 1fr) var(--height);
+    grid-template-columns: var(--height) repeat(5, 1fr) var(--height);
     place-items: center;
     grid-column-gap: 1rem;
 
@@ -141,9 +166,11 @@ article>* {
     padding: 0.25rem;
     background-color: var(--clr-bg);
     transition: filter 200ms ease;
+
     &:hover {
         filter: brightness(0.9);
     }
+
     &:active {
         filter: brightness(0.8);
     }
@@ -151,12 +178,11 @@ article>* {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 150ms ease;
+    transition: opacity 150ms ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  opacity: 0;
+    opacity: 0;
 }
-
 </style>
