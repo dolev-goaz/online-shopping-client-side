@@ -74,8 +74,10 @@ function onSubmitInput() {
 
     &::after {
         position: absolute;
-        inset-inline-end: 1.125rem;
+        inset-inline-start: -0.125rem;
         top: -0.5rem;
+
+        width: 0;
         content: '\270E';
 
         scale: -1 1;
