@@ -2,7 +2,7 @@
     <header> {{ t('user.list') }} </header>
     <ul>
         <li v-for="user in users" :key="user.id">
-            <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email" @save="(updated) => saveUser(user, updated)" />
+            <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email" @save="saveUser" />
         </li>
     </ul>
 </template>
@@ -31,7 +31,7 @@ const users = computed(() =>
         })
 );
 
-async function saveUser(previous: UserResult, updated: UserResult) {
+async function saveUser(updated: Partial<UserResult>) {
     await userStore.updateUser(updated);
 }
 </script>

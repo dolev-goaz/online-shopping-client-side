@@ -61,15 +61,20 @@ const infoBlocks = computed(() => {
 const possibleRoles = computed(() => Object.values(Roles));
 
 const emit = defineEmits<{
-    (event: 'save', user: UserResult): void;
+    (event: 'save', user: Partial<UserResult>): void;
 }>();
+
 const userEdited = ref<UserResult>({ ...props.user });
 watch(props.user, () => {
     userEdited.value = { ...props.user };
 });
 const wasUpdated = computed(() => userEdited.value.role !== props.user.role);
 function onSave() {
-    emit('save', userEdited.value);
+    const user: Partial<UserResult> = {
+        id: props.user.id,
+        role: userEdited.value.role
+    }
+    emit('save', user);
 }
 
 </script>
