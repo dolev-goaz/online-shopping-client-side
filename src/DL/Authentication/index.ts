@@ -1,5 +1,4 @@
-import { AxiosError } from "axios";
-import { axiosInstance } from ".."
+import { ServerError, axiosInstance } from ".."
 import { RegisterPayload, UserReduced } from "@/@types/Model";
 import TokenService from "./Token";
 export const authenticationModule = 'auth';
@@ -13,7 +12,7 @@ export type AuthenticationResponse = TokenResponse & UserReduced;
 
 const tokenManager = new TokenService.TokenManager();
 
-export async function SignIn(email: string, password: string): Promise<AuthenticationResponse | string> {
+export async function SignIn(email: string, password: string) {
     const path = `${authenticationModule}/authenticate`;
 
     return axiosInstance
@@ -26,10 +25,10 @@ export async function SignIn(email: string, password: string): Promise<Authentic
             tokenManager.setAuthorization(res);
             return res;
         })
-        .catch((err: AxiosError) => err.message);
+        .catch((err: ServerError) => err.errors[0]);
 }
 
-export async function Register(formData: RegisterPayload): Promise<AuthenticationResponse | string> {
+export async function Register(formData: RegisterPayload) {
     const path = `${authenticationModule}/register`;
 
     return axiosInstance
@@ -39,15 +38,15 @@ export async function Register(formData: RegisterPayload): Promise<Authenticatio
             tokenManager.setAuthorization(res);
             return res;
         })
-        .catch((err: AxiosError) => err.message);
+        .catch((err: ServerError) => err.errors[0]);
 }
 
-export async function SignInToken(): Promise<AuthenticationResponse | string> {
+export async function SignInToken() {
     const path = `${authenticationModule}/authenticate`;
     return axiosInstance
         .get<AuthenticationResponse>(path)
         .then((res) => res.data)
-        .catch((err: AxiosError) => err.message);
+        .catch((err: ServerError) => err.errors[0]);
 
 }
 
@@ -59,16 +58,19 @@ export async function LoadAuthorization() {
     return tokenManager.authorizeRefreshToken(
         (refreshToken) => axiosInstance
             .post<TokenResponse>(path, { refreshToken })
-            .then((res) => res.data));
+            .then((res) => res.data))
+        .catch((err: ServerError) => err.errors[0]);
 }
 
 export function DeleteLocalAuthorizations() {
-    tokenManager.deleteAuthorization(); 
+    tokenManager.deleteAuthorization();
 }
 
 async function _SignOut() {
     const path = `${authenticationModule}/logout`;
-    return axiosInstance.get(path);
+    return axiosInstance
+        .get(path)
+        .catch((err: ServerError) => err.errors[0]);
 }
 
 export async function SignOut() {

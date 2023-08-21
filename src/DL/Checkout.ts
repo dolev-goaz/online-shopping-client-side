@@ -1,5 +1,5 @@
 import { CartProduct } from "@/store/Cart";
-import { axiosInstance } from "."
+import { axiosInstance, type ServerError } from "."
 import { AxiosResponse } from "axios";
 import { type Deal } from "@/@types/Model"
 
@@ -22,7 +22,8 @@ export async function createDeal(products: CartProduct[]) {
         AxiosResponse<CheckoutItem[], CheckoutItem[]>,
         CheckoutItem[]
     >(path, products)
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .catch((err: ServerError) => err.errors[0]);
 }
 
 export async function getCheckouts() {
@@ -30,6 +31,7 @@ export async function getCheckouts() {
     return axiosInstance
         .get<DealInner[]>(path)
         .then((res) => res.data)
+        .catch(() => [])
         .then((deals) => {
             return deals.map((deal) => ({
                 ...deal,

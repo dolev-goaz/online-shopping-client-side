@@ -15,7 +15,7 @@ export const useAuthStore = defineStore("authentication", {
         async loadAuthorization() {
             if (this.user) return;
             const existingAuth = await AuthenticationService.LoadAuthorization();
-            if (!existingAuth) return;
+            if (!existingAuth || typeof existingAuth == 'string') return;
 
             const res = await AuthenticationService.SignInToken();
             if (typeof res === 'string') {

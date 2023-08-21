@@ -22,7 +22,11 @@ export const useCartStore = defineStore("products-cart", {
     }),
     actions: {
         async checkout() {
-            await CheckoutService.createDeal(this.cartItems);
+            const res = await CheckoutService.createDeal(this.cartItems);
+            if (typeof res === 'string') {
+                alert(res);
+                return;
+            }
             this.cartItems.length = 0;
         },
         addItemCount(productId: number, count: number) {

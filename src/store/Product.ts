@@ -35,31 +35,30 @@ export const useProductStore = defineStore("products", {
         async updateProduct(updatedProduct: Product) {
             if (!updatedProduct.id) return false;
 
-            const success = await ProductsService
-                .updateProduct(updatedProduct)
-                .then(() => true)
-                .catch(() => false)
-
-            if (success) {
-                const existing = this.findProductById(updatedProduct.id);
-                if (existing) {
-                    Object.assign(existing, updatedProduct);
-                }
+            const res = await ProductsService.updateProduct(updatedProduct);
+            if (typeof res === 'string') {
+                alert(res);
+                return false;
             }
 
-            return success;
+            const existing = this.findProductById(updatedProduct.id);
+            if (existing) {
+                Object.assign(existing, updatedProduct);
+            }
+
+            return true;
         },
         async createProduct(product: Product) {
             // if (product.Id) return false;
-            return ProductsService
-                .createProduct(product)
-                .then((product) => {
-                    product.image = `https://picsum.photos/id/${product.id}/500/700`
-                    this.products.push(product)
-                    this.currentProduct = product;
-                    return true;
-                })
-                .catch(() => false)
+            const res = await ProductsService.createProduct(product);
+            if (typeof res === 'string') {
+                alert(res);
+                return false;
+            }
+            res.image = `https://picsum.photos/id/${res.id}/500/700`
+            this.products.push(res)
+            this.currentProduct = res;
+            return true;
         },
         findProductById(productId: number) {
             return this.products.find((product) => product.id == productId) ?? null;

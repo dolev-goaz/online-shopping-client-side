@@ -58,11 +58,8 @@ async function onCheckout() {
     }
     if (!canPurchase.value) return;
     loading.value = true;
-    try {
-        await cart.checkout();
-    } finally {
-        loading.value = false;
-    }
+    await cart.checkout();
+    loading.value = false;
 }
 
 </script>

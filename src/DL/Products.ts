@@ -1,4 +1,4 @@
-import { axiosInstance } from "."
+import { ServerError, axiosInstance } from "."
 import { Product } from "@/@types/Model";
 
 const productModule = 'product';
@@ -21,13 +21,15 @@ export async function getProducts(): Promise<Product[]> {
 export async function updateProduct(newProduct: Product) {
     const path = `${productModule}/product`;
     return axiosInstance
-        .put(path, newProduct)
-        .then((res) => res.data);
+        .put<Product>(path, newProduct)
+        .then((res) => res.data)
+        .catch((err: ServerError) => err.errors[0]);
 }
 
 export async function createProduct(newProduct: Product) {
     const path = `${productModule}/product`;
     return axiosInstance
         .post<Product>(path, newProduct)
-        .then((res) => res.data);
+        .then((res) => res.data)
+        .catch((err: ServerError) => err.errors[0]);
 }

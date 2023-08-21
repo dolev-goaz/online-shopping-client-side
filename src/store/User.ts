@@ -15,13 +15,22 @@ export const useUserStore = defineStore("user-store", {
             const authStore = useAuthStore();
             if (!authStore.isAdmin) return [];
 
-            this.users = await UserService.getUsers();
+            const res = await UserService.getUsers();
+            if (typeof res === 'string') {
+                alert(res);
+                return [];
+            }
+            this.users = res;
             return this.users;
         },
         async updateUser(updatedUser: Partial<UserService.UserResult>) {
             const current = this.getUserById(updatedUser.id!);
             if (!current) return;
             const res = await UserService.updateUser(updatedUser);
+            if (typeof res === 'string') {
+                alert(res);
+                return;
+            }
             Object.assign(current, res);
         },
         getUserById(id: number) {
