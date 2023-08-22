@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import * as UserService from "@/DL/User"
 import { useAuthStore } from './Authentication';
+import { useMessageStore } from './Message';
 
 interface StoreState {
     users: UserService.UserResult[]
@@ -28,7 +29,8 @@ export const useUserStore = defineStore("user-store", {
             if (!current) return;
             const res = await UserService.updateUser(updatedUser);
             if (typeof res === 'string') {
-                alert(res);
+                const messageStore = useMessageStore();
+                messageStore.errorMessage({ text: res });
                 return;
             }
             Object.assign(current, res);

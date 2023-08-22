@@ -6,6 +6,7 @@ import { watch } from "vue";
 import { useAuthStore } from "./store/Authentication";
 import { useLoadingStore } from "./store/Loading";
 import { onMounted } from "vue";
+import MessageToast from "./components/MessageToast.vue";
 const { locale } = useI18n();
 const authStore = useAuthStore();
 const loadingStore = useLoadingStore();
@@ -28,7 +29,10 @@ onMounted(async () => {
   <NavBar id="nav" />
   <div id="router-view">
     <VProgressCircular v-if="loadingStore.loading['authentication']" class="loader" size="150" width="10" indeterminate />
-    <router-view v-else />
+    <template v-else>
+      <router-view />
+      <MessageToast id="toast" />
+    </template>
   </div>
 </template>
 
@@ -38,6 +42,12 @@ onMounted(async () => {
   top: 50%;
   left: 50%;
   translate: -50% -50%;
+}
+
+#toast {
+  position: absolute;
+  bottom: 1rem;
+  inset-inline-start: 1rem;
 }
 </style>
 
