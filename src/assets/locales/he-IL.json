@@ -39,8 +39,8 @@
             "password": "סיסמא"
         },
         "register": {
-            "firstname": "שם פרטי",
-            "lastname": "שם משפחה",
+            "firstName": "שם פרטי",
+            "lastName": "שם משפחה",
             "password": "סיסמא",
             "repeatPassword": "שוב סיסמא",
             "email": "כתובת מייל",
