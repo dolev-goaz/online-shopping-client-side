@@ -1,6 +1,7 @@
 import { Product } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as ProductsService from "@/DL/Products"
+import { useMessageStore } from './Message';
 
 interface StoreState {
     products: Product[];
@@ -37,7 +38,7 @@ export const useProductStore = defineStore("products", {
 
             const res = await ProductsService.updateProduct(updatedProduct);
             if (typeof res === 'string') {
-                alert(res);
+                useMessageStore().errorMessage({ text: res });
                 return false;
             }
 
@@ -52,7 +53,7 @@ export const useProductStore = defineStore("products", {
             // if (product.Id) return false;
             const res = await ProductsService.createProduct(product);
             if (typeof res === 'string') {
-                alert(res);
+                useMessageStore().errorMessage({ text: res });
                 return false;
             }
             res.image = `https://picsum.photos/id/${res.id}/500/700`

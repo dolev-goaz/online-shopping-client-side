@@ -2,6 +2,7 @@ import { Product } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import { useProductStore } from './Product';
 import * as CheckoutService from "@/DL/Checkout";
+import { useMessageStore } from './Message';
 
 export type CartProduct = {
     productId: number;
@@ -24,14 +25,17 @@ export const useCartStore = defineStore("products-cart", {
         async checkout() {
             const res = await CheckoutService.createDeal(this.cartItems);
             if (typeof res === 'string') {
-                alert(res);
+                useMessageStore().errorMessage({ text: res });
                 return;
             }
             this.cartItems.length = 0;
         },
         addItemCount(productId: number, count: number) {
             const productsStore = useProductStore();
-            if (!productsStore.reduceStock(productId, count)) return false; // stock reduction failed
+            if (!productsStore.reduceStock(productId, count)) {
+                useMessageStore().errorMessage({ text: 'אירעה שגיאה. אנא נסה שוב..' });
+                return false
+            }; // stock reduction failed
 
             const existing = this.cartItems.find((cartItem) => cartItem.productId == productId);
             if (existing) {

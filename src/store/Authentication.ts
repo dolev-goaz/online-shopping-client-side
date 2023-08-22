@@ -2,6 +2,7 @@ import { RegisterPayload, Roles, TRole, UserReduced } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as AuthenticationService from "@/DL/Authentication"
 import { useDealStore } from './Deal';
+import { useMessageStore } from './Message';
 
 interface StoreState {
     user: UserReduced | null;
@@ -29,7 +30,7 @@ export const useAuthStore = defineStore("authentication", {
         async login(email: string, password: string) {
             const res = await AuthenticationService.SignIn(email, password);
             if (typeof res === 'string') {
-                alert(res);
+                useMessageStore().errorMessage({ text: res });
                 return;
             }
 
@@ -45,7 +46,7 @@ export const useAuthStore = defineStore("authentication", {
         async register(payload: RegisterPayload) {
             const res = await AuthenticationService.Register(payload);
             if (typeof res === 'string') {
-                alert(res);
+                useMessageStore().errorMessage({ text: res });
                 return;
             }
 

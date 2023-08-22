@@ -116,7 +116,6 @@ watch(amount, () => {
 const cartStore = useCartStore();
 function onPurchase() {
     if (!cartStore.addItemCount(productId.value, amount.value)) {
-        alert("אירעה שגיאה. אנא נסה שוב..");
         return;
     }
     editedProduct.value!.stock = currentProduct.value!.stock;
