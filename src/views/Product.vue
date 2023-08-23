@@ -223,6 +223,18 @@ async function onSaveChanges() {
     height: 80vh;
 }
 
+@media (max-width: 750px) {
+    .product-content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-content .image {
+        align-self: center;
+    }
+}
+
+
 .image {
     justify-self: center;
 }
