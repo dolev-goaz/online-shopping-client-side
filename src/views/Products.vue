@@ -1,6 +1,6 @@
 <template>
     <LoadWrapper :loading="productStore.loadingProducts">
-        <ul class="products-container">
+        <ul class="products-container" v-if="showProductList">
             <li class="add-product" v-if="authStore.isAdmin">
                 <RouterLink :to="{
                     path: 'product',
@@ -17,6 +17,9 @@
                 </a>
             </li>
         </ul>
+        <header v-else class="empty-store">
+            {{ t('message.emptyStore') }}
+        </header>
     </LoadWrapper>
 </template>
 <script lang="ts" setup>
@@ -24,14 +27,26 @@ import LoadWrapper from '@/components/LoadWrapper.vue';
 import Product from '@/components/Merchandise/Product.vue';
 import { useProductStore } from '@/store/Product';
 import { useAuthStore } from '@/store/Authentication';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { MessageSchema } from '@/i18n';
+
+const { t } = useI18n<MessageSchema>();
 
 const productStore = useProductStore();
 const authStore = useAuthStore();
 productStore.getProducts();
 
+const showProductList = computed(() => productStore.products.length > 0 || authStore.isAdmin);
 
 </script>
 <style lang="scss" scoped>
+
+.empty-store {
+    text-align: center;
+    font-size: 4rem;
+}
+
 .products-container {
     --items-per-row: 4;
     margin-top: 1rem;
@@ -61,9 +76,11 @@ a {
     text-decoration: none;
 }
 
-ul > li {
+ul>li {
     aspect-ratio: 3 / 4;
-    &>a, &>a>.product {
+
+    &>a,
+    &>a>.product {
         display: block;
         height: 100%;
     }
@@ -104,5 +121,4 @@ ul > li {
         --_clr-bg: var(--clr-bg-light);
         --_clr: var(--clr-fg);
     }
-}
-</style>
+}</style>
