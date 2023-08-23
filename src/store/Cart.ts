@@ -24,7 +24,7 @@ export const useCartStore = defineStore("products-cart", {
     actions: {
         async checkout() {
             const res = await CheckoutService.createDeal(this.cartItems);
-            if (typeof res === 'string') {
+            if (typeof res === 'string' && res !== '') {
                 useMessageStore().errorMessage({ text: res });
                 return;
             }
