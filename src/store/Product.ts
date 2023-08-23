@@ -9,11 +9,13 @@ interface StoreState {
     loadingProducts: boolean;
 }
 
+export const fallbackImage = "https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png";
+
 export const useProductStore = defineStore("products", {
     state: (): StoreState => ({
         products: [],
         currentProduct: null,
-        loadingProducts: false
+        loadingProducts: false,
     }),
     actions: {
         async getProducts() {
@@ -50,13 +52,11 @@ export const useProductStore = defineStore("products", {
             return true;
         },
         async createProduct(product: Product) {
-            // if (product.Id) return false;
             const res = await ProductsService.createProduct(product);
             if (typeof res === 'string') {
                 useMessageStore().errorMessage({ text: res });
                 return false;
             }
-            res.image = `https://picsum.photos/id/${res.id}/500/700`
             this.products.push(res)
             this.currentProduct = res;
             return true;

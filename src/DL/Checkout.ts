@@ -37,13 +37,5 @@ export async function getCheckouts() {
                 ...deal,
                 commitDate: new Date(deal.commitDate)
             }))
-        })
-        .then((deals) => {
-            deals.forEach((deal)=> {
-                deal.purchases.forEach((purchase) => {
-                    purchase.product.image = `https://picsum.photos/id/${purchase.product.id}/500/700`;
-                });
-            })
-            return deals;
         });
 }

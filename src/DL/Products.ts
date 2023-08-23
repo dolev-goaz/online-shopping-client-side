@@ -9,13 +9,7 @@ export async function getProducts(): Promise<Product[]> {
     return axiosInstance
         .get<Product[]>(path)
         .then((res) => res.data)
-        .catch(() => [])
-        .then((products) => {
-            products.forEach((product) => {
-                product.image = `https://picsum.photos/id/${product.id}/500/700`
-            });
-            return products;
-        });
+        .catch(() => []);
 }
 
 export async function updateProduct(newProduct: Product) {

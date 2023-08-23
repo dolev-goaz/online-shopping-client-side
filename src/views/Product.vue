@@ -3,7 +3,7 @@
         <div class="product-page" v-if="editedProduct">
             <div class="product-content">
 
-                <ImagePreview class="image" :src="editedProduct.image" :alt="editedProduct.title" />
+                <ImagePreview class="image" :src="editedProduct.image ?? fallbackImage" :alt="editedProduct.title" />
                 <div class="data">
                     <EditableField tag="h1" v-model="editedProduct.title" />
                     <div class="product-details">
@@ -48,7 +48,7 @@
 </template>
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
-import { useProductStore } from '@/store/Product';
+import { useProductStore, fallbackImage } from '@/store/Product';
 import LoadWrapper from '@/components/LoadWrapper.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -72,6 +72,7 @@ const productStore = useProductStore();
 const currentProduct = computed(() => productStore.currentProduct);
 const editedProduct = ref<Product | null>(null);
 
+
 onMounted(() => {
     if (isCreateNew.value) {
         if (!authStore.isAdmin) {
@@ -82,7 +83,7 @@ onMounted(() => {
             id: -1,
             title: t('placeholder.product.title'),
             description: t('placeholder.product.description'),
-            image: 'https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png',
+            image: undefined,
             price: 0,
             stock: 0,
         }

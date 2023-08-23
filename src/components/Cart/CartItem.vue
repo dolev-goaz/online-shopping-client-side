@@ -2,7 +2,7 @@
     <article class="cart-item">
         <button class="image-btn" @click="onOpenProduct">
             <VIcon>mdi-arrow-u-right-top</VIcon>
-            <img :src="product.image" :alt="product.title">
+            <img :src="product.image ?? fallbackImage" :alt="product.title">
         </button>
         <section>
             <header>
@@ -40,6 +40,7 @@ import { useI18n } from "vue-i18n";
 import { useRouter } from "vue-router";
 import NumberInput from "../NumberInput.vue";
 import { useCartStore } from "@/store/Cart";
+import { fallbackImage } from "@/store/Product";
 const router = useRouter();
 const cartStore = useCartStore()
 
