@@ -2,8 +2,12 @@
     <LoadWrapper :loading="productStore.loadingProducts">
         <div class="product-page" v-if="editedProduct">
             <div class="product-content">
-
-                <ImagePreview class="image" :src="editedProduct.imagePath ?? fallbackImage" :alt="editedProduct.title" />
+                <div class="image-wrapper">
+                    <input v-if="authStore.isAdmin" type="file" id="product-image" @change="onSetImage" />
+                    <label for="product-image">
+                        <ImagePreview class="image" :src="editedProduct.imagePath ?? fallbackImage" :alt="editedProduct.title" />
+                    </label>
+                </div>
                 <div class="data">
                     <EditableField tag="h1" v-model="editedProduct.title" />
                     <div class="product-details">
@@ -33,7 +37,7 @@
                         <span>{{ t('currency', { value: price }) }}</span>
                     </div>
                     <div class="actions">
-                        <MyButton :loading="loadingSave" v-if="authStore.isAdmin" :disabled="!productChanged || loadingSave"
+                        <MyButton :loading="loadingSave" v-if="authStore.isAdmin" :disabled="!wasProductChanged || loadingSave"
                             @click="onSaveChanges">
                             {{ t('actions.saveChanges') }}
                         </MyButton>
@@ -90,7 +94,7 @@ onMounted(() => {
         return;
     }
     editedProduct.value = { ...currentProduct.value! };
-})
+});
 watch(productId, async () => {
     if (isCreateNew.value || isNaN(productId.value)) return; // when redirecting
     await productStore.getProductById(productId.value);
@@ -99,6 +103,7 @@ watch(productId, async () => {
         return;
     }
     editedProduct.value = { ...currentProduct.value! };
+    uploadImage.value = undefined;
 }, {
     immediate: true
 });
@@ -145,8 +150,10 @@ const stockProxy = computed({
 
 const authStore = useAuthStore();
 const loadingSave = ref(false);
-const productChanged = computed(() => {
+const wasProductChanged = computed(() => {
     if (!editedProduct.value) return false;
+    if (uploadImage.value) return true;
+
     if (isCreateNew.value) {
         return editedProduct.value.price != 0 &&
             editedProduct.value.title != t('placeholder.product.title') &&
@@ -156,17 +163,28 @@ const productChanged = computed(() => {
     if (!currentProduct.value) return;
     const keys = Object.keys(currentProduct.value) as Array<keyof Product>;
     return !keys.every((key) => currentProduct.value![key] === editedProduct.value![key]);
-})
+});
+
+const uploadImage = ref<File>();
+
+function onSetImage(event: Event) {
+    const target =<HTMLInputElement>event.target;
+    const files = [...target.files!]
+    if (files.length == 0) return;
+    uploadImage.value = files[0];
+}
+
 async function onSaveChanges() {
     if (!editedProduct.value) return;
     const saveMethod = isCreateNew.value ? productStore.createProduct : productStore.updateProduct;
     loadingSave.value = true;
-    const success = await saveMethod(editedProduct.value);
+    const success = await saveMethod(editedProduct.value, uploadImage.value);
     loadingSave.value = false;
     if (!success) {
         // TODO: error message
         return;
     }
+    uploadImage.value = undefined;
     router.push({
         params: {
             id: currentProduct.value!.id
@@ -178,7 +196,7 @@ async function onSaveChanges() {
 <style lang="scss">
 .product-content img.image {
     max-height: 80vh;
-    width: 100%;
+    max-width: 100%;
     object-fit: cover;
     border-radius: 0.375rem;
 }
@@ -236,8 +254,14 @@ async function onSaveChanges() {
 }
 
 
-.image {
+.image-wrapper {
     justify-self: center;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: start;
+    input[type=file] + label {
+        cursor: pointer;
+    }
 }
 
 .data {

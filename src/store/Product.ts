@@ -35,10 +35,10 @@ export const useProductStore = defineStore("products", {
             this.currentProduct = this.findProductById(id);
             return this.currentProduct;
         },
-        async updateProduct(updatedProduct: Product) {
+        async updateProduct(updatedProduct: Product, image?: File) {
             if (!updatedProduct.id) return false;
 
-            const res = await ProductsService.updateProduct(updatedProduct);
+            const res = await ProductsService.updateProduct(updatedProduct, image);
             if (typeof res === 'string') {
                 useMessageStore().errorMessage({ text: res });
                 return false;
@@ -51,8 +51,8 @@ export const useProductStore = defineStore("products", {
 
             return true;
         },
-        async createProduct(product: Product) {
-            const res = await ProductsService.createProduct(product);
+        async createProduct(product: Product, image?: File) {
+            const res = await ProductsService.createProduct(product, image);
             if (typeof res === 'string') {
                 useMessageStore().errorMessage({ text: res });
                 return false;
