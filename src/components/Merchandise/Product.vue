@@ -1,6 +1,6 @@
 <template>
     <div class="product">
-        <img draggable="false" :src="product.image ?? fallbackImage" :alt="product.title">
+        <img draggable="false" :src="product.imagePath ?? fallbackImage" :alt="product.title">
         <div class="details-container">
             <div class="name overflow-dots" :title="product.title">{{ product.title }}</div>
             <p class="description overflow-dots" :title="product.description">{{ product.description }}</p>

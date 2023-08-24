@@ -3,7 +3,7 @@
         <div class="product-page" v-if="editedProduct">
             <div class="product-content">
 
-                <ImagePreview class="image" :src="editedProduct.image ?? fallbackImage" :alt="editedProduct.title" />
+                <ImagePreview class="image" :src="editedProduct.imagePath ?? fallbackImage" :alt="editedProduct.title" />
                 <div class="data">
                     <EditableField tag="h1" v-model="editedProduct.title" />
                     <div class="product-details">
@@ -83,7 +83,7 @@ onMounted(() => {
             id: -1,
             title: t('placeholder.product.title'),
             description: t('placeholder.product.description'),
-            image: undefined,
+            imagePath: undefined,
             price: 0,
             stock: 0,
         }
