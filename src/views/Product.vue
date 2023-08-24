@@ -178,6 +178,7 @@ async function onSaveChanges() {
 <style lang="scss">
 .product-content img.image {
     max-height: 80vh;
+    width: 100%;
     object-fit: cover;
     border-radius: 0.375rem;
 }
@@ -219,7 +220,7 @@ async function onSaveChanges() {
 .product-content {
     display: grid;
     grid-template-columns: 2fr 2fr 1fr;
-    gap: 1rem;
+    gap: 4rem;
     height: 80vh;
 }
 
