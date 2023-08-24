@@ -172,6 +172,8 @@ function onSetImage(event: Event) {
     const files = [...target.files!]
     if (files.length == 0) return;
     uploadImage.value = files[0];
+
+    editedProduct.value!.imagePath = URL.createObjectURL(uploadImage.value);
 }
 
 async function onSaveChanges() {
