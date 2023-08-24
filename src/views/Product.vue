@@ -3,7 +3,7 @@
         <div class="product-page" v-if="editedProduct">
             <div class="product-content">
                 <div class="image-wrapper">
-                    <input v-if="authStore.isAdmin" type="file" id="product-image" @change="onSetImage" />
+                    <input v-if="authStore.isAdmin" type="file" accept="image/*" id="product-image" @change="onSetImage" />
                     <label for="product-image">
                         <ImagePreview class="image" :src="editedProduct.imagePath ?? fallbackImage" :alt="editedProduct.title" />
                     </label>
