@@ -2,8 +2,16 @@
     <LoadWrapper :loading="productStore.loadingProducts">
         <div class="product-page" v-if="editedProduct">
             <div class="product-content">
-
-                <ImagePreview class="image" :src="editedProduct.image ?? fallbackImage" :alt="editedProduct.title" />
+                <div class="image-wrapper">
+                    <template v-if="authStore.isAdmin">
+                        <VIcon class="upload-image-icon">mdi-upload</VIcon>
+                        <input type="file" accept="image/*" id="product-image" @change="onSetImage" />
+                    </template>
+                    <label for="product-image">
+                        <ImagePreview :is-active="!authStore.isAdmin" class="image" :src="editedProduct.imagePath ?? fallbackImage"
+                            :alt="editedProduct.title" />
+                    </label>
+                </div>
                 <div class="data">
                     <EditableField tag="h1" v-model="editedProduct.title" />
                     <div class="product-details">
@@ -33,8 +41,8 @@
                         <span>{{ t('currency', { value: price }) }}</span>
                     </div>
                     <div class="actions">
-                        <MyButton :loading="loadingSave" v-if="authStore.isAdmin" :disabled="!productChanged || loadingSave"
-                            @click="onSaveChanges">
+                        <MyButton :loading="loadingSave" v-if="authStore.isAdmin"
+                            :disabled="!wasProductChanged || loadingSave" @click="onSaveChanges">
                             {{ t('actions.saveChanges') }}
                         </MyButton>
                         <MyButton v-else :disabled="!currentProduct || !currentProduct.stock" @click="onPurchase">
@@ -83,14 +91,14 @@ onMounted(() => {
             id: -1,
             title: t('placeholder.product.title'),
             description: t('placeholder.product.description'),
-            image: undefined,
+            imagePath: undefined,
             price: 0,
             stock: 0,
         }
         return;
     }
     editedProduct.value = { ...currentProduct.value! };
-})
+});
 watch(productId, async () => {
     if (isCreateNew.value || isNaN(productId.value)) return; // when redirecting
     await productStore.getProductById(productId.value);
@@ -99,6 +107,7 @@ watch(productId, async () => {
         return;
     }
     editedProduct.value = { ...currentProduct.value! };
+    uploadImage.value = undefined;
 }, {
     immediate: true
 });
@@ -145,8 +154,10 @@ const stockProxy = computed({
 
 const authStore = useAuthStore();
 const loadingSave = ref(false);
-const productChanged = computed(() => {
+const wasProductChanged = computed(() => {
     if (!editedProduct.value) return false;
+    if (uploadImage.value) return true;
+
     if (isCreateNew.value) {
         return editedProduct.value.price != 0 &&
             editedProduct.value.title != t('placeholder.product.title') &&
@@ -156,17 +167,30 @@ const productChanged = computed(() => {
     if (!currentProduct.value) return;
     const keys = Object.keys(currentProduct.value) as Array<keyof Product>;
     return !keys.every((key) => currentProduct.value![key] === editedProduct.value![key]);
-})
+});
+
+const uploadImage = ref<File>();
+
+function onSetImage(event: Event) {
+    const target = <HTMLInputElement>event.target;
+    const files = [...target.files!]
+    if (files.length == 0) return;
+    uploadImage.value = files[0];
+
+    editedProduct.value!.imagePath = URL.createObjectURL(uploadImage.value);
+}
+
 async function onSaveChanges() {
     if (!editedProduct.value) return;
     const saveMethod = isCreateNew.value ? productStore.createProduct : productStore.updateProduct;
     loadingSave.value = true;
-    const success = await saveMethod(editedProduct.value);
+    const success = await saveMethod(editedProduct.value, uploadImage.value);
     loadingSave.value = false;
     if (!success) {
         // TODO: error message
         return;
     }
+    uploadImage.value = undefined;
     router.push({
         params: {
             id: currentProduct.value!.id
@@ -178,6 +202,7 @@ async function onSaveChanges() {
 <style lang="scss">
 .product-content img.image {
     max-height: 80vh;
+    max-width: 100%;
     object-fit: cover;
     border-radius: 0.375rem;
 }
@@ -219,7 +244,7 @@ async function onSaveChanges() {
 .product-content {
     display: grid;
     grid-template-columns: 2fr 2fr 1fr;
-    gap: 1rem;
+    gap: 4rem;
     height: 80vh;
 }
 
@@ -235,8 +260,50 @@ async function onSaveChanges() {
 }
 
 
-.image {
+.image-wrapper {
+    height: max-content;
+    position: relative;
     justify-self: center;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: start;
+
+    input[type=file] {
+        width: 0;
+        height: 0;
+    }
+
+    input[type=file]+label {
+        cursor: pointer;
+    }
+
+    &:has(input[type=file]) .image {
+        filter: brightness(0.7) blur(1px);
+    }
+    .upload-image-icon {
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        left: 50%;
+        translate: -50% -50%;
+        
+        font-size: 5rem;
+        color: white;
+        border: 1px solid white;
+        border-radius: 50%;
+
+        width: 5rem;
+        height: 5rem;
+        padding: 5rem;
+        background-color: rgba(white, 0.5);
+        pointer-events: none;
+
+        transition: scale 100ms ease;
+    }
+
+    &:hover .upload-image-icon {
+        scale: 1.3;
+    }
 }
 
 .data {

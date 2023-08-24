@@ -2,7 +2,7 @@
     <article class="cart-item">
         <button class="image-btn" @click="onOpenProduct">
             <VIcon>mdi-arrow-u-right-top</VIcon>
-            <img :src="product.image ?? fallbackImage" :alt="product.title">
+            <img :src="product.imagePath ?? fallbackImage" :alt="product.title">
         </button>
         <section>
             <header>

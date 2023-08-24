@@ -19,7 +19,7 @@
                 <li v-for="product in products" :key="product.id">
                     <button class="image-btn" @click="() => onOpenProduct(product.id)">
                         <VIcon>mdi-arrow-u-right-top</VIcon>
-                        <img :src="product.image ?? fallbackImage" :alt="product.title">
+                        <img :src="product.imagePath ?? fallbackImage" :alt="product.title">
                     </button>
                 </li>
             </ul>

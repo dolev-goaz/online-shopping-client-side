@@ -1,7 +1,7 @@
 <template>
     <div style="position: relative;" :class="{ hover: !isOutside }">
         <img class="original-image" ref="image" :src="src" v-bind="attrs">
-        <div class="preview-container" v-if="!isOutside" :style="{ width: elementWidth+'px', height: elementHeight+'px' }">
+        <div class="preview-container" v-if="!isOutside && isActive" :style="{ width: elementWidth+'px', height: elementHeight+'px' }">
             <img :src="src" :style="{ transform }">
         </div>
     </div>
@@ -13,6 +13,7 @@ import { ref, useAttrs } from "vue";
 const attrs = useAttrs();
 const props = defineProps<{
     src: string;
+    isActive?: boolean;
 }>();
 const image = ref<HTMLImageElement | null>();
 const { isOutside, elementX, elementY, elementWidth, elementHeight } = useMouseInElement(image)
