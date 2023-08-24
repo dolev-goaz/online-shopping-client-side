@@ -261,6 +261,9 @@ async function onSaveChanges() {
     display: flex;
     flex-direction: column-reverse;
     justify-content: start;
+    input[type=file] {
+        width: 0;
+    }
     input[type=file] + label {
         cursor: pointer;
     }
