@@ -19,7 +19,7 @@
                 <li v-for="product in products" :key="product.id">
                     <button class="image-btn" @click="() => onOpenProduct(product.id)">
                         <VIcon>mdi-arrow-u-right-top</VIcon>
-                        <img :src="product.imagePath ?? fallbackImage" :alt="product.title">
+                        <img :src="product.imagePath" :alt="product.title">
                     </button>
                 </li>
             </ul>
@@ -29,7 +29,6 @@
 <script setup lang="ts">
 import { Deal } from '@/@types/Model';
 import { MessageSchema } from '@/i18n';
-import { fallbackImage } from '@/store/Product';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';

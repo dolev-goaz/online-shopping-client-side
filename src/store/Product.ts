@@ -9,7 +9,7 @@ interface StoreState {
     loadingProducts: boolean;
 }
 
-export const fallbackImage = "https://raw.githubusercontent.com/julien-gargot/images-placeholder/master/placeholder-portrait.png";
+export const fallbackImage = "http://localhost:8080/image/product/placeholder.png";
 
 export const useProductStore = defineStore("products", {
     state: (): StoreState => ({

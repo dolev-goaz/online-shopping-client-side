@@ -1,6 +1,6 @@
 <template>
     <div class="product">
-        <img draggable="false" :src="product.imagePath ?? fallbackImage" :alt="product.title">
+        <img draggable="false" :src="product.imagePath" :alt="product.title">
         <div class="details-container">
             <div class="name overflow-dots" :title="product.title">{{ product.title }}</div>
             <p class="description overflow-dots" :title="product.description">{{ product.description }}</p>
@@ -16,7 +16,6 @@
 <script setup lang="ts">
 import { type Product } from "@/@types/Model";
 import { MessageSchema } from "@/i18n";
-import { fallbackImage } from "@/store/Product";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n<MessageSchema>();
 
