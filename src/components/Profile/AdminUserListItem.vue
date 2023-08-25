@@ -1,25 +1,30 @@
 <template>
     <article>
-        <img src="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg"
-            :alt="fullName">
+        <div class="image-wrapper">
+            <img src="https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg"
+                :alt="fullName">
+            <div class="current-user-indicator" v-if="isCurrentUser">
+                {{ t('message.you') }}!
+            </div>
+        </div>
         <div v-for="{ header, key } in infoBlocks" :key="header">
             <header>
                 {{ header }}
             </header>
-            <EditableField :disabled="disabled" tag="div" class="content" v-model="userProxy[key].value" />
+            <EditableField tag="div" class="content" v-model="userProxy[key].value" />
         </div>
         <div class="permission-block">
             <header>
                 {{ t('user.permission') }}
             </header>
             <div class="content">
-                <VSelect :disabled="disabled" :placeholder="t('user.permission')" v-model="userProxy.role.value"
+                <VSelect :disabled="isCurrentUser" :placeholder="t('user.permission')" v-model="userProxy.role.value"
                     :items="possibleRoles" density="compact" hide-details />
             </div>
         </div>
         <div class="save">
             <Transition name="fade">
-                <button @click="onSave" v-if="!disabled && wasUpdated">
+                <button @click="onSave" v-if="wasUpdated">
                     <VIcon>mdi-content-save</VIcon>
                 </button>
             </Transition>
@@ -39,7 +44,7 @@ const { t } = useI18n<MessageSchema>();
 
 const props = defineProps<{
     user: UserReduced;
-    disabled?: boolean;
+    isCurrentUser?: boolean;
 }>();
 
 const fullName = computed(() => formatFullName(userProxy.firstName.value, userProxy.lastName.value));
@@ -127,12 +132,27 @@ article {
     place-items: center;
     grid-column-gap: 1rem;
 
-    &>img {
-        height: 100%;
-        object-fit: cover;
-        aspect-ratio: 1 / 1;
-        display: block;
-        border-radius: 0.375rem;
+    &>.image-wrapper {
+        position: relative;
+
+        &>img {
+            height: 100%;
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+            display: block;
+            border-radius: 0.375rem;
+        }
+
+        &>.current-user-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            rotate: 15deg;
+
+            font-size: 1.5rem;
+            color: var(--clr-accent);
+        }
     }
 }
 

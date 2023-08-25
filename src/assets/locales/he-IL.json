@@ -56,7 +56,8 @@
     "message": {
         "emptyCart": "נראה שעוד לא קנית משהו..",
         "notLoggedIn": "נראה שאינך מחובר..",
-        "emptyStore": "נראה שהחנות ריקה.."
+        "emptyStore": "נראה שהחנות ריקה..",
+        "you": "אתה"
     },
     "admin": {
         "navbarHeader": "תצוגת מנהל"

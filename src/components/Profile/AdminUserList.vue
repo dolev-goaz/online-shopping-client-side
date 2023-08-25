@@ -2,7 +2,7 @@
     <header> {{ t('user.list') }} </header>
     <ul>
         <li v-for="user in users" :key="user.id">
-            <AdminUserListItem :user="user" :disabled="user.email == authStore.user!.email"
+            <AdminUserListItem :user="user" :is-current-user="user.email == authStore.user!.email"
             @save="(updated) => saveUser(user.id, updated)" />
         </li>
     </ul>
