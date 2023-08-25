@@ -1,5 +1,8 @@
 <template>
     <LoadWrapper :loading="productStore.loadingProducts">
+        <header class="products-header">
+            חנות מוצרים
+        </header>
         <ul class="products-container" v-if="showProductList">
             <li class="add-product" v-if="authStore.isAdmin">
                 <RouterLink :to="{
@@ -42,6 +45,14 @@ const showProductList = computed(() => productStore.products.length > 0 || authS
 </script>
 <style lang="scss" scoped>
 
+header.products-header {
+    text-align: center;
+    font-size: 3rem;
+    color: var(--clr-fg-light);
+    text-decoration: underline;
+    text-underline-offset: 0.5rem;
+    text-shadow: 4px 4px 4px rgba(black, 0.4);
+}
 .empty-store {
     text-align: center;
     font-size: 4rem;
@@ -53,7 +64,7 @@ const showProductList = computed(() => productStore.products.length > 0 || authS
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(var(--items-per-row), 1fr);
-    padding: 1rem;
+    padding-block: 1rem 2.5rem;
     width: min(90%, 100rem);
     margin-inline: auto;
 }
