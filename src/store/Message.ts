@@ -13,7 +13,7 @@ type MessageInner = Omit<Message, 'duration'>;
 type MessagePayload = {
     text: string;
     duration?: number;
-};
+} | string;
 
 
 interface StoreState {
@@ -29,25 +29,22 @@ export const useMessageStore = defineStore("message-store", {
         _msgTimeout: undefined,
     }),
     actions: {
-        errorMessage({ text, duration = _defaultDuration }: MessagePayload) {
+        errorMessage(payload: MessagePayload): void {
             return this._setMessage({
-                text,
-                duration,
-                type: 'error'
+                type: 'error',
+                ...parseMessagePayload(payload),
             });
         },
-        successMessage({ text, duration = _defaultDuration }: MessagePayload) {
+        successMessage(payload: MessagePayload) {
             return this._setMessage({
-                text,
-                duration,
-                type: 'success'
+                type: 'success',
+                ...parseMessagePayload(payload),
             });
         },
-        warningMessage({ text, duration = _defaultDuration }: MessagePayload) {
+        warningMessage(payload: MessagePayload) {
             return this._setMessage({
-                text,
-                duration,
-                type: 'warning'
+                type: 'warning',
+                ...parseMessagePayload(payload),
             });
         },
         _setMessage(messageObject: Message) {
@@ -65,4 +62,15 @@ export const useMessageStore = defineStore("message-store", {
     },
     getters: {
     }
-})
+});
+
+function parseMessagePayload(payload: MessagePayload) {
+    const [text, duration] = typeof payload === 'string'
+        ? [payload, _defaultDuration]
+        : [payload.text, payload.duration ?? _defaultDuration];
+
+    return {
+        text,
+        duration
+    };
+}

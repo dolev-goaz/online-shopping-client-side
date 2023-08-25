@@ -40,7 +40,7 @@ export const useProductStore = defineStore("products", {
 
             const res = await ProductsService.updateProduct(updatedProduct, image);
             if (typeof res === 'string') {
-                useMessageStore().errorMessage({ text: res });
+                useMessageStore().errorMessage(res);
                 return false;
             }
 
@@ -54,7 +54,7 @@ export const useProductStore = defineStore("products", {
         async createProduct(product: Product, image?: File) {
             const res = await ProductsService.createProduct(product, image);
             if (typeof res === 'string') {
-                useMessageStore().errorMessage({ text: res });
+                useMessageStore().errorMessage(res);
                 return false;
             }
             this.products.push(res)

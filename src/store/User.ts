@@ -18,7 +18,7 @@ export const useUserStore = defineStore("user-store", {
 
             const res = await UserService.getUsers();
             if (typeof res === 'string') {
-                useMessageStore().errorMessage({ text: res });
+                useMessageStore().errorMessage(res);
                 return [];
             }
             this.users = res;
@@ -29,7 +29,7 @@ export const useUserStore = defineStore("user-store", {
             if (!current) return;
             const res = await UserService.updateUser(updatedUser);
             if (typeof res === 'string') {
-                useMessageStore().errorMessage({ text: res });
+                useMessageStore().errorMessage(res);
                 return;
             }
             Object.assign(current, res);

@@ -30,7 +30,7 @@ export const useAuthStore = defineStore("authentication", {
         async login(email: string, password: string) {
             const res = await AuthenticationService.SignIn(email, password);
             if (typeof res === 'string') {
-                useMessageStore().errorMessage({ text: res });
+                useMessageStore().errorMessage(res);
                 return;
             }
 
@@ -46,7 +46,7 @@ export const useAuthStore = defineStore("authentication", {
         async register(payload: RegisterPayload) {
             const res = await AuthenticationService.Register(payload);
             if (typeof res === 'string') {
-                useMessageStore().errorMessage({ text: res });
+                useMessageStore().errorMessage(res);
                 return;
             }
 

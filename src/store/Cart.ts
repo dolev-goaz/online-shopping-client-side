@@ -25,7 +25,7 @@ export const useCartStore = defineStore("products-cart", {
         async checkout() {
             const res = await CheckoutService.createDeal(this.cartItems);
             if (typeof res === 'string' && res !== '') {
-                useMessageStore().errorMessage({ text: res });
+                useMessageStore().errorMessage(res);
                 return;
             }
             this.cartItems.length = 0;
@@ -33,7 +33,7 @@ export const useCartStore = defineStore("products-cart", {
         addItemCount(productId: number, count: number) {
             const productsStore = useProductStore();
             if (!productsStore.reduceStock(productId, count)) {
-                useMessageStore().errorMessage({ text: 'אירעה שגיאה. אנא נסה שוב..' });
+                useMessageStore().errorMessage('אירעה שגיאה. אנא נסה שוב..');
                 return false
             }; // stock reduction failed
 
