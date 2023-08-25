@@ -28,6 +28,7 @@ export const useCartStore = defineStore("products-cart", {
                 useMessageStore().errorMessage(res);
                 return;
             }
+            useMessageStore().successMessage("הרכישה בוצעה בהצלחה");
             this.cartItems.length = 0;
         },
         addItemCount(productId: number, count: number) {

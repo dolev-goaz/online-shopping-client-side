@@ -48,6 +48,7 @@ export const useProductStore = defineStore("products", {
             if (existing) {
                 Object.assign(existing, updatedProduct);
             }
+            useMessageStore().successMessage("המוצר עודכן בהצלחה");
 
             return true;
         },
@@ -59,6 +60,7 @@ export const useProductStore = defineStore("products", {
             }
             this.products.push(res)
             this.currentProduct = res;
+            useMessageStore().successMessage("המוצר נוצר בהצלחה");
             return true;
         },
         findProductById(productId: number) {

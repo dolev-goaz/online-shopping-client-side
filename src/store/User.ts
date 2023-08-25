@@ -33,6 +33,7 @@ export const useUserStore = defineStore("user-store", {
                 return;
             }
             Object.assign(current, res);
+            useMessageStore().successMessage("המשתמש עודכן בהצלחה");
         },
         getUserById(id: number) {
             return this.users.find((user) => user.id == id);
