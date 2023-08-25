@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import { useProductStore } from './Product';
 import * as CheckoutService from "@/DL/Checkout";
 import { useMessageStore } from './Message';
+import { i18n } from '@/i18n';
 
 export type CartProduct = {
     productId: number;
@@ -28,13 +29,15 @@ export const useCartStore = defineStore("products-cart", {
                 useMessageStore().errorMessage(res);
                 return;
             }
-            useMessageStore().successMessage("הרכישה בוצעה בהצלחה");
+            const successMessage = i18n.t('message.success.purchaseSuccess');
+            useMessageStore().successMessage(successMessage);
             this.cartItems.length = 0;
         },
         addItemCount(productId: number, count: number) {
             const productsStore = useProductStore();
             if (!productsStore.reduceStock(productId, count)) {
-                useMessageStore().errorMessage('אירעה שגיאה. אנא נסה שוב..');
+                const errorMessage = i18n.t('message.error.unknownError');
+                useMessageStore().errorMessage(errorMessage);
                 return false
             }; // stock reduction failed
 

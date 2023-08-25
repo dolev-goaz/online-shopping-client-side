@@ -2,6 +2,7 @@ import { Product } from '@/@types/Model';
 import { defineStore } from 'pinia';
 import * as ProductsService from "@/DL/Products"
 import { useMessageStore } from './Message';
+import { i18n } from '@/i18n';
 
 interface StoreState {
     products: Product[];
@@ -48,7 +49,8 @@ export const useProductStore = defineStore("products", {
             if (existing) {
                 Object.assign(existing, updatedProduct);
             }
-            useMessageStore().successMessage("המוצר עודכן בהצלחה");
+            const successMessage = i18n.t('message.success.productUpdate');
+            useMessageStore().successMessage(successMessage);
 
             return true;
         },
@@ -60,7 +62,8 @@ export const useProductStore = defineStore("products", {
             }
             this.products.push(res)
             this.currentProduct = res;
-            useMessageStore().successMessage("המוצר נוצר בהצלחה");
+            const successMessage = i18n.t('message.success.productCreate');
+            useMessageStore().successMessage(successMessage);
             return true;
         },
         findProductById(productId: number) {

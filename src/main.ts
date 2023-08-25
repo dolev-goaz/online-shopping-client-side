@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
-import i18n from '@/i18n'
+import i18nInstance from '@/i18n'
 import App from './App.vue';
 import "vuetify/styles"
 import { createVuetify } from "vuetify"
@@ -32,7 +32,7 @@ const vuetify = createVuetify({
 const pinia = createPinia();
 
 createApp(App)
-    .use(i18n)
+    .use(i18nInstance)
     .use(vuetify)
     .use(pinia)
     .use(router)

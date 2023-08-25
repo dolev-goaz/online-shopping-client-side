@@ -9,7 +9,7 @@ export const locales = {
 } as const;
 export type Locale = typeof locales[keyof typeof locales];
 
-const i18n = createI18n<MessageSchema, Locale>({
+const instance = createI18n<MessageSchema, Locale>({
     legacy: false,
     locale: 'he-IL',
     messages: {
@@ -27,4 +27,6 @@ const i18n = createI18n<MessageSchema, Locale>({
     }
 });
 
-export default i18n;
+export default instance;
+
+export const i18n = instance.global;

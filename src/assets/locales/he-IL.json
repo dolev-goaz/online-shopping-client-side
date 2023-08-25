@@ -57,7 +57,16 @@
         "emptyCart": "נראה שעוד לא קנית משהו..",
         "notLoggedIn": "נראה שאינך מחובר..",
         "emptyStore": "נראה שהחנות ריקה..",
-        "you": "אתה"
+        "you": "אתה",
+        "error": {
+            "unknownError": "אירעה שגיאה. אנא נסה שוב.."
+        },
+        "success": {
+            "purchaseSuccess": "השמירה בוצעה בהצלחה",
+            "userUpdate": "המשתמש עודכן בהצלחה",
+            "productCreate": "המוצר נוצר בהצלחה",
+            "productUpdate": "המוצר עודכן בהצלחה"
+        }
     },
     "admin": {
         "navbarHeader": "תצוגת מנהל"

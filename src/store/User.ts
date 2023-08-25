@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import * as UserService from "@/DL/User"
 import { useAuthStore } from './Authentication';
 import { useMessageStore } from './Message';
+import { i18n } from '@/i18n';
 
 interface StoreState {
     users: UserService.UserResult[]
@@ -33,7 +34,8 @@ export const useUserStore = defineStore("user-store", {
                 return;
             }
             Object.assign(current, res);
-            useMessageStore().successMessage("המשתמש עודכן בהצלחה");
+            const successMessage = i18n.t('message.success.userUpdate');
+            useMessageStore().successMessage(successMessage);
         },
         getUserById(id: number) {
             return this.users.find((user) => user.id == id);
