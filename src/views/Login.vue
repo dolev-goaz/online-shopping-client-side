@@ -58,6 +58,8 @@ a {
 
     &:hover {
         color: var(--clr-fg);
+        text-decoration: underline;
+        text-underline-offset: 0.25rem;
     }
 }
 </style>
