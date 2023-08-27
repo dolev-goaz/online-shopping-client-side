@@ -159,9 +159,9 @@ const wasProductChanged = computed(() => {
     if (uploadImage.value) return true;
 
     if (isCreateNew.value) {
-        return editedProduct.value.price != 0 &&
-            editedProduct.value.title != t('placeholder.product.title') &&
-            editedProduct.value.description != t('placeholder.product.description') &&
+        return editedProduct.value.price != 0 ||
+            editedProduct.value.title != t('placeholder.product.title') ||
+            editedProduct.value.description != t('placeholder.product.description') ||
             editedProduct.value.stock != 0;
     }
     if (!currentProduct.value) return;
