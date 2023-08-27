@@ -14,7 +14,7 @@
             </div>
         </header>
         <ul class="checkouts-container">
-            <li v-for="deal in deals" :key="deal.dealId">
+            <li v-for="deal in deals" :key="deal.id">
                 <CheckoutListItem :deal="deal" />
             </li>
         </ul>

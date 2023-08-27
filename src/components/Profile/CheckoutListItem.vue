@@ -2,7 +2,7 @@
     <article class="checkout">
         <header class="checkout-header">
             <div class="deal-id">
-                {{ t('order.idFormat', { id: deal.dealId }) }}
+                {{ t('order.idFormat', { id: deal.id }) }}
             </div>
             <div class="view-order">
                 <span>

@@ -27,7 +27,7 @@ export interface Purchase {
 
 
 export interface Deal {
-    dealId: number;
+    id: number;
     commitDate: Date;
     purchases: Purchase[];
 }
