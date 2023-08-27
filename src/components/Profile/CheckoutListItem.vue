@@ -4,12 +4,12 @@
             <div class="deal-id">
                 {{ t('order.idFormat', { id: deal.id }) }}
             </div>
-            <div class="view-order">
+            <button class="view-order" @click="onViewOrder">
                 <span>
                     לצפייה בהזמנה
                 </span>
                 <VIcon>mdi-arrow-left</VIcon>
-            </div>
+            </button>
         </header>
         <div class="deal-date">
             {{ d(deal.commitDate, 'long') }}
@@ -25,13 +25,16 @@
             </ul>
         </section>
     </article>
+    <CheckoutPopup v-model="showOrder" :deal="deal" />
 </template>
 <script setup lang="ts">
 import { Deal } from '@/@types/Model';
 import { MessageSchema } from '@/i18n';
+import { ref } from 'vue';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import CheckoutPopup from "./CheckoutPopup.vue"
 
 const { d, t } = useI18n<MessageSchema>();
 const router = useRouter();
@@ -44,6 +47,11 @@ const products = computed(() => props.deal.purchases.map((purchase) => purchase.
 
 function onOpenProduct(productId: number) {
     router.push(`/product/${productId}`)
+}
+
+const showOrder = ref(false);
+function onViewOrder() {
+    showOrder.value = true;
 }
 </script>
 <style scoped lang="scss">

@@ -4,7 +4,7 @@ import i18nInstance from '@/i18n'
 import App from './App.vue';
 import "vuetify/styles"
 import { createVuetify } from "vuetify"
-import { VSelect, VIcon, VProgressCircular, VMenu } from "vuetify/components"
+import { VSelect, VIcon, VProgressCircular, VMenu, VDialog } from "vuetify/components"
 import { he } from "vuetify/locale"
 // import * as directives from "vuetify/directives"
 import "@mdi/font/css/materialdesignicons.css"
@@ -16,7 +16,8 @@ const vuetify = createVuetify({
         VSelect,
         VIcon,
         VProgressCircular,
-        VMenu
+        VMenu,
+        VDialog
     },
     locale: {
         locale: 'he-IL',
