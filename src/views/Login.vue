@@ -1,10 +1,15 @@
 <template>
     <div class="login-page">
-        <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
-            <TextInput type="text" v-model="mail" name="mail" required :label="t('form.login.mail')" />
-            <TextInput type="password" v-model="password" name="password" required :label="t('form.login.password')" />
-            <template #submit-button>{{ t('authentication.login') }}</template>
-        </BaseForm>
+        <div>
+            <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
+                <TextInput type="text" v-model="mail" name="mail" required :label="t('form.login.mail')" />
+                <TextInput type="password" v-model="password" name="password" required :label="t('form.login.password')" />
+                <template #submit-button>{{ t('authentication.login') }}</template>
+            </BaseForm>
+            <RouterLink to="/register">
+                {{ t('message.noUser') }}
+            </RouterLink>
+        </div>
     </div>
 </template>
 <script lang="ts" setup>
@@ -43,5 +48,16 @@ async function onSubmit(payload: Record<string, any>) {
     height: 80%;
     display: grid;
     place-items: center;
+}
+
+a {
+    display: block;
+    margin-top: 0.5rem;
+    text-decoration: none;
+    color: var(--clr-fg-light);
+
+    &:hover {
+        color: var(--clr-fg);
+    }
 }
 </style>
