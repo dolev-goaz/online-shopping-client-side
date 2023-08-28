@@ -95,12 +95,15 @@ section {
 }
 
 .item-details>p {
-    display: flex;
     text-align: start;
     line-height: 1.5rem;
-    max-height: 4.5rem;
-    overflow: hidden;
     color: var(--clr-fg-light);
+
+    white-space: nowrap;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 30ch;
 }
 
 .quantity {
@@ -135,5 +138,4 @@ button.delete {
     &:active {
         filter: brightness(1.2);
     }
-}
-</style>
+}</style>
