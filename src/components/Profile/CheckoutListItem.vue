@@ -16,7 +16,10 @@
         </div>
         <section class="purchase">
             <ul class="product-images">
-                <li v-for="product in products" :key="product.id">
+                <li class="extra-images" v-if="products.length > shownProducts.length">
+                    {{ products.length - shownProducts.length }}+
+                </li>
+                <li v-for="product in shownProducts" :key="product.id">
                     <button class="image-btn" @click="() => onOpenProduct(product.id)">
                         <VIcon>mdi-arrow-u-right-top</VIcon>
                         <img :src="product.imagePath" :alt="product.title">
@@ -44,6 +47,7 @@ const props = defineProps<{
 }>();
 
 const products = computed(() => props.deal.purchases.map((purchase) => purchase.product));
+const shownProducts = computed(() => products.value.slice(0, 2));
 
 function onOpenProduct(productId: number) {
     router.push(`/product/${productId}`)
@@ -59,7 +63,8 @@ ul.product-images {
     list-style: none;
     height: 100%;
     display: flex;
-    gap: 0.5rem;
+    gap: var(--item-gap);
+    justify-content: end;
 
     img {
 
@@ -71,6 +76,25 @@ ul.product-images {
     }
 }
 
+.extra-images {
+    height: calc(var(--checkout-height) - 2 * var(--padding));
+    aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
+    border: 1px solid gray;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    direction: rtl;
+
+    user-select: none;
+}
+.purchase {
+    --item-width: calc(var(--checkout-height) - 2 * var(--padding));
+    --item-gap: 0.5rem;
+    width: calc(3 * var(--item-width) + 2 * var(--item-gap));
+    flex-grow: 0;
+    flex-shrink: 0;
+}
 header.checkout-header {
     display: flex;
     flex-direction: column;
