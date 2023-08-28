@@ -80,7 +80,14 @@ async function onSubmit(data: RegisterForm) {
     loading.value = false;
     if (!success) return;
 
-    router.push('/');
+    const hasRedirectFrom = router.options.history.state.back != null;
+    if (hasRedirectFrom) {
+        router.go(-1);
+    } else {
+        router.push({
+            name: 'products'
+        });
+    }
 }
 
 </script>

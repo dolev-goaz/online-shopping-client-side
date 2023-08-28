@@ -38,9 +38,14 @@ async function onSubmit(payload: Record<string, any>) {
     if (!user) {
         return;
     }
-    router.push({
-        name: 'products'
-    });
+    const hasRedirectFrom = router.options.history.state.back != null;
+    if (hasRedirectFrom) {
+        router.go(-1);
+    } else {
+        router.push({
+            name: 'products'
+        });
+    }
 }
 </script>
 <style scoped lang="scss">
