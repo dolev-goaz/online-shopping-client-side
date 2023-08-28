@@ -47,10 +47,11 @@ const props = defineProps<{
 }>();
 
 const products = computed(() => props.deal.purchases.map((purchase) => purchase.product));
+const showProductCount = 3;
 const shownProducts = computed(() =>
-    products.value.length <= 3
+    products.value.length <= showProductCount
         ? products.value
-        : products.value.slice(0, 2)
+        : products.value.slice(0, showProductCount - 1)
 );
 
 function onOpenProduct(productId: number) {
@@ -96,7 +97,8 @@ ul.product-images {
 .purchase {
     --item-width: calc(var(--checkout-height) - 2 * var(--padding));
     --item-gap: 0.5rem;
-    width: calc(3 * var(--item-width) + 2 * var(--item-gap));
+    --show-product-count: 3;
+    width: calc(var(--show-product-count) * var(--item-width) + (var(--show-product-count) - 1) * var(--item-gap));
     flex-grow: 0;
     flex-shrink: 0;
 }
