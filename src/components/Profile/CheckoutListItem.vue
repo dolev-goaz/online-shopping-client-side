@@ -58,6 +58,8 @@ function onViewOrder() {
 ul.product-images {
     list-style: none;
     height: 100%;
+    display: flex;
+    gap: 0.5rem;
 
     img {
 
