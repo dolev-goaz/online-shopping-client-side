@@ -47,7 +47,11 @@ const props = defineProps<{
 }>();
 
 const products = computed(() => props.deal.purchases.map((purchase) => purchase.product));
-const shownProducts = computed(() => products.value.slice(0, 2));
+const shownProducts = computed(() =>
+    products.value.length <= 3
+        ? products.value
+        : products.value.slice(0, 2)
+);
 
 function onOpenProduct(productId: number) {
     router.push(`/product/${productId}`)
@@ -88,6 +92,7 @@ ul.product-images {
 
     user-select: none;
 }
+
 .purchase {
     --item-width: calc(var(--checkout-height) - 2 * var(--padding));
     --item-gap: 0.5rem;
@@ -95,6 +100,7 @@ ul.product-images {
     flex-grow: 0;
     flex-shrink: 0;
 }
+
 header.checkout-header {
     display: flex;
     flex-direction: column;
