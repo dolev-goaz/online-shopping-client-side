@@ -68,5 +68,12 @@ header {
 ul.checkout-items {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-inline-end: 1rem;
 }
 </style>
