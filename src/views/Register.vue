@@ -2,8 +2,9 @@
     <div class="register-page">
         <div>
             <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
-                <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required :type="field.type"
-                    :name="field.name" :label="t(`form.register.${field.name}`)" :placeholder="t(`form.register.${field.name}`)" />
+                <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required
+                    :label="t(`form.register.${field.name}`)" :placeholder="t(`form.register.${field.name}`)"
+                    v-bind="field" />
                 <template #submit-button>{{ t('authentication.registration') }}</template>
             </BaseForm>
             <RouterLink to="/login">
@@ -37,19 +38,22 @@ type RegisterForm = {
 
 type RegisterFormField = {
     [TKey in keyof RegisterForm]: {
-        name: TKey,
-        type: "text" | "password" | "email"
+        name: TKey;
+        type: "text" | "password" | "email";
+        [key: string]: any;
     }
 }[keyof RegisterForm]
 
 const fields: readonly RegisterFormField[] = [
     {
         name: "firstName",
-        type: "text"
+        type: "text",
+        minlength: 2,
     },
     {
         name: "lastName",
-        type: "text"
+        type: "text",
+        minlength: 2,
     },
     {
         name: "email",
@@ -57,11 +61,13 @@ const fields: readonly RegisterFormField[] = [
     },
     {
         name: "password",
-        type: "password"
+        type: "password",
+        minlength: 4,
     },
     {
         name: "repeatPassword",
-        type: "password"
+        type: "password",
+        minlength: 4,
     },
     {
         name: "address",
@@ -108,6 +114,7 @@ async function onSubmit(data: RegisterForm) {
     display: grid;
     place-items: center;
 }
+
 a {
     display: block;
     margin-top: 0.5rem;

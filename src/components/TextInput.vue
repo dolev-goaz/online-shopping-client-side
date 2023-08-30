@@ -3,7 +3,7 @@
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
             <input @keypress.enter="onSubmit" :required="required" v-model="model" ref="inputField" v-bind="attrs"
-                :type="inputType" :placeholder="placeholder" />
+                :type="inputType" :placeholder="placeholder" @focus="onInputFocus" />
             <VIcon :class="{ hidden: !isPassword }" class="ml-2" @click="toggleShowPassword" size="20">
                 {{ passwordVisibilityIcon }}
             </VIcon>
@@ -31,6 +31,7 @@ const emit = defineEmits<{
 const model = computed({
     get: () => props.modelValue || '',
     set(value: string) {
+        inputField.value?.reportValidity();
         emit('update:modelValue', value);
     }
 });
@@ -62,6 +63,10 @@ function onSubmit() {
 
 function focusInputField() {
     inputField.value?.focus();
+}
+
+function onInputFocus() {
+    inputField.value?.reportValidity();
 }
 
 defineExpose({
