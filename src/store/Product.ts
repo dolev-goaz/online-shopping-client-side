@@ -20,7 +20,8 @@ export const useProductStore = defineStore("products", {
     }),
     actions: {
         async getProducts() {
-            if (this.products.length > 0) return; // already fetched
+            // if (this.products.length > 0) return; // already fetched
+            // always re-fetch products
             this.loadingProducts = true;
             const products = await ProductsService.getProducts();
             this.products.length = 0;
