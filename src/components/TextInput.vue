@@ -3,7 +3,7 @@
         <p @click="() => inputField?.focus()" v-if="label">{{ label }}</p>
         <div class="input-container">
             <input @keypress.enter="onSubmit" :required="required" v-model="model" ref="inputField" v-bind="attrs"
-                :type="inputType" />
+                :type="inputType" :placeholder="placeholder" />
             <VIcon :class="{ hidden: !isPassword }" class="ml-2" @click="toggleShowPassword" size="20">
                 {{ passwordVisibilityIcon }}
             </VIcon>
@@ -19,6 +19,7 @@ const props = withDefaults(defineProps<{
     modelValue?: string;
     required?: boolean;
     type?: 'email' | 'text' | 'password';
+    placeholder?: string;
 }>(), {
     type: 'text'
 });
@@ -77,6 +78,10 @@ defineExpose({
     border: 1px solid darkgray;
     display: flex;
     align-items: center;
+
+    &:has(input:invalid:not(:placeholder-shown)) {
+        border-color: rgba(tomato, 0.6);
+    }
 }
 
 input {
@@ -87,6 +92,11 @@ input {
     &:focus-visible {
         outline: none;
         border-bottom-color: var(--clr-fg-light);
+    }
+
+    &::placeholder {
+        font-size: 1.125rem;
+        opacity: 0.5;
     }
 }
 

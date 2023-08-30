@@ -2,8 +2,10 @@
     <div class="login-page">
         <div>
             <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
-                <TextInput type="text" v-model="mail" name="mail" required :label="t('form.login.mail')" />
-                <TextInput type="password" v-model="password" name="password" required :label="t('form.login.password')" />
+                <TextInput type="email" v-model="mail" name="mail" required :label="t('form.login.mail')"
+                    :placeholder="t('form.login.mail')" />
+                <TextInput type="password" v-model="password" name="password" required :label="t('form.login.password')"
+                    placeholder="t('form.login.password')" />
                 <template #submit-button>{{ t('authentication.login') }}</template>
             </BaseForm>
             <RouterLink to="/register">

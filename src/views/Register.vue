@@ -3,7 +3,7 @@
         <div>
             <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
                 <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required :type="field.type"
-                    :name="field.name" :label="t(`form.register.${field.name}`)" />
+                    :name="field.name" :label="t(`form.register.${field.name}`)" :placeholder="t(`form.register.${field.name}`)" />
                 <template #submit-button>{{ t('authentication.registration') }}</template>
             </BaseForm>
             <RouterLink to="/login">
