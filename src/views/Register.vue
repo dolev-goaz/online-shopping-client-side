@@ -104,7 +104,7 @@ async function onSubmit(data: RegisterForm) {
 
 <style lang="scss" scoped>
 .register-page {
-    height: 80%;
+    height: 90%;
     display: grid;
     place-items: center;
 }
