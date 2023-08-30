@@ -25,6 +25,7 @@ export const useProductStore = defineStore("products", {
             const products = await ProductsService.getProducts();
             this.products.length = 0;
             this.products.push(...products);
+            this.products.sort((prodA, prodB) => prodA.id - prodB.id);
             this.loadingProducts = false;
         },
         async getProductById(id: number) {
