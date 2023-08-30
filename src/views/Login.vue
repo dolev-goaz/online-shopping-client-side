@@ -38,7 +38,8 @@ async function onSubmit(payload: Record<string, any>) {
     if (!user) {
         return;
     }
-    const hasRedirectFrom = router.options.history.state.back != null;
+    const previous = router.options.history.state.back as string;
+    const hasRedirectFrom = previous !== null && !['/login', '/register'].includes(previous);
     if (hasRedirectFrom) {
         router.go(-1);
     } else {

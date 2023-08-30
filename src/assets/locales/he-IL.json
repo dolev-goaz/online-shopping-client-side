@@ -60,7 +60,8 @@
         "emptyStore": "נראה שהחנות ריקה..",
         "you": "אתה",
         "error": {
-            "unknownError": "אירעה שגיאה. אנא נסה שוב.."
+            "unknownError": "אירעה שגיאה. אנא נסה שוב..",
+            "passwordUnmatch": "הסיסמאות אינן זהות"
         },
         "success": {
             "purchaseSuccess": "השמירה בוצעה בהצלחה",

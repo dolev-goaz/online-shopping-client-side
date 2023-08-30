@@ -15,6 +15,7 @@ import { useAuthStore } from '@/store/Authentication';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { MessageSchema } from '@/i18n';
+import { useMessageStore } from '@/store/Message';
 
 const { t } = useI18n<MessageSchema>();
 const authStore = useAuthStore();
@@ -74,13 +75,17 @@ const formData = ref<RegisterForm>({
 const loading = ref(false);
 
 async function onSubmit(data: RegisterForm) {
-    if (data.password != data.repeatPassword) return;
+    if (data.password != data.repeatPassword) {
+        useMessageStore().errorMessage(t('message.error.passwordUnmatch'));
+        return;
+    }
     loading.value = true;
     const success = await authStore.register(data);
     loading.value = false;
     if (!success) return;
 
-    const hasRedirectFrom = router.options.history.state.back != null;
+    const previous = router.options.history.state.back as string;
+    const hasRedirectFrom = previous !== null && !['/login', '/register'].includes(previous);
     if (hasRedirectFrom) {
         router.go(-1);
     } else {
