@@ -16,7 +16,7 @@
                             {{ t('product.price') }}
                         </span>
                         <span class="value">
-                            {{ t('currency', { value: cart.totalCost }) }}
+                            {{ t('currency', { value: cart.totalCost.toFixed(2) }) }}
                         </span>
                     </div>
                     <MyButton @click="onCheckout" :disabled="loading" :loading="loading">
