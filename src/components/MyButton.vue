@@ -36,12 +36,17 @@ button {
     }
 
     &:not(:disabled) {
+        --button-press-size: 2px;
+        box-shadow: 0 var(--button-press-size) 1px 0 var(--clr-shadow-light);
+        transition: translate 50ms ease;
         &:hover {
             filter: brightness(0.9);
         }
 
         &:active {
             filter: brightness(0.8);
+            box-shadow: none;
+            translate: 0 var(--button-press-size);
         }
     }
 }
