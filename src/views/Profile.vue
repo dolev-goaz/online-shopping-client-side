@@ -20,21 +20,10 @@ import { useAuthStore } from '@/store/Authentication';
 import { useI18n } from 'vue-i18n';
 import { MessageSchema } from '@/i18n';
 import { useRouter } from 'vue-router';
-import { watch } from 'vue';
 import AdminUserList from '@/components/Profile/AdminUserList.vue';
-const { t } = useI18n<MessageSchema>();
 const router = useRouter();
 
 const authStore = useAuthStore();
-
-
-watch(() => authStore.isLoggedIn, () => {
-    if (!authStore.isLoggedIn) {
-        router.push('/');
-    }
-}, {
-    immediate: true
-});
 
 </script>
 <style lang="scss" scoped>

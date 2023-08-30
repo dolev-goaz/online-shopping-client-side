@@ -5,6 +5,7 @@ import LoginView from "@/views/Login.vue";
 import RegisterView from "@/views/Register.vue";
 import CartView from "@/views/Cart.vue";
 import ProfileView from "@/views/Profile.vue";
+import { useAuthStore } from "@/store/Authentication";
 
 const routes: RouteRecordRaw[] = [{
     path: '/',
@@ -17,11 +18,21 @@ const routes: RouteRecordRaw[] = [{
 }, {
     path: '/login',
     component: LoginView,
-    name: "login"
+    name: "login",
+    beforeEnter(_, __, next) {
+        const userStore = useAuthStore();
+        if (userStore.isLoggedIn) next(false);
+        next();
+    }
 }, {
     path: '/register',
     component: RegisterView,
-    name: "register"
+    name: "register",
+    beforeEnter(_, __, next) {
+        const userStore = useAuthStore();
+        if (userStore.isLoggedIn) next(false);
+        next();
+    }
 }, {
     path: "/cart",
     component: CartView,
@@ -29,7 +40,12 @@ const routes: RouteRecordRaw[] = [{
 }, {
     path: "/profile",
     component: ProfileView,
-    name: "profile"
+    name: "profile",
+    beforeEnter(_, __, next) {
+        const userStore = useAuthStore();
+        if (!userStore.isLoggedIn) next(false);
+        next();
+    }
 }];
 export const router = createRouter({
     history: createWebHashHistory(),
