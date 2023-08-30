@@ -57,6 +57,7 @@
         "emptyCart": "נראה שעוד לא קנית משהו..",
         "notLoggedIn": "נראה שאינך מחובר..",
         "noUser": "אין לך משתמש?",
+        "alreadyHaveUser": "כבר יש לך משתמש?",
         "emptyStore": "נראה שהחנות ריקה..",
         "you": "אתה",
         "error": {

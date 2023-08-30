@@ -1,10 +1,15 @@
 <template>
     <div class="register-page">
-        <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
-            <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required :type="field.type"
-                :name="field.name" :label="t(`form.register.${field.name}`)" />
-            <template #submit-button>{{ t('authentication.registration') }}</template>
-        </BaseForm>
+        <div>
+            <BaseForm :loading="loading" :disabled="loading" @submit="onSubmit">
+                <TextInput v-for="field in fields" :key="field.name" v-model="formData[field.name]" required :type="field.type"
+                    :name="field.name" :label="t(`form.register.${field.name}`)" />
+                <template #submit-button>{{ t('authentication.registration') }}</template>
+            </BaseForm>
+            <RouterLink to="/login">
+                {{ t('message.alreadyHaveUser') }}
+            </RouterLink>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
@@ -102,5 +107,17 @@ async function onSubmit(data: RegisterForm) {
     height: 80%;
     display: grid;
     place-items: center;
+}
+a {
+    display: block;
+    margin-top: 0.5rem;
+    text-decoration: none;
+    color: var(--clr-fg-light);
+
+    &:hover {
+        color: var(--clr-fg);
+        text-decoration: underline;
+        text-underline-offset: 0.25rem;
+    }
 }
 </style>
