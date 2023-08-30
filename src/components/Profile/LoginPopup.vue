@@ -5,10 +5,10 @@
         </div>
         <div class="actions">
             <template v-if="!authStore.isLoggedIn">
-                <RouterLink @click="closePopup" class="login" to="/login">
+                <RouterLink @click="closePopup" class="app-btn" to="/login">
                     {{ t('authentication.login') }}
                 </RouterLink>
-                <RouterLink @click="closePopup" to="/register" class="register">
+                <RouterLink @click="closePopup" class="app-btn" to="/register">
                     {{ t('authentication.registration') }}
                 </RouterLink>
             </template>
@@ -71,39 +71,6 @@ const fullName = computed(() => `${authStore.user?.firstName} ${authStore.user?.
     padding: 1rem;
     gap: 0.5rem;
 }
-
-.actions>a {
-    padding-block: 0.375em;
-    box-shadow: 0 2px 1px 0 var(--clr-shadow-light);
-    border-radius: 0.25rem;
-    font-size: 1.125rem;
-    text-align: center;
-    border: 1px solid var(--clr-accent);
-    cursor: pointer;
-    text-decoration: none;
-
-    &.login {
-        background-color: var(--clr-accent);
-        color: white;
-    }
-
-    &.register {
-        color: white;
-        background-color: var(--clr-accent);
-    }
-
-    &:hover {
-        filter: brightness(0.9);
-    }
-
-    &:active {
-        filter: brightness(0.8);
-        box-shadow: none;
-
-        translate: 0 2px;
-    }
-}
-
 ul.redirects {
     list-style: none;
     padding: 0;
