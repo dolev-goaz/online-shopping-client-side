@@ -35,7 +35,7 @@ button {
         cursor: default;
     }
 
-    button:not(:disabled) {
+    &:not(:disabled) {
         &:hover {
             filter: brightness(0.9);
         }
