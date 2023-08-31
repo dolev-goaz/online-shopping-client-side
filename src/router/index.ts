@@ -51,7 +51,6 @@ const routes: RouteRecordRaw[] = [{
     name: "profile",
     beforeEnter(_, __, next) {
         const userStore = useAuthStore();
-        console.log(userStore.isLoggedIn);
         
         if (!userStore.isLoggedIn) {
             next('/');
