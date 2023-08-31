@@ -31,12 +31,14 @@ import { useAuthStore } from '@/store/Authentication';
 import { useI18n } from 'vue-i18n';
 import MyButton from '../MyButton.vue';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 const authStore = useAuthStore();
 
 const { t } = useI18n<MessageSchema, Locale>();
+const router = useRouter();
 
 function onLogout() {
-    return authStore.logout().then(closePopup);
+    return authStore.logout().then(closePopup).then(() => router.push('/'));
 }
 
 const emit = defineEmits<{
