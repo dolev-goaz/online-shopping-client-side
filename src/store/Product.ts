@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import * as ProductsService from "@/DL/Products"
 import { useMessageStore } from './Message';
 import { i18n } from '@/i18n';
+import { useCartStore } from './Cart';
 
 interface StoreState {
     products: Product[];
@@ -27,6 +28,12 @@ export const useProductStore = defineStore("products", {
             this.products.length = 0;
             this.products.push(...products);
             this.products.sort((prodA, prodB) => prodA.id - prodB.id);
+            const cartStore = useCartStore();
+            cartStore.cartItems.forEach(({ productId, count }) => {
+                const product = this.products.find((product) => product.id == productId);
+                if (!product) return;
+                product.stock -= count;
+            });
             this.loadingProducts = false;
         },
         async getProductById(id: number) {
