@@ -87,3 +87,7 @@ body {
   overflow: hidden;
   white-space: nowrap;
 }
+
+[class$="page"] {
+  overflow-y: auto;
+}
