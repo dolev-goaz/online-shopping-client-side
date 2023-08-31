@@ -13,10 +13,10 @@
                     </label>
                 </div>
                 <div class="data">
-                    <EditableField tag="h1" v-model="editedProduct.title" />
+                    <EditableField tag="h1" v-model="editedProduct.title" maxlength="50" />
                     <div class="product-details">
                         <header>{{ t('product.details') }}</header>
-                        <EditableField tag="p" v-model="editedProduct.description" />
+                        <EditableField tag="p" v-model="editedProduct.description" maxlength="200" />
                         <header>{{ t('product.price') }}</header>
                         <EditableField tag="div" class="price" v-model="priceProxy" />
                     </div>
