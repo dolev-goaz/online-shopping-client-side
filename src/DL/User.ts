@@ -18,7 +18,6 @@ export async function updateUser(user: Partial<UserResult>) {
     return axiosInstance.put<UserResult>(path, user)
         .then((res) => res.data)
         .catch((err: ServerError) => {
-            console.log(err);
             return err.errors[0];
         })
 }
