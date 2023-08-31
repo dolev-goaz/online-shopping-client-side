@@ -138,7 +138,7 @@ const priceProxy = computed({
     set(value: string) {
         const innerValue = value.endsWith(t('currencySymbol')) ? value.substring(0, value.length - 1) : value;
         const parsed = parseFloat(innerValue);
-        if (isNaN(parsed)) {
+        if (isNaN(parsed) || parsed < 0) {
             return;
         }
         editedProduct.value!.price = parseFloat(innerValue);
@@ -148,6 +148,7 @@ const priceProxy = computed({
 const stockProxy = computed({
     get: () => (editedProduct.value?.stock ?? 0).toString(),
     set(newValue: string) {
+        if (!/^\d+$/.test(newValue)) return;
         editedProduct.value!.stock = parseInt(newValue);
     }
 })
