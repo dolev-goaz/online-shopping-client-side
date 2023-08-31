@@ -70,7 +70,7 @@ header.products-header {
 }
 
 @for $i from 1 through 3 {
-    @media (max-width: calc((4 - $i) * 30rem)) {
+    @media (max-width: calc((4 - $i) * 25rem)) {
         .products-container {
             --items-per-row: calc(4 - #{$i});
         }
@@ -105,6 +105,7 @@ ul>li {
     --_transition-duration: 250ms;
     border: 1px solid var(--_clr);
     transition: border var(--_transition-duration) ease;
+    min-height: 20rem;
 
     &>a {
         width: 100%;
