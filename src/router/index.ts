@@ -21,8 +21,12 @@ const routes: RouteRecordRaw[] = [{
     name: "login",
     beforeEnter(_, __, next) {
         const userStore = useAuthStore();
-        if (userStore.isLoggedIn) next(false);
-        next();
+        if (userStore.isLoggedIn) {
+            next(false);
+        }
+        else {
+            next();
+        }
     }
 }, {
     path: '/register',
@@ -30,8 +34,12 @@ const routes: RouteRecordRaw[] = [{
     name: "register",
     beforeEnter(_, __, next) {
         const userStore = useAuthStore();
-        if (userStore.isLoggedIn) next(false);
-        next();
+        if (userStore.isLoggedIn) {
+            next(false);
+        }
+        else {
+            next();
+        }
     }
 }, {
     path: "/cart",
@@ -43,8 +51,14 @@ const routes: RouteRecordRaw[] = [{
     name: "profile",
     beforeEnter(_, __, next) {
         const userStore = useAuthStore();
-        if (!userStore.isLoggedIn) next(false);
-        next();
+        console.log(userStore.isLoggedIn);
+        
+        if (!userStore.isLoggedIn) {
+            next('/');
+        }
+        else {
+            next();
+        }
     }
 }];
 export const router = createRouter({
