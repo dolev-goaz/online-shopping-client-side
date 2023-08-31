@@ -44,7 +44,15 @@ const routes: RouteRecordRaw[] = [{
 }, {
     path: "/cart",
     component: CartView,
-    name: "cart"
+    name: "cart",
+    beforeEnter(_, __, next) {
+        const userStore = useAuthStore();
+        if (userStore.isAdmin) {
+            next(false);
+        } else {
+            next();
+        }
+    }
 }, {
     path: "/profile",
     component: ProfileView,
