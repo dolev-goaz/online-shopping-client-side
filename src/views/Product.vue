@@ -7,7 +7,7 @@
                         <VIcon class="upload-image-icon">mdi-upload</VIcon>
                         <input type="file" accept="image/*" id="product-image" @change="onSetImage" />
                     </template>
-                    <label for="product-image">
+                    <label for="product-image" class="product-image-preview">
                         <ImagePreview :is-active="!authStore.isAdmin" class="image" :src="editedProduct.imagePath ?? fallbackImage"
                             :alt="editedProduct.title" />
                     </label>
@@ -233,7 +233,7 @@ async function onSaveChanges() {
         width: max(95vw, 650px);
     }
 
-    height: 80vh;
+    // height: 80vh;
 }
 
 .actions {
@@ -254,10 +254,10 @@ async function onSaveChanges() {
         display: flex;
         flex-direction: column;
     }
-
-    .product-content .image {
-        align-self: center;
-    }
+}
+.product-image-preview {
+    display: flex;
+    justify-content: center;
 }
 
 

@@ -1,5 +1,5 @@
 <template>
-    <div style="position: relative;" :class="{ hover: !isOutside }">
+    <div class="image-preview-container" :class="{ hover: !isOutside }">
         <img class="original-image" ref="image" :src="src" v-bind="attrs">
         <div class="preview-container" v-if="!isOutside && isActive" :style="{ width: elementWidth+'px', height: elementHeight+'px' }">
             <img :src="src" :style="{ transform }">
@@ -29,8 +29,13 @@ const transform = computed(() => {
 </script>
 
 <style scoped lang="scss">
+.image-preview-container {
+    position: relative;
+    width: max-content;
+}
 .original-image {
     height: 100%;
+    min-width: min(20rem, 90vw);
 }
 .preview-container {
     direction: ltr; // align image to the top left
