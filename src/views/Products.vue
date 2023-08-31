@@ -70,7 +70,7 @@ header.products-header {
 }
 
 @for $i from 1 through 3 {
-    @media (max-width: calc((4 - $i) * 35rem)) {
+    @media (max-width: calc((4 - $i) * 30rem)) {
         .products-container {
             --items-per-row: calc(4 - #{$i});
         }
@@ -88,7 +88,7 @@ a {
 }
 
 ul>li {
-    aspect-ratio: 3 / 4;
+    // aspect-ratio: 3 / 4;
 
     &>a,
     &>a>.product {
